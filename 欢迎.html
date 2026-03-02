@@ -1,0 +1,3502 @@
+```
+<!DOCTYPE html>
+<html>
+<!-- Single出品,仅在类脑旅程发布 -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蒸汽朋克·依希利亚 - 欢迎</title>
+
+    <!-- 使用 unpkg CDN 替代 Google Fonts (国内外都可访问) -->
+    <link rel="preconnect" href="https://unpkg.com">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/300.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/400.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/600.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/700.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/900.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/orbitron@5.0.0/400.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/orbitron@5.0.0/500.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/orbitron@5.0.0/700.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/orbitron@5.0.0/900.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/cinzel@5.0.0/400.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/cinzel@5.0.0/600.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/cinzel@5.0.0/700.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --panel-bg-color: #ffffff;
+            --accent-color: #007bff;
+            --accent-secondary: #6610f2;
+            --body-bg-color: #e9ecef;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --glow-color: rgba(0, 123, 255, 0.3);
+            --light-accent: rgba(0, 123, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--body-bg-color) 0%, #d4d9e0 100%);
+            color: var(--text-color);
+            font-family: 'Noto Sans SC', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* 背景装饰层 */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 123, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(102, 16, 242, 0.06) 0%, transparent 50%);
+        }
+
+        /* 主容器 */
+        .main-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        /* 标题区域 */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero-title {
+            font-family: 'Cinzel', 'Noto Sans SC', serif;
+            font-size: 4.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+
+        .hero-subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2em;
+            color: #6c757d;
+            letter-spacing: 4px;
+            margin-top: 30px;
+            font-weight: 400;
+        }
+
+        /* 欢迎信息 */
+        .welcome-section {
+            background: var(--panel-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 50px 60px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 60px var(--shadow-color), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color) 0%, var(--accent-secondary) 50%, var(--accent-color) 100%);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .welcome-section h2 {
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+            font-size: 2em;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .welcome-text {
+            font-size: 1.05em;
+            line-height: 2;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+
+        .discord-links {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(102, 16, 242, 0.05));
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin: 25px 0;
+        }
+
+        .discord-links h3 {
+            font-size: 1.1em;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .discord-link {
+            display: block;
+            color: #7289da;
+            text-decoration: none;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+            font-size: 0.95em;
+        }
+
+        .discord-link:hover {
+            color: #5b6eae;
+            border-bottom-color: #7289da;
+            padding-left: 10px;
+        }
+
+        .highlight-text {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* 世界观区域 */
+        .lore-section {
+            background: var(--panel-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 50px 60px;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 60px var(--shadow-color), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lore-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-secondary) 0%, var(--accent-color) 50%, var(--accent-secondary) 100%);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .lore-section h2 {
+            font-family: 'Cinzel', 'Noto Sans SC', serif;
+            font-size: 2em;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 700;
+            position: relative;
+            padding-top: 20px;
+        }
+
+        .lore-section h2::before {
+            content: '▼';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.5em;
+            color: var(--accent-color);
+        }
+
+        .lore-divider {
+            text-align: center;
+            color: var(--border-color);
+            font-size: 0.85em;
+            margin: 25px 0;
+            letter-spacing: 1px;
+        }
+
+        .lore-paragraph {
+            font-size: 1.05em;
+            line-height: 2.2;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            text-indent: 2em;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .lore-paragraph::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5em;
+            width: 3px;
+            height: calc(100% - 1em);
+            background: linear-gradient(180deg, var(--accent-color), var(--accent-secondary));
+            border-radius: 2px;
+        }
+
+        .lore-highlight {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* 选项区域 */
+        .options-section {
+            margin-bottom: 60px;
+        }
+
+        .options-section h2 {
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+            font-size: 2em;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 700;
+            position: relative;
+            padding-top: 20px;
+        }
+
+        .options-section h2::before {
+            content: '▼';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.5em;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .option-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            background: var(--panel-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 35px 30px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            cursor: pointer;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--light-accent), transparent);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .option-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: 0 12px 30px var(--glow-color);
+        }
+
+        .option-card:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .option-card.active {
+            border-color: var(--accent-color);
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.08), rgba(102, 16, 242, 0.08));
+        }
+
+        .option-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .option-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .option-desc {
+            font-size: 0.95em;
+            color: #6c757d;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 感谢卡片 */
+        .thanks-card {
+            background: linear-gradient(135deg, rgba(102, 16, 242, 0.05), rgba(187, 134, 252, 0.05));
+            border-color: rgba(102, 16, 242, 0.3);
+        }
+
+        .thanks-card .option-number {
+            background: linear-gradient(135deg, var(--accent-secondary), #bb86fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 页面内容区域 */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* 底部信息 */
+        .footer-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .footer-message {
+            font-family: 'Cinzel', 'Noto Sans SC', serif;
+            font-size: 1.6em;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .footer-warning {
+            font-size: 0.9em;
+            color: #6c757d;
+            letter-spacing: 3px;
+            margin-top: 15px;
+        }
+
+        /* 环境检查样式 */
+        .env-check-section {
+            margin-bottom: 50px;
+        }
+
+        .env-check-title {
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+            font-size: 2em;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .env-check-container {
+            background: var(--panel-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 15px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px var(--shadow-color);
+        }
+
+        .env-check-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 10px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .env-check-item:not(:last-child) {
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .env-check-label {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.05em;
+        }
+
+        .env-check-label .icon {
+            font-size: 1.5em;
+            margin-right: 12px;
+            opacity: 0.8;
+            line-height: 1;
+        }
+
+        .env-check-details {
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+            gap: 20px;
+            text-align: right;
+            flex-wrap: wrap;
+        }
+
+        .env-check-details strong {
+            font-weight: 700;
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 6px;
+            min-width: 60px;
+            text-align: center;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .status-ok {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .status-warn {
+            background-color: #fff3cd;
+            color: #856404;
+            border-color: #ffeeba;
+        }
+
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .status-unknown {
+            background-color: #e2e3e5;
+            color: #383d41;
+            border-color: #d6d8db;
+        }
+
+        .recheck-container {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px auto;
+        }
+
+        .recheck-button {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 600;
+            font-size: 1em;
+            color: white;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .recheck-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--glow-color);
+        }
+
+        .clear-cache-button {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 600;
+            font-size: 1em;
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(114, 28, 36, 0.2);
+        }
+
+        .clear-cache-button:hover {
+            background-color: #f1b0b7;
+            border-color: #dc3545;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+        }
+
+        /* 可选内容区域样式 */
+        .optional-content-section {
+            margin-bottom: 50px;
+        }
+
+        .optional-content-title {
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+            font-size: 2em;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .optional-content-container {
+            background: var(--panel-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px var(--shadow-color);
+        }
+
+        .optional-group {
+            margin-bottom: 30px;
+        }
+
+        .optional-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .optional-group-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .optional-group-title .icon {
+            font-size: 1.3em;
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 10px;
+            border-bottom: 1px dashed var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-container:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-container:hover {
+            background-color: rgba(0, 123, 255, 0.03);
+        }
+
+        .toggle-label {
+            font-size: 1.05em;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .toggle-label .badge {
+            font-size: 0.75em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            color: white;
+            font-weight: 600;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        input:disabled + .toggle-slider {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .optional-hint {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: rgba(108, 117, 125, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .worldbook-status {
+            font-size: 0.9em;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .worldbook-status.found {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .worldbook-status.not-found {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .locked-module {
+            opacity: 0.5;
+            pointer-events: none;
+            filter: grayscale(100%);
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 40px 20px;
+            }
+
+            .hero-title {
+                font-size: 2.5em;
+                letter-spacing: 3px;
+            }
+
+            .hero-subtitle {
+                font-size: 1em;
+                letter-spacing: 2px;
+            }
+
+            .welcome-section,
+            .lore-section {
+                padding: 35px 25px;
+            }
+
+            .welcome-section h2,
+            .lore-section h2,
+            .options-section h2 {
+                font-size: 1.5em;
+            }
+
+            .welcome-text,
+            .lore-paragraph {
+                font-size: 1em;
+                line-height: 1.9;
+            }
+
+            .option-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .discord-links {
+                padding: 20px;
+            }
+
+            .env-check-title {
+                font-size: 1.5em;
+            }
+
+            .env-check-container {
+                padding: 15px 15px;
+            }
+
+            .env-check-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 5px;
+            }
+
+            .env-check-details {
+                width: 100%;
+                justify-content: space-between;
+                text-align: left;
+            }
+
+            .recheck-container {
+                flex-direction: column;
+            }
+
+            .recheck-button,
+            .clear-cache-button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .optional-content-title {
+                font-size: 1.5em;
+            }
+
+            .optional-content-container {
+                padding: 20px 15px;
+            }
+
+            .optional-group-title {
+                font-size: 1.1em;
+            }
+
+            .toggle-container {
+                flex-direction: row;
+                padding: 12px 5px;
+            }
+
+            .toggle-label {
+                font-size: 1em;
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--body-bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent-color), var(--accent-secondary));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--accent-secondary), var(--accent-color));
+        }
+
+        /* 世界观条目查看/编辑样式 */
+        .entry-controls {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .entry-btn {
+            font-size: 0.85em;
+            padding: 5px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .view-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .edit-btn {
+            background-color: #ff8800;
+            color: #fff;
+        }
+
+        .edit-btn:hover {
+            background-color: #e67700;
+        }
+
+        .save-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background-color: #218838;
+        }
+
+        .cancel-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .entry-content {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 123, 255, 0.03);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .entry-content.expanded {
+            display: block;
+        }
+
+        .entry-content-text {
+            font-size: 0.95em;
+            line-height: 1.8;
+            color: var(--text-color);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .entry-content-editor {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            font-size: 0.95em;
+            font-family: 'Noto Sans SC', monospace;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .entry-content-editor:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .entry-name {
+            font-size: 0.85em;
+            color: #6c757d;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* 人物开关样式 */
+        .character-section {
+            margin-top: 30px;
+        }
+
+        .character-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .character-tab {
+            padding: 12px 24px;
+            background: rgba(0, 123, 255, 0.05);
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .character-tab:hover {
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .character-tab.active {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+            background: rgba(0, 123, 255, 0.08);
+        }
+
+        .character-tab-content {
+            display: none;
+        }
+
+        .character-tab-content.active {
+            display: block;
+        }
+
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .character-card {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.03) 0%, rgba(114, 9, 183, 0.03) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .character-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 123, 255, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .character-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .character-name {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--accent-color);
+            flex: 1;
+        }
+
+        .character-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            font-size: 0.8em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .action-btn.view {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .action-btn.view:hover {
+            background-color: #0056b3;
+        }
+
+        .action-btn.delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .action-btn.delete:hover {
+            background-color: #c82333;
+        }
+
+        .action-btn.edit {
+            background-color: #ff8800;
+            color: #fff;
+        }
+
+        .action-btn.edit:hover {
+            background-color: #e67700;
+        }
+
+        .character-info {
+            font-size: 0.85em;
+            color: #6c757d;
+            margin: 5px 0;
+        }
+
+        .character-pair-card {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.03) 0%, rgba(114, 9, 183, 0.03) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .character-pair-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 123, 255, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .character-pair-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .character-pair-name {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .character-pair-details {
+            font-size: 0.85em;
+            color: #6c757d;
+            margin: 5px 0;
+        }
+
+        .saved-characters-empty {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+            font-size: 1.1em;
+        }
+
+        /* 特殊人物样式 */
+        .special-character-warning {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(255, 136, 0, 0.15) 0%, rgba(255, 102, 0, 0.08) 100%);
+            border: 2px dashed #ff8800;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .special-character-warning-text {
+            color: #ff6600;
+            font-weight: 700;
+            font-size: 1.05em;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 页面跳转按钮样式 */
+        .navigation-section {
+            margin: 50px 0;
+        }
+
+        .nav-title {
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+            font-size: 1.8em;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .nav-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .nav-button-item {
+            background: var(--panel-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+
+        .nav-button-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 20px var(--glow-color);
+        }
+
+        .nav-button-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .nav-button-label {
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 背景装饰 -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+    </div>
+
+    <!-- 主内容 -->
+    <div class="main-container">
+        <!-- 英雄标题 -->
+        <div class="hero-section">
+            <h1 class="hero-title">蒸汽朋克·依希利亚</h1>
+            <p class="hero-subtitle">Y A R N A M</p>
+        </div>
+
+        <!-- 第一页：欢迎和世界观 -->
+        <div id="page1" class="page-content active">
+            <!-- 欢迎信息 -->
+            <div class="welcome-section">
+                <h2>🌫️ 欢迎来到依希利亚</h2>
+                <p class="welcome-text">
+                    首先感谢您的游玩，我是作者 <strong class="highlight-text">Single</strong>。
+                </p>
+                <p class="welcome-text">
+                    如果您喜欢本卡，或者有任何想法/建议，欢迎来 Discord 类脑/旅程的帖子下告诉我！
+                </p>
+
+                <div class="discord-links">
+                    <h3>📢 Discord 讨论帖</h3>
+                    <a href="https://discord.com/channels/1134557553011998840/1430941218514141246" class="discord-link"
+                        target="_blank">
+                        🔹 类脑帖子链接
+                    </a>
+                    <a href="https://discord.com/channels/1291925535324110879/1433420935956009021" class="discord-link"
+                        target="_blank">
+                        🔹 旅程帖子链接
+                    </a>
+                </div>
+
+                <p class="welcome-text">
+                    这是一个<span class="lore-highlight">蒸汽朋克</span>的世界观。
+                </p>
+            </div>
+
+            <!-- 世界观介绍 -->
+            <div class="lore-section">
+                <h2>世界观介绍</h2>
+
+                <div class="lore-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+
+                <p class="lore-paragraph">
+                    这是一个沿海王国<span class="lore-highlight">依希利亚</span>，几百年前，名为'<span
+                        class="lore-highlight">星核</span>'的庞然巨物自外太空坠落，其残骸嵌入城市并沉入近海，其衍生物<span
+                        class="lore-highlight">灵质</span>彻底改变了一切。
+                </p>
+
+                <p class="lore-paragraph">
+                    灵质为这个王国带来了一场<span class="lore-highlight">工业革命</span>，科技迅速发展，人们的飞艇征服天空，列车征服大地，灵质作为能源照亮了整个王国...
+                </p>
+
+                <p class="lore-paragraph">
+                    那么代价是什么呢？
+                </p>
+
+                <p class="lore-paragraph">
+                    王国被分化成了<span class="lore-highlight">核心区</span>和<span
+                        class="lore-highlight">平民区</span>，一个乌托邦和贫民窟，一个享受科技的成果和劳动的苦难，一个蔚蓝的天空和被甜雾（灵质的气态）包裹的雾都。
+                </p>
+
+                <p class="lore-paragraph">
+                    这是<span class="lore-highlight">最好的时代</span>，也是<span class="lore-highlight">最坏的时代</span>。
+                </p>
+                <p class="lore-paragraph">
+                    而你，将以自己的方式进入这个世界......
+                </p>
+
+                <div class="lore-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+            </div>
+
+            <!-- 构建世界观区域 -->
+            <div class="optional-content-section">
+                <h2 class="optional-content-title">构建世界观</h2>
+                <div class="optional-content-container">
+                    <div id="worldview-status" class="worldbook-status not-found">
+                        <span>⚠️</span>
+                        <span>正在检查世界书...</span>
+                    </div>
+
+                    <!-- 世界观设定组 -->
+                    <div class="optional-group">
+                        <div class="optional-group-title">
+                            <span class="icon">🌍</span>
+                            <span>世界观构建</span>
+                        </div>
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>真实世界</span>
+                            </div>
+                            <div class="entry-controls">
+                                <button class="entry-btn view-btn" onclick="toggleEntryView('真实世界')">查看</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-真实世界" data-group="worldview">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="entry-content-真实世界" class="entry-content">
+                            <div id="entry-view-真实世界" class="entry-content-view">
+                                <div class="entry-content-text" id="entry-text-真实世界">加载中...</div>
+                                <div class="entry-name" id="entry-name-真实世界"></div>
+                                <button class="entry-btn edit-btn" onclick="editEntry('真实世界')" style="margin-top: 10px;">编辑</button>
+                            </div>
+                            <div id="entry-edit-真实世界" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="entry-editor-真实世界"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveEntry('真实世界')">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEdit('真实世界')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optional-hint">
+                            💡 这个世界无魔法/异能/灵质共鸣，遵循现实物理法则，灵质只是燃料
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>炼金术</span>
+                            </div>
+                            <div class="entry-controls">
+                                <button class="entry-btn view-btn" onclick="toggleEntryView('炼金术')">查看</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-炼金术" data-group="worldview">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="entry-content-炼金术" class="entry-content">
+                            <div id="entry-view-炼金术" class="entry-content-view">
+                                <div class="entry-content-text" id="entry-text-炼金术">加载中...</div>
+                                <div class="entry-name" id="entry-name-炼金术"></div>
+                                <button class="entry-btn edit-btn" onclick="editEntry('炼金术')" style="margin-top: 10px;">编辑</button>
+                            </div>
+                            <div id="entry-edit-炼金术" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="entry-editor-炼金术"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveEntry('炼金术')">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEdit('炼金术')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optional-hint">
+                            💡 出自《钢之炼金术师》的炼金体系，理解、分解与再构筑，等价交换
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>魔法体系</span>
+                            </div>
+                            <div class="entry-controls">
+                                <button class="entry-btn view-btn" onclick="toggleEntryView('魔法体系')">查看</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-魔法体系" data-group="worldview">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="entry-content-魔法体系" class="entry-content">
+                            <div id="entry-view-魔法体系" class="entry-content-view">
+                                <div class="entry-content-text" id="entry-text-魔法体系">加载中...</div>
+                                <div class="entry-name" id="entry-name-魔法体系"></div>
+                                <button class="entry-btn edit-btn" onclick="editEntry('魔法体系')" style="margin-top: 10px;">编辑</button>
+                            </div>
+                            <div id="entry-edit-魔法体系" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="entry-editor-魔法体系"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveEntry('魔法体系')">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEdit('魔法体系')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optional-hint">
+                            💡 出自《无职转生》的魔法体系，魔力，咏唱，施法
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>自律人偶</span>
+                            </div>
+                            <div class="entry-controls">
+                                <button class="entry-btn view-btn" onclick="toggleEntryView('自律人偶')">查看</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-自律人偶" data-group="worldview">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="entry-content-自律人偶" class="entry-content">
+                            <div id="entry-view-自律人偶" class="entry-content-view">
+                                <div class="entry-content-text" id="entry-text-自律人偶">加载中...</div>
+                                <div class="entry-name" id="entry-name-自律人偶"></div>
+                                <button class="entry-btn edit-btn" onclick="editEntry('自律人偶')" style="margin-top: 10px;">编辑</button>
+                            </div>
+                            <div id="entry-edit-自律人偶" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="entry-editor-自律人偶"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveEntry('自律人偶')">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEdit('自律人偶')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optional-hint">
+                            💡 查尔斯差分机实现的机器人，承担如家仆，重工业工人，文书工作等职务
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>魔法炼金体系第二版</span>
+                            </div>
+                            <div class="entry-controls">
+                                <button class="entry-btn view-btn" onclick="toggleEntryView('魔法炼金体系第二版')">查看</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-魔法炼金体系第二版" data-group="worldview">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="entry-content-魔法炼金体系第二版" class="entry-content">
+                            <div id="entry-view-魔法炼金体系第二版" class="entry-content-view">
+                                <div class="entry-content-text" id="entry-text-魔法炼金体系第二版">加载中...</div>
+                                <div class="entry-name" id="entry-name-魔法炼金体系第二版"></div>
+                                <button class="entry-btn edit-btn" onclick="editEntry('魔法炼金体系第二版')" style="margin-top: 10px;">编辑</button>
+                            </div>
+                            <div id="entry-edit-魔法炼金体系第二版" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="entry-editor-魔法炼金体系第二版"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveEntry('魔法炼金体系第二版')">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEdit('魔法炼金体系第二版')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optional-hint">
+                            💡 出自 c_krieg，更加严谨也更大tk的魔法炼金体系
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>亚人种族(孩子们，我写不出来)</span>
+                            </div>
+                            <div class="entry-controls">
+                                <button class="entry-btn view-btn" onclick="toggleEntryView('亚人种族')">查看</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-亚人种族" data-group="worldview">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="entry-content-亚人种族" class="entry-content">
+                            <div id="entry-view-亚人种族" class="entry-content-view">
+                                <div class="entry-content-text" id="entry-text-亚人种族">加载中...</div>
+                                <div class="entry-name" id="entry-name-亚人种族"></div>
+                                <button class="entry-btn edit-btn" onclick="editEntry('亚人种族')" style="margin-top: 10px;">编辑</button>
+                            </div>
+                            <div id="entry-edit-亚人种族" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="entry-editor-亚人种族"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveEntry('亚人种族')">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEdit('亚人种族')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optional-hint">
+                            💡 兽耳娘，各类型亚人的奇特西幻
+                        </div>
+                    </div>
+
+                    <!-- 怪物体系分组 -->
+                    <div class="optional-group">
+                        <div class="optional-group-title">
+                            <span class="icon">🐉</span>
+                            <span>怪物体系</span>
+                        </div>
+
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>结晶兽怪物体系</span>
+                            </div>
+                            <div class="entry-controls">
+                                <button class="entry-btn view-btn" onclick="toggleEntryView('结晶兽怪物体系')">查看</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-结晶兽怪物体系" data-group="monster">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="entry-content-结晶兽怪物体系" class="entry-content">
+                            <div id="entry-view-结晶兽怪物体系" class="entry-content-view">
+                                <div class="entry-content-text" id="entry-text-结晶兽怪物体系">加载中...</div>
+                                <div class="entry-name" id="entry-name-结晶兽怪物体系"></div>
+                                <button class="entry-btn edit-btn" onclick="editEntry('结晶兽怪物体系')" style="margin-top: 10px;">编辑</button>
+                            </div>
+                            <div id="entry-edit-结晶兽怪物体系" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="entry-editor-结晶兽怪物体系"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveEntry('结晶兽怪物体系')">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEdit('结晶兽怪物体系')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optional-hint">
+                            💡 以结晶为核心的独特怪物体系，结晶兽，结晶巨人
+                        </div>
+
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>西幻怪物体系</span>
+                            </div>
+                            <div class="entry-controls">
+                                <button class="entry-btn view-btn" onclick="toggleEntryView('西幻怪物体系')">查看</button>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="toggle-西幻怪物体系" data-group="monster">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="entry-content-西幻怪物体系" class="entry-content">
+                            <div id="entry-view-西幻怪物体系" class="entry-content-view">
+                                <div class="entry-content-text" id="entry-text-西幻怪物体系">加载中...</div>
+                                <div class="entry-name" id="entry-name-西幻怪物体系"></div>
+                                <button class="entry-btn edit-btn" onclick="editEntry('西幻怪物体系')" style="margin-top: 10px;">编辑</button>
+                            </div>
+                            <div id="entry-edit-西幻怪物体系" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="entry-editor-西幻怪物体系"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveEntry('西幻怪物体系')">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEdit('西幻怪物体系')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optional-hint">
+                            💡 日式西幻风格的各类怪物体系，哥布林，魅魔，史莱姆...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 环境检查区域 -->
+            <div class="env-check-section">
+                <h2 class="env-check-title">环境检查</h2>
+                <div class="env-check-container">
+                    <div class="env-check-item">
+                        <div class="env-check-label">
+                            <span class="icon">🔧</span>
+                            <span>酒馆助手</span>
+                        </div>
+                        <div class="env-check-details">
+                            <span>状态: <strong id="TavernHelper-Status" class="status-unknown">检查中...</strong></span>
+                            <span>版本: <strong id="TavernHelper-Version" class="status-unknown">---</strong></span>
+                        </div>
+                    </div>
+                    <div class="env-check-item">
+                        <div class="env-check-label">
+                            <span class="icon">📝</span>
+                            <span>提示词模版</span>
+                        </div>
+                        <div class="env-check-details">
+                            <span>状态: <strong id="ejsTemplate-Status" class="status-unknown">检查中...</strong></span>
+                            <span>启用: <strong id="ejsTemplate-Enabled" class="status-unknown">---</strong></span>
+                        </div>
+                    </div>
+                    <div class="env-check-item">
+                        <div class="env-check-label">
+                            <span class="icon">🔗</span>
+                            <span>Blob URL 渲染</span>
+                        </div>
+                        <div class="env-check-details">
+                            <span>状态: <strong id="BlobURL-Status" class="status-unknown">检查中...</strong></span>
+                        </div>
+                        <div style="width: 100%; text-align: right; margin-top: 5px;">
+                            <span style="font-size: 0.85em; color: #6c757d;">(可以在酒馆助手的渲染器设置里关闭)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="recheck-container">
+                    <button id="recheck-btn" class="recheck-button">重新检查</button>
+                    <button id="clear-cache-btn" class="clear-cache-button">刷新</button>
+                </div>
+                <div style="text-align: center; margin-top: 15px; font-size: 0.9em; color: var(--accent-color);">
+                    💡 如果感到卡顿，可以尝试降低或更新 SillyTavern 版本
+                </div>
+            </div>
+            </div>
+
+            <!-- 可选内容区域 -->
+            <div class="optional-content-section">
+                <h2 class="optional-content-title">可选内容</h2>
+                <div class="optional-content-container">
+                    <div id="worldbook-status" class="worldbook-status not-found">
+                        <span>⚠️</span>
+                        <span>正在检查世界书...</span>
+                    </div>
+
+                    <!-- MVU 选择组 -->
+                    <div class="optional-group">
+                        <div class="optional-group-title">
+                            <span class="icon">⚙️</span>
+                            <span>MVU 变量系统 (二选一)</span>
+                        </div>
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>同步 MVU</span>
+                                <span class="badge">二选一</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-同步MVU" data-group="mvu">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>分布 MVU</span>
+                                <span class="badge">二选一</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-分布MVU" data-group="mvu">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="optional-hint">
+                            💡 提示：
+                            - 同步 MVU 和分布 MVU 只能开启一个，用于管理游戏内的变量系统
+                            - 分布MVU需在MVU变量框架中设置使用
+                        </div>
+                    </div>
+
+                    <!-- 功能模块组 -->
+                    <div class="optional-group">
+                        <div class="optional-group-title">
+                            <span class="icon">🎭</span>
+                            <span>扩展功能模块 (可选)</span>
+                        </div>
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>选择器</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-选择器">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>小剧场</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-小剧场">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>关注列表</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-关注列表">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>合理性审查</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-合理性审查">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>灵动正文</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-灵动正文">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-container">
+                            <div class="toggle-label">
+                                <span>新闻系统</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-新闻系统">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="optional-hint">
+                            💡 提示：这些功能模块可独立开启或关闭，根据您的喜好自由选择
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 人物开关区域 -->
+            <div class="character-section">
+                <div class="character-tabs">
+                    <button class="character-tab active" onclick="switchCharacterTab('saved')">保存人物</button>
+                    <button class="character-tab" onclick="switchCharacterTab('location')">保存地点</button>
+                    <button class="character-tab" onclick="switchCharacterTab('monster')">保存怪物</button>
+                    <button class="character-tab" onclick="switchCharacterTab('optional')">可选人物</button>
+                </div>
+
+                <div id="character-status" class="worldbook-status not-found">
+                    <span>⚠️</span>
+                    <span>正在检查人物数据...</span>
+                </div>
+
+                <!-- 保存人物标签页 -->
+                <div id="saved-characters-tab" class="character-tab-content active">
+                    <div class="toggle-container" style="margin-bottom: 15px; padding: 12px 15px;">
+                        <div class="toggle-label">角色生成</div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-char-gen" onchange="toggleCharGen(this.checked)" disabled>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div id="saved-characters-container" class="character-grid">
+                        <!-- 动态加载 -->
+                    </div>
+                </div>
+
+                <!-- 保存地点标签页 -->
+                <div id="saved-locations-tab" class="character-tab-content">
+                    <div class="toggle-container" style="margin-bottom: 15px; padding: 12px 15px;">
+                        <div class="toggle-label">地点生成</div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-loc-gen" onchange="toggleLocGen(this.checked)" disabled>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div id="saved-locations-container" class="character-grid">
+                        <!-- 动态加载 -->
+                    </div>
+                </div>
+
+                <!-- 保存怪物标签页 -->
+                <div id="saved-monsters-tab" class="character-tab-content">
+                    <div class="toggle-container" style="margin-bottom: 15px; padding: 12px 15px;">
+                        <div class="toggle-label">怪物生成</div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-mon-gen" onchange="toggleMonGen(this.checked)" disabled>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div id="saved-monsters-container" class="character-grid">
+                        <!-- 动态加载 -->
+                    </div>
+                </div>
+
+                <!-- 可选人物标签页 -->
+                <div id="optional-characters-tab" class="character-tab-content">
+                    <div id="optional-characters-container" class="character-grid">
+                        <!-- 动态加载 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 开局介绍 -->
+            <div class="options-section" style="margin-top: 30px;">
+                <h2>开局介绍</h2>
+                <div class="option-cards" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+                    <div class="option-card" onclick="jumpToMessage(1)" style="padding: 20px 15px;">
+                        <div class="option-number" style="font-size: 1.8em;">01</div>
+                        <div class="option-title" style="font-size: 1em;">自定义角色</div>
+                    </div>
+                    <div class="option-card" onclick="jumpToMessage(2)" style="padding: 20px 15px;">
+                        <div class="option-number" style="font-size: 1.8em;">02</div>
+                        <div class="option-title" style="font-size: 1em;">议员开局</div>
+                    </div>
+                    <div class="option-card" onclick="jumpToMessage(3)" style="padding: 20px 15px;">
+                        <div class="option-number" style="font-size: 1.8em;">03</div>
+                        <div class="option-title" style="font-size: 1em;">勇者开局</div>
+                    </div>
+                    <div class="option-card" onclick="jumpToMessage(4)" style="padding: 20px 15px;">
+                        <div class="option-number" style="font-size: 1.8em;">04</div>
+                        <div class="option-title" style="font-size: 1em;">鸣谢</div>
+                    </div>
+                    <div class="option-card" onclick="jumpToMessage(5)" style="padding: 20px 15px;">
+                        <div class="option-number" style="font-size: 1.8em;">05</div>
+                        <div class="option-title" style="font-size: 1em;">彩蛋</div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- 底部 -->
+        <div class="footer-section">
+            <div class="footer-message">请自由的在这个世界探索吧</div>
+            <div class="footer-warning">禁止商用，搬运/二创请告知我</div>
+        </div>
+    </div>
+
+    <script>
+
+        function compareVersion(v1, v2) {
+            if (!v1 || !v2) return -1;
+            const arr1 = v1.split('.').map(Number);
+            const arr2 = v2.split('.').map(Number);
+            const len = Math.max(arr1.length, arr2.length);
+            for (let i = 0; i < len; i++) {
+                const num1 = arr1[i] || 0;
+                const num2 = arr2[i] || 0;
+                if (num1 > num2) return 1;
+                if (num1 < num2) return -1;
+            }
+            return 0;
+        }
+
+        function updateStatusElement(id, text, type) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            // 非符合条件时统一显示“不符合”
+            const displayText = (type === 'warn' || type === 'error') ? '不符合' : text;
+            el.innerText = displayText;
+            el.className = '';
+            if (type) {
+                el.classList.add('status-' + type);
+            } else {
+                el.classList.add('status-unknown');
+            }
+        }
+
+        function waitGlobalInitialized(globalName, timeout = 5000) {
+            return new Promise((resolve, reject) => {
+                const startTime = Date.now();
+                // 定义轮询定时器（核心：定时检查全局变量是否存在）
+                const checkInterval = setInterval(() => {
+                    console.log("名字别演我了");
+                    console.log(typeof globalName); // 应该输出 string
+                    console.log(globalName); // 应该输出 Mvu
+                    console.log(`window[${globalName}]：`);
+                    console.log(window[globalName]); // 轮询直到有值
+
+                    // 1. 检查全局变量是否已初始化
+                    if (window[globalName]) {
+                        clearInterval(checkInterval); // 停止轮询
+                        resolve(window[`'${globalName}'`]); // 返回全局变量
+                    }
+                    // 2. 检查是否超时
+                    else if (Date.now() - startTime > timeout) {
+                        clearInterval(checkInterval); // 停止轮询
+                        reject(new Error(`等待 ${globalName} 超时（超时时间：${timeout}ms）`));
+                    }
+                }, 50); // 每50ms检查一次，可根据需求调整频率
+            });
+        }
+
+        function updateLockState() {
+            const pages = document.querySelectorAll('.page-content');
+            const optionsSection = document.querySelector('.options-section');
+            // 不再灰化或锁死模块，始终保持可交互
+            pages.forEach(page => page.classList.remove('locked-module'));
+            if (optionsSection) optionsSection.classList.remove('locked-module');
+        }
+
+        function envcheck() {
+            // 检查 TavernHelper
+            let TavernHelperVersion = getTavernHelperVersion();
+            let thStatusText = '未知';
+            let thStatusType = 'unknown';
+
+            if (TavernHelperVersion) {
+                if (compareVersion(TavernHelperVersion, '3.4.15') != -1) {
+                    thStatusText = '正常';
+                    thStatusType = 'ok';
+                } else {
+                    thStatusText = '版本过低';
+                    thStatusType = 'warn';
+                }
+                updateStatusElement('TavernHelper-Version', TavernHelperVersion, 'ok');
+            } else {
+                TavernHelperVersion = '未知';
+                thStatusText = '未找到';
+                thStatusType = 'error';
+                updateStatusElement('TavernHelper-Version', TavernHelperVersion, 'unknown');
+            }
+            updateStatusElement('TavernHelper-Status', thStatusText, thStatusType);
+
+            // 检查 EJS Template
+            let ejsStatusText = '未知';
+            let ejsStatusType = 'unknown';
+            let ejsEnabledText = '---';
+            let ejsEnabledType = 'unknown';
+
+            try {
+                const context = window.top.SillyTavern.getContext();
+                const ejsTemplateSettings = context.extensionSettings.EjsTemplate;
+                if (ejsTemplateSettings) {
+                    ejsStatusText = '已安装';
+                    ejsStatusType = 'ok';
+                    if (ejsTemplateSettings.enabled) {
+                        ejsEnabledText = '已启用';
+                        ejsEnabledType = 'ok';
+                    } else {
+                        ejsEnabledText = '未启用';
+                        ejsEnabledType = 'error';
+                    }
+                } else {
+                    ejsStatusText = '未安装';
+                    ejsStatusType = 'error';
+                }
+            } catch (e) {
+                ejsStatusText = '无法访问';
+                ejsStatusType = 'error';
+            }
+            updateStatusElement('ejsTemplate-Status', ejsStatusText, ejsStatusType);
+            updateStatusElement('ejsTemplate-Enabled', ejsEnabledText, ejsEnabledType);
+
+            // 检查 Blob URL 渲染
+            let blobURLText = '未知';
+            let blobURLType = 'unknown';
+            try {
+                const label = window.top.document.querySelector('label[for="TH-render-use-blob-url"]');
+                if (label) {
+                    const checkbox = window.top.document.getElementById(label.getAttribute('for'));
+                    if (checkbox) {
+                        const isChecked = checkbox.checked;
+                        if (!isChecked) {
+                            blobURLText = '已关闭';
+                            blobURLType = 'ok';
+                        } else {
+                            blobURLText = '已开启（需关闭）';
+                            blobURLType = 'error';
+                        }
+                    } else {
+                        blobURLText = '未找到开关';
+                        blobURLType = 'warn';
+                    }
+                } else {
+                    blobURLText = '未找到设置';
+                    blobURLType = 'warn';
+                }
+            } catch (e) {
+                blobURLText = '检查失败';
+                blobURLType = 'error';
+                console.error('Blob URL检查失败:', e);
+            }
+            updateStatusElement('BlobURL-Status', blobURLText, blobURLType);
+
+            updateLockState();
+        }
+
+        async function clearSiteCache() {
+            if (confirm('确定要刷新页面吗？')) {
+                try {
+                    if ('caches' in window) {
+                        const names = await caches.keys();
+                        await Promise.all(names.map(name => caches.delete(name)));
+                    }
+                    console.log('已刷新');
+                } catch (e) {
+                    console.error('刷新失败:', e);
+                }
+                window.location.reload(true);
+            }
+        }
+
+        // 全局变量存储当前状态
+        let currentWorldbookName = "在这个蒸汽朋克且阶级分化的世界，多样的政治势力，外加一群可爱美少女，我的异世界冒险不可能这么丰富多彩！";
+        let worldbookEntries = [];
+        let worldbookExists = false;
+
+        // 条目名称映射（界面显示名 -> 世界书条目名）
+        const entryNameMap = {
+            "同步MVU": "（二选一）同步MVU",
+            "分布MVU": "（二选一）分布MVU[mvu_update]",
+            "选择器": "选择器(可选)",
+            "小剧场": "小剧场(可选)",
+            "关注列表": "关注列表(可选)",
+            "合理性审查": "合理性审查(可选)",
+            "灵动正文": "灵动正文(可选)",
+            "新闻系统": "新闻系统(可选)",
+            "真实世界": "反超能力",
+            "炼金术": "炼金术体系",
+            "魔法体系": "魔法体系",
+            "自律人偶": "自律人偶",
+            "魔法炼金体系第二版": "魔法炼金体系第二版",
+            "亚人种族": "亚人种族",
+            "结晶兽怪物体系": "结晶兽怪物体系",
+            "西幻怪物体系": "西幻怪物体系"
+        };
+
+        // 检查并初始化世界书
+        async function initializeOptionalContent() {
+            const statusEl = document.getElementById('worldbook-status');
+            const worldviewStatusEl = document.getElementById('worldview-status');
+            
+            try {
+                // 检查世界书是否存在
+                const worldbookNames = getWorldbookNames();
+                worldbookExists = worldbookNames.includes(currentWorldbookName);
+                
+                if (!worldbookExists) {
+                    statusEl.className = 'worldbook-status not-found';
+                    statusEl.innerHTML = '<span>⚠️</span><span>未找到世界书："' + currentWorldbookName + '"</span>';
+                    if (worldviewStatusEl) {
+                        worldviewStatusEl.className = 'worldbook-status not-found';
+                        worldviewStatusEl.innerHTML = '<span>⚠️</span><span>未找到世界书："' + currentWorldbookName + '"</span>';
+                    }
+                    disableAllToggles();
+                    return;
+                }
+
+                // 读取世界书内容
+                worldbookEntries = await getWorldbook(currentWorldbookName);
+                statusEl.className = 'worldbook-status found';
+                statusEl.innerHTML = '<span>✅</span><span>世界书已找到，共 ' + worldbookEntries.length + ' 个条目</span>';
+                if (worldviewStatusEl) {
+                    worldviewStatusEl.className = 'worldbook-status found';
+                    worldviewStatusEl.innerHTML = '<span>✅</span><span>世界书已找到，共 ' + worldbookEntries.length + ' 个条目</span>';
+                }
+
+                // 初始化开关状态
+                updateToggleStates();
+                setupToggleListeners();
+
+            } catch (error) {
+                console.error('初始化可选内容失败:', error);
+                statusEl.className = 'worldbook-status not-found';
+                statusEl.innerHTML = '<span>❌</span><span>读取世界书失败: ' + error.message + '</span>';
+                if (worldviewStatusEl) {
+                    worldviewStatusEl.className = 'worldbook-status not-found';
+                    worldviewStatusEl.innerHTML = '<span>❌</span><span>读取世界书失败: ' + error.message + '</span>';
+                }
+                disableAllToggles();
+            }
+        }
+
+        // 禁用所有开关
+        function disableAllToggles() {
+            const toggles = document.querySelectorAll('.toggle-switch input');
+            toggles.forEach(toggle => {
+                toggle.disabled = true;
+                toggle.checked = false;
+            });
+        }
+
+        // 根据世界书条目更新开关状态
+        function updateToggleStates() {
+            for (const [displayName, entryName] of Object.entries(entryNameMap)) {
+                const entry = worldbookEntries.find(e => e.name === entryName);
+                const toggleId = 'toggle-' + displayName;
+                const toggle = document.getElementById(toggleId);
+                
+                if (toggle && entry) {
+                    toggle.checked = entry.enabled;
+                    toggle.disabled = false;
+                } else if (toggle) {
+                    toggle.disabled = true;
+                    toggle.checked = false;
+                }
+            }
+        }
+
+        // 设置开关监听器
+        function setupToggleListeners() {
+            // MVU 二选一逻辑
+            const mvuToggles = document.querySelectorAll('input[data-group="mvu"]');
+            mvuToggles.forEach(toggle => {
+                toggle.addEventListener('change', async function() {
+                    if (this.checked) {
+                        // 关闭同组的其他开关
+                        mvuToggles.forEach(other => {
+                            if (other !== this) {
+                                other.checked = false;
+                            }
+                        });
+                    }
+                    // 更新世界书
+                    await updateWorldbookEntry(this.id.replace('toggle-', ''), this.checked);
+                });
+            });
+
+            // 世界观设定组
+            const worldviewToggles = document.querySelectorAll('input[data-group="worldview"]');
+            worldviewToggles.forEach(toggle => {
+                toggle.addEventListener('change', async function() {
+                    await updateWorldbookEntry(this.id.replace('toggle-', ''), this.checked);
+                });
+            });
+
+            // 可选功能模块
+            const optionalToggles = document.querySelectorAll('.toggle-switch input:not([data-group="mvu"]):not([data-group="worldview"])');
+            optionalToggles.forEach(toggle => {
+                toggle.addEventListener('change', async function() {
+                    await updateWorldbookEntry(this.id.replace('toggle-', ''), this.checked);
+                });
+            });
+        }
+
+        // 更新世界书条目
+        async function updateWorldbookEntry(displayName, enabled) {
+            if (!worldbookExists) return;
+
+            try {
+                const entryName = entryNameMap[displayName];
+                if (!entryName) return;
+
+                // 如果是 MVU 组，需要同时处理两个条目
+                if (displayName === '同步MVU' || displayName === '分布MVU') {
+                    await updateWorldbookWith(currentWorldbookName, worldbook => {
+                        return worldbook.map(entry => {
+                            if (entry.name === '（二选一）同步MVU') {
+                                return { ...entry, enabled: displayName === '同步MVU' && enabled };
+                            } else if (entry.name === '（二选一）分布MVU[mvu_update]') {
+                                return { ...entry, enabled: displayName === '分布MVU' && enabled };
+                            }
+                            return entry;
+                        });
+                    });
+                } else {
+                    // 普通条目处理
+                    await updateWorldbookWith(currentWorldbookName, worldbook => {
+                        return worldbook.map(entry => {
+                            if (entry.name === entryName) {
+                                return { ...entry, enabled: enabled };
+                            }
+                            return entry;
+                        });
+                    });
+                }
+
+                console.log('已更新条目:', entryName, '状态:', enabled);
+
+            } catch (error) {
+                console.error('更新世界书条目失败:', error);
+                alert('更新失败: ' + error.message);
+                // 恢复原状态
+                const toggle = document.getElementById('toggle-' + displayName);
+                if (toggle) toggle.checked = !enabled;
+            }
+        }
+
+        // 切换条目内容显示
+        async function toggleEntryView(displayName) {
+            const contentEl = document.getElementById(`entry-content-${displayName}`);
+            const textEl = document.getElementById(`entry-text-${displayName}`);
+            const nameEl = document.getElementById(`entry-name-${displayName}`);
+            
+            if (!contentEl) return;
+            
+            // 如果已经展开，则折叠
+            if (contentEl.classList.contains('expanded')) {
+                contentEl.classList.remove('expanded');
+                return;
+            }
+            
+            // 展开并加载内容
+            contentEl.classList.add('expanded');
+            
+            try {
+                const entryName = entryNameMap[displayName];
+                if (!entryName) {
+                    textEl.textContent = '未找到对应的条目映射';
+                    return;
+                }
+                
+                const entry = worldbookEntries.find(e => e.name === entryName);
+                if (entry) {
+                    textEl.textContent = entry.content || '(内容为空)';
+                    nameEl.textContent = `条目名称: ${entry.name}`;
+                } else {
+                    textEl.textContent = '未找到该条目';
+                    nameEl.textContent = '';
+                }
+            } catch (error) {
+                console.error('加载条目内容失败:', error);
+                textEl.textContent = '加载失败: ' + error.message;
+            }
+        }
+
+        // 编辑条目
+        function editEntry(displayName) {
+            const viewEl = document.getElementById(`entry-view-${displayName}`);
+            const editEl = document.getElementById(`entry-edit-${displayName}`);
+            const textEl = document.getElementById(`entry-text-${displayName}`);
+            const editorEl = document.getElementById(`entry-editor-${displayName}`);
+            
+            if (!viewEl || !editEl || !editorEl) return;
+            
+            // 切换到编辑模式
+            viewEl.style.display = 'none';
+            editEl.style.display = 'block';
+            
+            // 将当前内容复制到编辑器
+            editorEl.value = textEl.textContent === '(内容为空)' ? '' : textEl.textContent;
+        }
+
+        // 取消编辑
+        function cancelEdit(displayName) {
+            const viewEl = document.getElementById(`entry-view-${displayName}`);
+            const editEl = document.getElementById(`entry-edit-${displayName}`);
+            
+            if (!viewEl || !editEl) return;
+            
+            // 切换回查看模式
+            viewEl.style.display = 'block';
+            editEl.style.display = 'none';
+        }
+
+        // 保存条目
+        async function saveEntry(displayName) {
+            const editorEl = document.getElementById(`entry-editor-${displayName}`);
+            const textEl = document.getElementById(`entry-text-${displayName}`);
+            
+            if (!editorEl || !textEl) return;
+            
+            const newContent = editorEl.value;
+            
+            try {
+                const entryName = entryNameMap[displayName];
+                if (!entryName) {
+                    alert('未找到对应的条目映射');
+                    return;
+                }
+                
+                // 更新世界书
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.name === entryName) {
+                            return { ...entry, content: newContent };
+                        }
+                        return entry;
+                    });
+                });
+                
+                // 更新本地缓存
+                const entry = worldbookEntries.find(e => e.name === entryName);
+                if (entry) {
+                    entry.content = newContent;
+                }
+                
+                // 更新显示
+                textEl.textContent = newContent || '(内容为空)';
+                
+                // 切换回查看模式
+                cancelEdit(displayName);
+                
+                alert('保存成功！');
+                
+            } catch (error) {
+                console.error('保存条目失败:', error);
+                alert('保存失败: ' + error.message);
+            }
+        }
+
+
+
+
+        // 初始化环境检查
+        envcheck();
+
+        // 初始化可选内容
+        initializeOptionalContent();
+
+        // 重新检查按钮
+        const recheckButton = document.getElementById('recheck-btn');
+        if (recheckButton) {
+            recheckButton.addEventListener('click', envcheck);
+        }
+
+        // 刷新按钮
+        const clearCacheBtn = document.getElementById('clear-cache-btn');
+        if (clearCacheBtn) {
+            clearCacheBtn.addEventListener('click', clearSiteCache);
+        }
+
+        // 为按钮添加悬停效果增强
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mouseenter', function () {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 8px 20px var(--glow-color)';
+            });
+
+            button.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 12px var(--shadow-color)';
+            });
+        });
+
+        // ==================== 人物开关系统 ====================
+
+        // 人物对配置（每个人物由两个条目组成）
+        const characterPairs = [
+            { name: '秋水', entry1: '<执行官>秋水', entry2: '秋水详细' },
+            { name: '姬野离', entry1: '<执行官>姬野离', entry2: '姬野离详细' },
+            { name: '夏琳', entry1: '<记者>夏琳', entry2: '夏琳详细' },
+            { name: '日笠阳', entry1: '<贵族>日笠阳', entry2: '日笠阳详细' },
+            { name: '塞莱斯汀', entry1: '<商人>塞莱斯汀', entry2: '塞莱斯汀详细' },
+            { name: '白鸟哲', entry1: '<教皇>白鸟哲', entry2: '白鸟哲详细' },
+            { name: '黎各', entry1: '<执行官>黎各', entry2: '黎各详细' },
+            { name: '伊芙琳', entry1: '<女王>伊芙琳', entry2: '伊芙琳详细' },
+            { name: '芙洛', entry1: '<修女>芙洛', entry2: '芙洛详细' },
+            { name: '菲娜', entry1: '<店员>菲娜', entry2: '菲娜详细' },
+            { name: '雷纳德', entry1: '<侦探>雷纳德', entry2: '雷纳德详细' },
+            { name: '艾丽西亚', entry1: '<公爵>艾丽西亚', entry2: '艾丽西亚详细' },
+            { name: '伊琳娜', entry1: '<圣骑士>伊琳娜', entry2: '伊琳娜详细' },
+            { name: '露熙特与吱吱', entry1: '<贵族>露熙特与吱吱', entry2: '露熙特与吱吱详细' },
+            { name: '海纳尔', entry1: '<女仆>海纳尔', entry2: '海纳尔详细' },
+            { name: '柯瓦莉', entry1: '<机械师>柯瓦莉', entry2: '柯瓦莉详细' },
+            { name: '艾莉', entry1: '<修女>艾莉', entry2: '艾莉详细' },
+            { name: '菲莉丝', entry1: '<猎人>菲莉丝', entry2: '菲莉丝详细' },
+            { name: '赫卡特', entry1: '<猎人>赫卡特', entry2: '赫卡特详细' },
+            { name: '沃里克', entry1: '<拳手>沃里克', entry2: '沃里克详细' },
+            { name: '塞拉', entry1: '<骑士>塞拉', entry2: '塞拉详细' },
+            { name: '黑濑', entry1: '<领袖>黑濑', entry2: '黑濑详细' },
+            { name: '宫真守', entry1: '<独狼>宫真守', entry2: '宫真守详细' },
+            { name: '米歇拉', entry1: '<主教>米歇拉', entry2: '米歇拉详细' },
+            { name: '卡门', entry1: '<老板娘>卡门', entry2: '卡门详细' },
+            { name: '小薇', entry1: '<机器师>小薇', entry2: '小薇详细' },
+            { name: '诺丽艾', entry1: '<摇月>诺丽艾', entry2: '诺丽艾详细' },
+            { name: '施泰德', entry1: '<公会>施泰德', entry2: '施泰德详细' },
+            { name: '克莉丝', entry1: '<猎人>克莉丝', entry2: '克莉丝详细' },
+            { name: '维兹', entry1: '<商人>维兹', entry2: '维兹详细' },
+            { name: '多萝西', entry1: '<公会>多萝西', entry2: '多萝西详细' },
+            { name: '罗佳', entry1: '<骑士>罗佳', entry2: '罗佳详细' },
+            { name: '齐贝林', entry1: '<警长>齐贝林', entry2: '齐贝林详细' },
+            { name: '塞芙', entry1: '<商人>塞芙', entry2: '塞芙详细' },
+            { name: '康尼', entry1: '<团长>康尼', entry2: '康尼详细' },
+            { name: '泽菲拉', entry1: '<海盗>泽菲拉', entry2: '泽菲拉详细' },
+            { name: '泰莉莎', entry1: '<信使>泰莉莎', entry2: '泰莉莎详细' },
+            { name: '阿加莎', entry1: '<狼母>阿加莎', entry2: '阿加莎详细' },
+            { name: '卡斯楚', entry1: '卡斯楚', entry2: null },
+        ];
+
+        // 特殊人物（带超能力，需选开）
+        const specialCharacterPairs = [
+            { name: '夏洛克·多多', entry1: '夏洛克·多多', entry2: '夏洛克·多多详细', note: '带有超能力' },
+            { name: '虚', entry1: '虚（选开）', entry2: null, note: '带有超能力，单条目' },
+            { name: '幸', entry1: '幸（选开）', entry2: '幸详细（选开）', note: '带有超能力' },
+        ];
+
+        let characterEntries = [];
+
+        // 切换人物标签页
+        function switchCharacterTab(tabName) {
+            const tabs = document.querySelectorAll('.character-tab');
+            const contents = document.querySelectorAll('.character-tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            if (tabName === 'saved') {
+                tabs[0].classList.add('active');
+                document.getElementById('saved-characters-tab').classList.add('active');
+            } else if (tabName === 'location') {
+                tabs[1].classList.add('active');
+                document.getElementById('saved-locations-tab').classList.add('active');
+            } else if (tabName === 'monster') {
+                tabs[2].classList.add('active');
+                document.getElementById('saved-monsters-tab').classList.add('active');
+            } else if (tabName === 'optional') {
+                tabs[3].classList.add('active');
+                document.getElementById('optional-characters-tab').classList.add('active');
+            }
+        }
+
+        // 初始化人物数据
+        async function initializeCharacters() {
+            const statusEl = document.getElementById('character-status');
+            
+            try {
+                if (!worldbookExists) {
+                    statusEl.className = 'worldbook-status not-found';
+                    statusEl.innerHTML = '<span>⚠️</span><span>世界书不存在，无法加载人物数据</span>';
+                    return;
+                }
+
+                // 重新读取世界书（确保数据最新）
+                characterEntries = await getWorldbook(currentWorldbookName);
+                
+                statusEl.className = 'worldbook-status found';
+                statusEl.innerHTML = '<span>✅</span><span>人物数据已加载</span>';
+
+                // 渲染所有标签页
+                renderSavedCharacters();
+                renderSavedLocations();
+                renderSavedMonsters();
+                renderOptionalCharacters();
+                initGenToggles();
+
+            } catch (error) {
+                console.error('初始化人物数据失败:', error);
+                statusEl.className = 'worldbook-status not-found';
+                statusEl.innerHTML = '<span>❌</span><span>加载人物数据失败: ' + error.message + '</span>';
+            }
+        }
+
+        // 渲染保存人物（order=9000的条目）
+        function renderSavedCharacters() {
+            const container = document.getElementById('saved-characters-container');
+            
+            // 筛选出order=9000的条目
+            const savedChars = characterEntries.filter(entry => entry.position.order === 9000);
+            
+            if (savedChars.length === 0) {
+                container.innerHTML = '<div class="saved-characters-empty">暂无保存的人物</div>';
+                return;
+            }
+
+            container.innerHTML = savedChars.map(entry => `
+                <div class="character-card">
+                    <div class="character-card-header">
+                        <div class="character-name">${entry.name}</div>
+                        <div class="character-actions">
+                            <button class="action-btn view" onclick="toggleSavedCharacterView(${entry.uid})">查看</button>
+                            <button class="action-btn delete" onclick="deleteSavedCharacter(${entry.uid})">删除</button>
+                        </div>
+                    </div>
+                    <div class="character-info">UID: ${entry.uid}</div>
+                    <div class="character-info">状态: ${entry.enabled ? '✅ 已启用' : '⭕ 已禁用'}</div>
+                    <div style="margin-top: 10px;">
+                        <label class="toggle-switch">
+                            <input type="checkbox" ${entry.enabled ? 'checked' : ''} 
+                                   onchange="toggleSavedCharacter(${entry.uid}, this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <!-- 查看/编辑内容区域 -->
+                    <div id="saved-char-content-${entry.uid}" class="entry-content">
+                        <div id="saved-char-view-${entry.uid}" class="entry-content-view">
+                            <div class="entry-content-text" id="saved-char-text-${entry.uid}">加载中...</div>
+                            <div class="entry-name" id="saved-char-name-${entry.uid}"></div>
+                            <button class="entry-btn edit-btn" onclick="editSavedCharacterContent(${entry.uid})" style="margin-top: 10px;">编辑内容</button>
+                        </div>
+                        <div id="saved-char-edit-${entry.uid}" class="entry-content-edit" style="display: none;">
+                            <textarea class="entry-content-editor" id="saved-char-editor-${entry.uid}"></textarea>
+                            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                <button class="entry-btn save-btn" onclick="saveSavedCharacterContent(${entry.uid})">保存</button>
+                                <button class="entry-btn cancel-btn" onclick="cancelEditSavedCharacter(${entry.uid})">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 渲染可选人物
+        function renderOptionalCharacters() {
+            const container = document.getElementById('optional-characters-container');
+            
+            // 渲染普通人物
+            const normalCards = characterPairs.map(pair => {
+                const entry1 = characterEntries.find(e => e.name === pair.entry1);
+                const entry2 = pair.entry2 ? characterEntries.find(e => e.name === pair.entry2) : null;
+                
+                if (!entry1 || (pair.entry2 && !entry2)) {
+                    return `
+                        <div class="character-pair-card" style="opacity: 0.5;">
+                            <div class="character-pair-header">
+                                <div class="character-pair-name">${pair.name}</div>
+                            </div>
+                            <div class="character-pair-details">⚠️ 条目未找到</div>
+                            <div class="character-pair-details">需要: ${pair.entry1}${pair.entry2 ? ', ' + pair.entry2 : ''}</div>
+                        </div>
+                    `;
+                }
+
+                const bothEnabled = entry2 ? (entry1.enabled && entry2.enabled) : entry1.enabled;
+                const pairId = pair.name.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '_');
+                
+                return `
+                    <div class="character-pair-card">
+                        <div class="character-pair-header">
+                            <div class="character-pair-name">${pair.name}</div>
+                        </div>
+                        <div class="character-pair-details">${pair.entry1}</div>
+                        ${pair.entry2 ? `<div class="character-pair-details">${pair.entry2}</div>` : ''}
+                        <div class="character-info">状态: ${bothEnabled ? '✅ 已启用' : '⭕ 已禁用'}</div>
+                        <div style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
+                            <button class="entry-btn view-btn" onclick="toggleCharacterPairView('${pairId}', '${pair.entry1}', ${pair.entry2 ? "'" + pair.entry2 + "'" : 'null'})">查看</button>
+                            <label class="toggle-switch">
+                                <input type="checkbox" ${bothEnabled ? 'checked' : ''} 
+                                       onchange="toggleCharacterPair('${pair.entry1}', ${pair.entry2 ? "'" + pair.entry2 + "'" : 'null'}, this.checked)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <!-- 查看/编辑内容区域 -->
+                        <div id="char-pair-content-${pairId}" class="entry-content">
+                            <div id="char-pair-view-${pairId}" class="entry-content-view">
+                                <div class="entry-content-text" id="char-pair-text-${pairId}">加载中...</div>
+                                <button class="entry-btn edit-btn" onclick="editCharacterPairContent('${pairId}', '${pair.entry1}', ${pair.entry2 ? "'" + pair.entry2 + "'" : 'null'})" style="margin-top: 10px;">编辑内容</button>
+                            </div>
+                            <div id="char-pair-edit-${pairId}" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="char-pair-editor-${pairId}"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveCharacterPairContent('${pairId}', '${pair.entry1}', ${pair.entry2 ? "'" + pair.entry2 + "'" : 'null'})">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEditCharacterPair('${pairId}')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 渲染特殊人物（带超能力）
+            const specialCards = specialCharacterPairs.map(pair => {
+                const entry1 = characterEntries.find(e => e.name === pair.entry1);
+                const entry2 = pair.entry2 ? characterEntries.find(e => e.name === pair.entry2) : null;
+                
+                // 检查条目是否存在
+                if (!entry1 || (pair.entry2 && !entry2)) {
+                    return `
+                        <div class="character-pair-card" style="opacity: 0.5; border: 2px dashed #ff8800;">
+                            <div class="character-pair-header">
+                                <div class="character-pair-name">${pair.name} <span style="color: #ff8800; font-size: 0.85em; font-weight: 600;">【选开】</span></div>
+                            </div>
+                            <div class="character-pair-details">⚠️ 条目未找到</div>
+                            <div class="character-pair-details">需要: ${pair.entry1}${pair.entry2 ? ', ' + pair.entry2 : ''}</div>
+                            <div class="character-pair-details" style="color: #ff6600; font-weight: 600; margin-top: 5px;">💡 ${pair.note}</div>
+                        </div>
+                    `;
+                }
+
+                // 判断启用状态
+                const isEnabled = pair.entry2 ? (entry1.enabled && entry2.enabled) : entry1.enabled;
+                const pairId = pair.name.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '_');
+                
+                return `
+                    <div class="character-pair-card" style="border: 2px solid #ff9800;">
+                        <div class="character-pair-header">
+                            <div class="character-pair-name">${pair.name} <span style="color: #ff9800; font-size: 0.85em; font-weight: 600;">【选开】</span></div>
+                        </div>
+                        <div class="character-pair-details">${pair.entry1}</div>
+                        ${pair.entry2 ? `<div class="character-pair-details">${pair.entry2}</div>` : ''}
+                        <div class="character-pair-details" style="color: #ff9800; margin-top: 5px; font-weight: 600;">💡 ${pair.note}</div>
+                        <div class="character-info">状态: ${isEnabled ? '✅ 已启用' : '⭕ 已禁用'}</div>
+                        <div style="margin-top: 10px; display: flex; gap: 10px; align-items: center;">
+                            <button class="entry-btn view-btn" onclick="toggleSpecialCharacterView('${pairId}', '${pair.entry1}', ${pair.entry2 ? "'" + pair.entry2 + "'" : 'null'})">查看</button>
+                            <label class="toggle-switch">
+                                <input type="checkbox" ${isEnabled ? 'checked' : ''} 
+                                       onchange="toggleSpecialCharacter('${pair.entry1}', ${pair.entry2 ? "'" + pair.entry2 + "'" : 'null'}, this.checked)">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <!-- 查看/编辑内容区域 -->
+                        <div id="special-char-content-${pairId}" class="entry-content">
+                            <div id="special-char-view-${pairId}" class="entry-content-view">
+                                <div class="entry-content-text" id="special-char-text-${pairId}">加载中...</div>
+                                <button class="entry-btn edit-btn" onclick="editSpecialCharacterContent('${pairId}', '${pair.entry1}', ${pair.entry2 ? "'" + pair.entry2 + "'" : 'null'})" style="margin-top: 10px;">编辑内容</button>
+                            </div>
+                            <div id="special-char-edit-${pairId}" class="entry-content-edit" style="display: none;">
+                                <textarea class="entry-content-editor" id="special-char-editor-${pairId}"></textarea>
+                                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <button class="entry-btn save-btn" onclick="saveSpecialCharacterContent('${pairId}', '${pair.entry1}', ${pair.entry2 ? "'" + pair.entry2 + "'" : 'null'})">保存</button>
+                                    <button class="entry-btn cancel-btn" onclick="cancelEditSpecialCharacter('${pairId}')">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 添加分隔线和说明
+            const specialSection = specialCards.length > 0 ? `
+                <div style="grid-column: 1 / -1; margin: 20px 0;">
+                    <div style="border-top: 2px dashed #ff9800; padding-top: 15px;">
+                        <div style="color: #ff9800; font-weight: 700; margin-bottom: 10px; font-size: 1.05em;">⚠️ 以下人物带有超能力，与世界观设定冲突，建议选择性开启</div>
+                    </div>
+                </div>
+            ` : '';
+            
+            container.innerHTML = normalCards.join('') + specialSection + specialCards.join('');
+        }
+
+        // 切换保存人物的启用状态
+        async function toggleSavedCharacter(uid, enabled) {
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.uid === uid) {
+                            return { ...entry, enabled: enabled };
+                        }
+                        return entry;
+                    });
+                });
+
+                // 更新本地缓存
+                const entry = characterEntries.find(e => e.uid === uid);
+                if (entry) entry.enabled = enabled;
+
+                console.log('已更新保存人物状态:', uid, enabled);
+
+            } catch (error) {
+                console.error('更新保存人物状态失败:', error);
+                alert('更新失败: ' + error.message);
+                // 需要重新渲染以恢复状态
+                renderSavedCharacters();
+            }
+        }
+
+        // 删除保存人物
+        async function deleteSavedCharacter(uid) {
+            const entry = characterEntries.find(e => e.uid === uid);
+            if (!entry) return;
+
+            if (!confirm(`确定要删除人物「${entry.name}」吗？`)) {
+                return;
+            }
+
+            try {
+                await deleteWorldbookEntries(currentWorldbookName, entry => entry.uid === uid);
+
+                // 更新本地缓存
+                characterEntries = characterEntries.filter(e => e.uid !== uid);
+
+                // 重新渲染
+                renderSavedCharacters();
+
+                alert('删除成功！');
+
+            } catch (error) {
+                console.error('删除人物失败:', error);
+                alert('删除失败: ' + error.message);
+            }
+        }
+
+        // ==================== 保存人物的查看和编辑功能 ====================
+        
+        // 切换保存人物内容的显示
+        async function toggleSavedCharacterView(uid) {
+            const contentEl = document.getElementById(`saved-char-content-${uid}`);
+            const textEl = document.getElementById(`saved-char-text-${uid}`);
+            const nameEl = document.getElementById(`saved-char-name-${uid}`);
+            
+            if (!contentEl) return;
+            
+            // 如果已经展开，则折叠
+            if (contentEl.classList.contains('expanded')) {
+                contentEl.classList.remove('expanded');
+                return;
+            }
+            
+            // 展开并加载内容
+            contentEl.classList.add('expanded');
+            
+            try {
+                const entry = characterEntries.find(e => e.uid === uid);
+                if (entry) {
+                    textEl.textContent = entry.content || '(内容为空)';
+                    nameEl.textContent = `条目名称: ${entry.name}`;
+                } else {
+                    textEl.textContent = '未找到该条目';
+                    nameEl.textContent = '';
+                }
+            } catch (error) {
+                console.error('加载条目内容失败:', error);
+                textEl.textContent = '加载失败: ' + error.message;
+            }
+        }
+
+        // 编辑保存人物内容
+        function editSavedCharacterContent(uid) {
+            const viewEl = document.getElementById(`saved-char-view-${uid}`);
+            const editEl = document.getElementById(`saved-char-edit-${uid}`);
+            const textEl = document.getElementById(`saved-char-text-${uid}`);
+            const editorEl = document.getElementById(`saved-char-editor-${uid}`);
+            
+            if (!viewEl || !editEl || !editorEl) return;
+            
+            // 切换到编辑模式
+            viewEl.style.display = 'none';
+            editEl.style.display = 'block';
+            
+            // 将当前内容复制到编辑器
+            editorEl.value = textEl.textContent === '(内容为空)' ? '' : textEl.textContent;
+        }
+
+        // 取消编辑保存人物
+        function cancelEditSavedCharacter(uid) {
+            const viewEl = document.getElementById(`saved-char-view-${uid}`);
+            const editEl = document.getElementById(`saved-char-edit-${uid}`);
+            
+            if (!viewEl || !editEl) return;
+            
+            // 切换回查看模式
+            viewEl.style.display = 'block';
+            editEl.style.display = 'none';
+        }
+
+        // 保存保存人物内容
+        async function saveSavedCharacterContent(uid) {
+            const editorEl = document.getElementById(`saved-char-editor-${uid}`);
+            const textEl = document.getElementById(`saved-char-text-${uid}`);
+            
+            if (!editorEl || !textEl) return;
+            
+            const newContent = editorEl.value;
+            
+            try {
+                // 更新世界书
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.uid === uid) {
+                            return { ...entry, content: newContent };
+                        }
+                        return entry;
+                    });
+                });
+                
+                // 更新本地缓存
+                const entry = characterEntries.find(e => e.uid === uid);
+                if (entry) {
+                    entry.content = newContent;
+                }
+                
+                // 更新显示
+                textEl.textContent = newContent || '(内容为空)';
+                
+                // 切换回查看模式
+                cancelEditSavedCharacter(uid);
+                
+                alert('保存成功！');
+                
+            } catch (error) {
+                console.error('保存条目失败:', error);
+                alert('保存失败: ' + error.message);
+            }
+        }
+
+        // ==================== 保存地点的查看和编辑功能 ====================
+
+        // 渲染保存地点（order=2950的条目）
+        function renderSavedLocations() {
+            const container = document.getElementById('saved-locations-container');
+            const savedLocations = characterEntries.filter(entry => entry.position.order === 2950);
+            if (savedLocations.length === 0) {
+                container.innerHTML = '<div class="saved-characters-empty">暂无保存的地点</div>';
+                return;
+            }
+            container.innerHTML = savedLocations.map(entry => `
+                <div class="character-card">
+                    <div class="character-card-header">
+                        <div class="character-name">${entry.name}</div>
+                        <div class="character-actions">
+                            <button class="action-btn view" onclick="toggleSavedLocationView(${entry.uid})">查看</button>
+                            <button class="action-btn delete" onclick="deleteSavedLocation(${entry.uid})">删除</button>
+                        </div>
+                    </div>
+                    <div class="character-info">UID: ${entry.uid}</div>
+                    <div class="character-info">状态: ${entry.enabled ? '✅ 已启用' : '⭕ 已禁用'}</div>
+                    <div style="margin-top: 10px;">
+                        <label class="toggle-switch">
+                            <input type="checkbox" ${entry.enabled ? 'checked' : ''}
+                                   onchange="toggleSavedLocation(${entry.uid}, this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div id="saved-loc-content-${entry.uid}" class="entry-content">
+                        <div id="saved-loc-view-${entry.uid}" class="entry-content-view">
+                            <div class="entry-content-text" id="saved-loc-text-${entry.uid}">加载中...</div>
+                            <div class="entry-name" id="saved-loc-name-${entry.uid}"></div>
+                            <button class="entry-btn edit-btn" onclick="editSavedLocationContent(${entry.uid})" style="margin-top: 10px;">编辑内容</button>
+                        </div>
+                        <div id="saved-loc-edit-${entry.uid}" class="entry-content-edit" style="display: none;">
+                            <textarea class="entry-content-editor" id="saved-loc-editor-${entry.uid}"></textarea>
+                            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                <button class="entry-btn save-btn" onclick="saveSavedLocationContent(${entry.uid})">保存</button>
+                                <button class="entry-btn cancel-btn" onclick="cancelEditSavedLocation(${entry.uid})">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function toggleSavedLocation(uid, enabled) {
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.uid === uid) return { ...entry, enabled };
+                        return entry;
+                    });
+                });
+                const entry = characterEntries.find(e => e.uid === uid);
+                if (entry) entry.enabled = enabled;
+            } catch (error) {
+                console.error('更新保存地点状态失败:', error);
+                alert('更新失败: ' + error.message);
+                renderSavedLocations();
+            }
+        }
+
+        async function deleteSavedLocation(uid) {
+            const entry = characterEntries.find(e => e.uid === uid);
+            if (!entry) return;
+            if (!confirm(`确定要删除地点「${entry.name}」吗？`)) return;
+            try {
+                await deleteWorldbookEntries(currentWorldbookName, e => e.uid === uid);
+                characterEntries = characterEntries.filter(e => e.uid !== uid);
+                renderSavedLocations();
+                alert('删除成功！');
+            } catch (error) {
+                console.error('删除地点失败:', error);
+                alert('删除失败: ' + error.message);
+            }
+        }
+
+        async function toggleSavedLocationView(uid) {
+            const contentEl = document.getElementById(`saved-loc-content-${uid}`);
+            const textEl = document.getElementById(`saved-loc-text-${uid}`);
+            const nameEl = document.getElementById(`saved-loc-name-${uid}`);
+            if (!contentEl) return;
+            if (contentEl.classList.contains('expanded')) {
+                contentEl.classList.remove('expanded');
+                return;
+            }
+            contentEl.classList.add('expanded');
+            try {
+                const entry = characterEntries.find(e => e.uid === uid);
+                if (entry) {
+                    textEl.textContent = entry.content || '(内容为空)';
+                    nameEl.textContent = `条目名称: ${entry.name}`;
+                } else {
+                    textEl.textContent = '未找到该条目';
+                    nameEl.textContent = '';
+                }
+            } catch (error) {
+                textEl.textContent = '加载失败: ' + error.message;
+            }
+        }
+
+        function editSavedLocationContent(uid) {
+            const viewEl = document.getElementById(`saved-loc-view-${uid}`);
+            const editEl = document.getElementById(`saved-loc-edit-${uid}`);
+            const textEl = document.getElementById(`saved-loc-text-${uid}`);
+            const editorEl = document.getElementById(`saved-loc-editor-${uid}`);
+            if (!viewEl || !editEl || !editorEl) return;
+            viewEl.style.display = 'none';
+            editEl.style.display = 'block';
+            editorEl.value = textEl.textContent === '(内容为空)' ? '' : textEl.textContent;
+        }
+
+        function cancelEditSavedLocation(uid) {
+            const viewEl = document.getElementById(`saved-loc-view-${uid}`);
+            const editEl = document.getElementById(`saved-loc-edit-${uid}`);
+            if (!viewEl || !editEl) return;
+            viewEl.style.display = 'block';
+            editEl.style.display = 'none';
+        }
+
+        async function saveSavedLocationContent(uid) {
+            const editorEl = document.getElementById(`saved-loc-editor-${uid}`);
+            const textEl = document.getElementById(`saved-loc-text-${uid}`);
+            if (!editorEl || !textEl) return;
+            const newContent = editorEl.value;
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.uid === uid) return { ...entry, content: newContent };
+                        return entry;
+                    });
+                });
+                const entry = characterEntries.find(e => e.uid === uid);
+                if (entry) entry.content = newContent;
+                textEl.textContent = newContent || '(内容为空)';
+                cancelEditSavedLocation(uid);
+                alert('保存成功！');
+            } catch (error) {
+                console.error('保存地点失败:', error);
+                alert('保存失败: ' + error.message);
+            }
+        }
+
+        // ==================== 保存怪物的查看和编辑功能 ====================
+
+        // 渲染保存怪物（order=2090的条目）
+        function renderSavedMonsters() {
+            const container = document.getElementById('saved-monsters-container');
+            const savedMonsters = characterEntries.filter(entry => entry.position.order === 2090);
+            if (savedMonsters.length === 0) {
+                container.innerHTML = '<div class="saved-characters-empty">暂无保存的怪物</div>';
+                return;
+            }
+            container.innerHTML = savedMonsters.map(entry => `
+                <div class="character-card">
+                    <div class="character-card-header">
+                        <div class="character-name">${entry.name}</div>
+                        <div class="character-actions">
+                            <button class="action-btn view" onclick="toggleSavedMonsterView(${entry.uid})">查看</button>
+                            <button class="action-btn delete" onclick="deleteSavedMonster(${entry.uid})">删除</button>
+                        </div>
+                    </div>
+                    <div class="character-info">UID: ${entry.uid}</div>
+                    <div class="character-info">状态: ${entry.enabled ? '✅ 已启用' : '⭕ 已禁用'}</div>
+                    <div style="margin-top: 10px;">
+                        <label class="toggle-switch">
+                            <input type="checkbox" ${entry.enabled ? 'checked' : ''}
+                                   onchange="toggleSavedMonster(${entry.uid}, this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div id="saved-mon-content-${entry.uid}" class="entry-content">
+                        <div id="saved-mon-view-${entry.uid}" class="entry-content-view">
+                            <div class="entry-content-text" id="saved-mon-text-${entry.uid}">加载中...</div>
+                            <div class="entry-name" id="saved-mon-name-${entry.uid}"></div>
+                            <button class="entry-btn edit-btn" onclick="editSavedMonsterContent(${entry.uid})" style="margin-top: 10px;">编辑内容</button>
+                        </div>
+                        <div id="saved-mon-edit-${entry.uid}" class="entry-content-edit" style="display: none;">
+                            <textarea class="entry-content-editor" id="saved-mon-editor-${entry.uid}"></textarea>
+                            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                                <button class="entry-btn save-btn" onclick="saveSavedMonsterContent(${entry.uid})">保存</button>
+                                <button class="entry-btn cancel-btn" onclick="cancelEditSavedMonster(${entry.uid})">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function toggleSavedMonster(uid, enabled) {
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.uid === uid) return { ...entry, enabled };
+                        return entry;
+                    });
+                });
+                const entry = characterEntries.find(e => e.uid === uid);
+                if (entry) entry.enabled = enabled;
+            } catch (error) {
+                console.error('更新保存怪物状态失败:', error);
+                alert('更新失败: ' + error.message);
+                renderSavedMonsters();
+            }
+        }
+
+        async function deleteSavedMonster(uid) {
+            const entry = characterEntries.find(e => e.uid === uid);
+            if (!entry) return;
+            if (!confirm(`确定要删除怪物「${entry.name}」吗？`)) return;
+            try {
+                await deleteWorldbookEntries(currentWorldbookName, e => e.uid === uid);
+                characterEntries = characterEntries.filter(e => e.uid !== uid);
+                renderSavedMonsters();
+                alert('删除成功！');
+            } catch (error) {
+                console.error('删除怪物失败:', error);
+                alert('删除失败: ' + error.message);
+            }
+        }
+
+        async function toggleSavedMonsterView(uid) {
+            const contentEl = document.getElementById(`saved-mon-content-${uid}`);
+            const textEl = document.getElementById(`saved-mon-text-${uid}`);
+            const nameEl = document.getElementById(`saved-mon-name-${uid}`);
+            if (!contentEl) return;
+            if (contentEl.classList.contains('expanded')) {
+                contentEl.classList.remove('expanded');
+                return;
+            }
+            contentEl.classList.add('expanded');
+            try {
+                const entry = characterEntries.find(e => e.uid === uid);
+                if (entry) {
+                    textEl.textContent = entry.content || '(内容为空)';
+                    nameEl.textContent = `条目名称: ${entry.name}`;
+                } else {
+                    textEl.textContent = '未找到该条目';
+                    nameEl.textContent = '';
+                }
+            } catch (error) {
+                textEl.textContent = '加载失败: ' + error.message;
+            }
+        }
+
+        function editSavedMonsterContent(uid) {
+            const viewEl = document.getElementById(`saved-mon-view-${uid}`);
+            const editEl = document.getElementById(`saved-mon-edit-${uid}`);
+            const textEl = document.getElementById(`saved-mon-text-${uid}`);
+            const editorEl = document.getElementById(`saved-mon-editor-${uid}`);
+            if (!viewEl || !editEl || !editorEl) return;
+            viewEl.style.display = 'none';
+            editEl.style.display = 'block';
+            editorEl.value = textEl.textContent === '(内容为空)' ? '' : textEl.textContent;
+        }
+
+        function cancelEditSavedMonster(uid) {
+            const viewEl = document.getElementById(`saved-mon-view-${uid}`);
+            const editEl = document.getElementById(`saved-mon-edit-${uid}`);
+            if (!viewEl || !editEl) return;
+            viewEl.style.display = 'block';
+            editEl.style.display = 'none';
+        }
+
+        async function saveSavedMonsterContent(uid) {
+            const editorEl = document.getElementById(`saved-mon-editor-${uid}`);
+            const textEl = document.getElementById(`saved-mon-text-${uid}`);
+            if (!editorEl || !textEl) return;
+            const newContent = editorEl.value;
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.uid === uid) return { ...entry, content: newContent };
+                        return entry;
+                    });
+                });
+                const entry = characterEntries.find(e => e.uid === uid);
+                if (entry) entry.content = newContent;
+                textEl.textContent = newContent || '(内容为空)';
+                cancelEditSavedMonster(uid);
+                alert('保存成功！');
+            } catch (error) {
+                console.error('保存怪物失败:', error);
+                alert('保存失败: ' + error.message);
+            }
+        }
+
+        // ==================== 可选人物对的查看和编辑功能 ====================
+        
+        // 切换人物对内容的显示
+        async function toggleCharacterPairView(pairId, entryName1, entryName2) {
+            const contentEl = document.getElementById(`char-pair-content-${pairId}`);
+            const textEl = document.getElementById(`char-pair-text-${pairId}`);
+            
+            if (!contentEl) return;
+            
+            // 如果已经展开，则折叠
+            if (contentEl.classList.contains('expanded')) {
+                contentEl.classList.remove('expanded');
+                return;
+            }
+            
+            // 展开并加载内容
+            contentEl.classList.add('expanded');
+            
+            try {
+                const entry1 = characterEntries.find(e => e.name === entryName1);
+                const entry2 = characterEntries.find(e => e.name === entryName2);
+                
+                let content = '';
+                
+                if (entry1) {
+                    content += `【${entry1.name}】\n\n`;
+                    content += entry1.content || '(内容为空)';
+                }
+                
+                if (entry2) {
+                    content += `\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                    content += `【${entry2.name}】\n\n`;
+                    content += entry2.content || '(内容为空)';
+                }
+                
+                textEl.textContent = content || '未找到该条目';
+            } catch (error) {
+                console.error('加载条目内容失败:', error);
+                textEl.textContent = '加载失败: ' + error.message;
+            }
+        }
+
+        // 编辑人物对内容
+        function editCharacterPairContent(pairId, entryName1, entryName2) {
+            const viewEl = document.getElementById(`char-pair-view-${pairId}`);
+            const editEl = document.getElementById(`char-pair-edit-${pairId}`);
+            const textEl = document.getElementById(`char-pair-text-${pairId}`);
+            const editorEl = document.getElementById(`char-pair-editor-${pairId}`);
+            
+            if (!viewEl || !editEl || !editorEl) return;
+            
+            // 切换到编辑模式
+            viewEl.style.display = 'none';
+            editEl.style.display = 'block';
+            
+            // 将当前内容复制到编辑器
+            editorEl.value = textEl.textContent === '未找到该条目' ? '' : textEl.textContent;
+        }
+
+        // 取消编辑人物对
+        function cancelEditCharacterPair(pairId) {
+            const viewEl = document.getElementById(`char-pair-view-${pairId}`);
+            const editEl = document.getElementById(`char-pair-edit-${pairId}`);
+            
+            if (!viewEl || !editEl) return;
+            
+            // 切换回查看模式
+            viewEl.style.display = 'block';
+            editEl.style.display = 'none';
+        }
+
+        // 保存人物对内容
+        async function saveCharacterPairContent(pairId, entryName1, entryName2) {
+            const editorEl = document.getElementById(`char-pair-editor-${pairId}`);
+            const textEl = document.getElementById(`char-pair-text-${pairId}`);
+            
+            if (!editorEl || !textEl) return;
+            
+            const newContent = editorEl.value;
+            
+            try {
+                // 分割内容：使用分隔符
+                const parts = newContent.split(/\n━{20,}\n/);
+                let content1 = parts[0] || '';
+                let content2 = parts[1] || '';
+                
+                // 移除条目名称标记
+                content1 = content1.replace(/^【[^】]+】\n+/, '').trim();
+                content2 = content2.replace(/^【[^】]+】\n+/, '').trim();
+                
+                // 更新世界书
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.name === entryName1) {
+                            return { ...entry, content: content1 };
+                        } else if (entry.name === entryName2) {
+                            return { ...entry, content: content2 };
+                        }
+                        return entry;
+                    });
+                });
+                
+                // 更新本地缓存
+                const entry1 = characterEntries.find(e => e.name === entryName1);
+                const entry2 = characterEntries.find(e => e.name === entryName2);
+                if (entry1) entry1.content = content1;
+                if (entry2) entry2.content = content2;
+                
+                // 更新显示
+                textEl.textContent = newContent;
+                
+                // 切换回查看模式
+                cancelEditCharacterPair(pairId);
+                
+                alert('保存成功！');
+                
+            } catch (error) {
+                console.error('保存条目失败:', error);
+                alert('保存失败: ' + error.message);
+            }
+        }
+
+        // ==================== 特殊人物的查看和编辑功能 ====================
+        
+        // 切换特殊人物内容的显示
+        async function toggleSpecialCharacterView(pairId, entryName1, entryName2) {
+            const contentEl = document.getElementById(`special-char-content-${pairId}`);
+            const textEl = document.getElementById(`special-char-text-${pairId}`);
+            
+            if (!contentEl) return;
+            
+            // 如果已经展开，则折叠
+            if (contentEl.classList.contains('expanded')) {
+                contentEl.classList.remove('expanded');
+                return;
+            }
+            
+            // 展开并加载内容
+            contentEl.classList.add('expanded');
+            
+            try {
+                const entry1 = characterEntries.find(e => e.name === entryName1);
+                const entry2 = entryName2 ? characterEntries.find(e => e.name === entryName2) : null;
+
+                let content = '';
+                
+                if (entry1) {
+                    content += `【${entry1.name}】\n\n`;
+                    content += entry1.content || '(内容为空)';
+                }
+
+                if (entry2) {
+                    content += `\n\n━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                    content += `【${entry2.name}】\n\n`;
+                    content += entry2.content || '(内容为空)';
+                }
+                
+                textEl.textContent = content || '未找到该条目';
+            } catch (error) {
+                console.error('加载条目内容失败:', error);
+                textEl.textContent = '加载失败: ' + error.message;
+            }
+        }
+
+        // 编辑特殊人物内容
+        function editSpecialCharacterContent(pairId, entryName1, entryName2) {
+            const viewEl = document.getElementById(`special-char-view-${pairId}`);
+            const editEl = document.getElementById(`special-char-edit-${pairId}`);
+            const textEl = document.getElementById(`special-char-text-${pairId}`);
+            const editorEl = document.getElementById(`special-char-editor-${pairId}`);
+            
+            if (!viewEl || !editEl || !editorEl) return;
+            
+            // 切换到编辑模式
+            viewEl.style.display = 'none';
+            editEl.style.display = 'block';
+            
+            // 将当前内容复制到编辑器
+            editorEl.value = textEl.textContent === '未找到该条目' ? '' : textEl.textContent;
+        }
+
+        // 取消编辑特殊人物
+        function cancelEditSpecialCharacter(pairId) {
+            const viewEl = document.getElementById(`special-char-view-${pairId}`);
+            const editEl = document.getElementById(`special-char-edit-${pairId}`);
+            
+            if (!viewEl || !editEl) return;
+            
+            // 切换回查看模式
+            viewEl.style.display = 'block';
+            editEl.style.display = 'none';
+        }
+
+        // 保存特殊人物内容
+        async function saveSpecialCharacterContent(pairId, entryName1, entryName2) {
+            const editorEl = document.getElementById(`special-char-editor-${pairId}`);
+            const textEl = document.getElementById(`special-char-text-${pairId}`);
+            
+            if (!editorEl || !textEl) return;
+            
+            const newContent = editorEl.value;
+            
+            try {
+                // 分割内容：使用分隔符
+                const parts = newContent.split(/\n━{20,}\n/);
+                let content1 = parts[0] || '';
+                let content2 = parts[1] || '';
+                
+                // 移除条目名称标记
+                content1 = content1.replace(/^【[^】]+】\n+/, '').trim();
+                content2 = content2.replace(/^【[^】]+】\n+/, '').trim();
+                
+                // 更新世界书
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.name === entryName1) {
+                            return { ...entry, content: content1 };
+                        } else if (entryName2 && entry.name === entryName2) {
+                            return { ...entry, content: content2 };
+                        }
+                        return entry;
+                    });
+                });
+                
+                // 更新本地缓存
+                const entry1 = characterEntries.find(e => e.name === entryName1);
+                if (entry1) entry1.content = content1;
+                
+                if (entryName2) {
+                    const entry2 = characterEntries.find(e => e.name === entryName2);
+                    if (entry2) entry2.content = content2;
+                }
+                
+                // 更新显示
+                textEl.textContent = newContent;
+                
+                // 切换回查看模式
+                cancelEditSpecialCharacter(pairId);
+                
+                alert('保存成功！');
+                
+            } catch (error) {
+                console.error('保存条目失败:', error);
+                alert('保存失败: ' + error.message);
+            }
+        }
+
+        // 切换人物对的启用状态
+        async function toggleCharacterPair(entryName1, entryName2, enabled) {
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.name === entryName1 || entry.name === entryName2) {
+                            return { ...entry, enabled: enabled };
+                        }
+                        return entry;
+                    });
+                });
+
+                // 更新本地缓存
+                const entry1 = characterEntries.find(e => e.name === entryName1);
+                const entry2 = characterEntries.find(e => e.name === entryName2);
+                if (entry1) entry1.enabled = enabled;
+                if (entry2) entry2.enabled = enabled;
+
+                console.log('已更新人物对状态:', entryName1, entryName2, enabled);
+
+            } catch (error) {
+                console.error('更新人物对状态失败:', error);
+                alert('更新失败: ' + error.message);
+                // 需要重新渲染以恢复状态
+                renderOptionalCharacters();
+            }
+        }
+
+        // 切换特殊人物的启用状态
+        async function toggleSpecialCharacter(entryName1, entryName2, enabled) {
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.name === entryName1 || (entryName2 && entry.name === entryName2)) {
+                            return { ...entry, enabled: enabled };
+                        }
+                        return entry;
+                    });
+                });
+
+                // 更新本地缓存
+                const entry1 = characterEntries.find(e => e.name === entryName1);
+                if (entry1) entry1.enabled = enabled;
+                
+                if (entryName2) {
+                    const entry2 = characterEntries.find(e => e.name === entryName2);
+                    if (entry2) entry2.enabled = enabled;
+                }
+
+                console.log('已更新特殊人物状态:', entryName1, entryName2, enabled);
+
+            } catch (error) {
+                console.error('更新特殊人物状态失败:', error);
+                alert('更新失败: ' + error.message);
+                renderOptionalCharacters();
+            }
+        }
+
+        // ==================== 生成开关 ====================
+
+        // 初始化生成开关状态
+        function initGenToggles() {
+            // 角色生成
+            const charGenToggle = document.getElementById('toggle-char-gen');
+            if (charGenToggle) {
+                const entry = characterEntries.find(e => e.name === '角色生成');
+                if (entry) {
+                    charGenToggle.checked = entry.enabled;
+                    charGenToggle.disabled = false;
+                } else {
+                    charGenToggle.checked = false;
+                    charGenToggle.disabled = true;
+                }
+            }
+
+            // 地点生成（由“地点生成指导”和“地点生成”共同决定）
+            const locGenToggle = document.getElementById('toggle-loc-gen');
+            if (locGenToggle) {
+                const entry1 = characterEntries.find(e => e.name === '地点生成指导');
+                const entry2 = characterEntries.find(e => e.name === '地点生成');
+                if (entry1 || entry2) {
+                    locGenToggle.checked = entry1 ? entry1.enabled : (entry2 ? entry2.enabled : false);
+                    locGenToggle.disabled = false;
+                } else {
+                    locGenToggle.checked = false;
+                    locGenToggle.disabled = true;
+                }
+            }
+
+            // 怪物生成
+            const monGenToggle = document.getElementById('toggle-mon-gen');
+            if (monGenToggle) {
+                const entry = characterEntries.find(e => e.name === '怪物生成');
+                if (entry) {
+                    monGenToggle.checked = entry.enabled;
+                    monGenToggle.disabled = false;
+                } else {
+                    monGenToggle.checked = false;
+                    monGenToggle.disabled = true;
+                }
+            }
+        }
+
+        // 切换角色生成条目
+        async function toggleCharGen(enabled) {
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.name === '角色生成') return { ...entry, enabled };
+                        return entry;
+                    });
+                });
+                const entry = characterEntries.find(e => e.name === '角色生成');
+                if (entry) entry.enabled = enabled;
+            } catch (error) {
+                console.error('更新角色生成状态失败:', error);
+                alert('更新失败: ' + error.message);
+                initGenToggles();
+            }
+        }
+
+        // 切换地点生成（同时控制“地点生成指导”和“地点生成”）
+        async function toggleLocGen(enabled) {
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.name === '地点生成指导' || entry.name === '地点生成') return { ...entry, enabled };
+                        return entry;
+                    });
+                });
+                characterEntries.forEach(entry => {
+                    if (entry.name === '地点生成指导' || entry.name === '地点生成') entry.enabled = enabled;
+                });
+            } catch (error) {
+                console.error('更新地点生成状态失败:', error);
+                alert('更新失败: ' + error.message);
+                initGenToggles();
+            }
+        }
+
+        // 切换怪物生成条目
+        async function toggleMonGen(enabled) {
+            try {
+                await updateWorldbookWith(currentWorldbookName, worldbook => {
+                    return worldbook.map(entry => {
+                        if (entry.name === '怪物生成') return { ...entry, enabled };
+                        return entry;
+                    });
+                });
+                const entry = characterEntries.find(e => e.name === '怪物生成');
+                if (entry) entry.enabled = enabled;
+            } catch (error) {
+                console.error('更新怪物生成状态失败:', error);
+                alert('更新失败: ' + error.message);
+                initGenToggles();
+            }
+        }
+
+        // 初始化人物系统
+        initializeCharacters();
+
+        // ==================== 页面跳转功能 ====================
+
+        /**
+         * 跳转到指定的消息/剧本选项
+         * @param {number} swipeId - swipe索引（从0开始）
+         */
+        async function jumpToMessage(swipeId) {
+            try {
+                // 检查SillyTavern环境
+                if (typeof SillyTavern === 'undefined' || !SillyTavern.chat || SillyTavern.chat.length === 0) {
+                    console.warn('SillyTavern environment not detected or chat is empty.');
+                    alert('无法跳转：SillyTavern 环境未就绪或聊天记录为空');
+                    return false;
+                }
+
+                const firstMessage = SillyTavern.chat[0];
+
+                // 检查swipe是否存在
+                if (!firstMessage.swipes || firstMessage.swipes.length <= swipeId) {
+                    console.error(`Swipe index ${swipeId} is out of bounds or swipes array is missing.`);
+                    alert(`无法跳转：选项 ${swipeId + 1} 不存在`);
+                    return false;
+                }
+
+                // 检查是否已经在目标选项上
+                if (firstMessage.swipe_id === swipeId) {
+                    console.log(`Already on swipe ${swipeId}`);
+                    alert(`已经在选项 ${swipeId + 1} 了！`);
+                    return true;
+                }
+
+                // 切换到目标swipe
+                firstMessage.swipe_id = swipeId;
+                firstMessage.mes = firstMessage.swipes[swipeId];
+
+                // 保存并重新加载聊天
+                await SillyTavern.saveChat();
+                await SillyTavern.reloadCurrentChat();
+
+                console.log(`Successfully switched to swipe ${swipeId}`);
+                return true;
+
+            } catch (error) {
+                console.error('Jump to message failed:', error);
+                alert('跳转失败: ' + error.message);
+                return false;
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
+```

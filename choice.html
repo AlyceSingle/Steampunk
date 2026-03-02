@@ -1,0 +1,2086 @@
+```
+<!DOCTYPE html>
+<html>
+<!-- Single出品,仅在类脑旅程发布 -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>蒸汽朋克·依希利亚 - 角色创建</title>
+
+    <!-- 使用 unpkg CDN 替代 Google Fonts (国内外都可访问) -->
+    <link rel="preconnect" href="https://unpkg.com">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/400.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/600.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/700.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/orbitron@5.0.0/500.css" rel="stylesheet">
+    <link href="https://unpkg.com/@fontsource/orbitron@5.0.0/700.css" rel="stylesheet">
+
+    <!-- GSAP动画库 - 使用 unpkg CDN -->
+    <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --panel-bg-color: #ffffff;
+            --accent-color: #007bff;
+            --accent-secondary: #6610f2;
+            --body-bg-color: #e9ecef;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --glow-color: rgba(0, 123, 255, 0.3);
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--body-bg-color) 0%, #d4d9e0 100%);
+            margin: 0;
+            font-family: 'Noto Sans SC', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 123, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(187, 134, 252, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 主题切换按钮 */
+        #theme-toggle {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 44px;
+            height: 44px;
+            background: var(--panel-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 10;
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.15) rotate(180deg);
+            box-shadow: 0 8px 20px var(--glow-color);
+        }
+
+        #theme-toggle svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--accent-color);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 65px;
+            left: 15px;
+            background: var(--panel-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px var(--shadow-color);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow: hidden;
+            z-index: 9;
+        }
+
+        .theme-dropdown.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-option {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+
+        .theme-option:hover {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            color: white;
+        }
+
+        .theme-option.active {
+            background: rgba(0, 123, 255, 0.1);
+            color: var(--accent-color);
+        }
+
+        /* 主容器 */
+        .creator-container {
+            background: var(--bg-color);
+            width: 90%;
+            max-width: 900px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px var(--shadow-color), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            overflow: visible;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+
+        .creator-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color) 0%, var(--accent-secondary) 50%, var(--accent-color) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+            border-radius: 20px 20px 0 0;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .creator-header {
+            padding: 50px 50px 30px;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+            background: linear-gradient(180deg, rgba(0, 123, 255, 0.03), transparent);
+        }
+
+        .creator-header h1 {
+            margin: 0 0 10px;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        .creator-header p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 1em;
+        }
+
+        .creator-content {
+            padding: 40px 50px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .form-section h3 {
+            font-size: 1.3em;
+            color: var(--text-color);
+            margin: 0 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .form-group label .optional {
+            color: #6c757d;
+            font-weight: 400;
+            font-size: 0.9em;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: 'Noto Sans SC', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--glow-color);
+            transform: translateY(-2px);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* 单选按钮组 */
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-weight: 600;
+        }
+
+        .radio-option input[type="radio"]:checked+label {
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            color: white;
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 15px var(--glow-color);
+            transform: translateY(-2px);
+        }
+
+        .radio-option label:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* 骰子按钮 */
+        .dice-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+        }
+
+        .dice-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+        }
+
+        .dice-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* 经历显示区 */
+        .background-display {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 123, 255, 0.05);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .background-display.visible {
+            display: block;
+        }
+
+        .bg-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .bg-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .bg-item-title {
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .bg-item-name {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .bg-item-desc {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .bg-item-skills {
+            font-size: 0.9em;
+            color: var(--success-color);
+        }
+
+        /* 属性分配区域 */
+        #attributes-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 480px) {
+            #attributes-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .point-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(0, 123, 255, 0.05);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .point-control:hover {
+            border-color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .point-control .label {
+            font-weight: 700;
+            color: var(--text-color);
+            font-size: 1em;
+            flex-shrink: 0;
+        }
+
+        .point-control .controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .point-control input[readonly] {
+            width: 50px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.3em;
+            color: var(--accent-color);
+            border: none;
+            background: transparent;
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+        }
+
+        .adjust-btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .adjust-btn:hover:not(:disabled) {
+            background: var(--accent-secondary);
+            transform: scale(1.1);
+        }
+
+        .adjust-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        #points-display {
+            text-align: center;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(102, 16, 242, 0.1));
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+        }
+
+        #points-display span {
+            font-size: 2em;
+            color: var(--accent-color);
+            margin-left: 10px;
+        }
+
+        .attr-bonus-display {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(40, 167, 69, 0.1);
+            border: 2px dashed var(--success-color);
+            border-radius: 10px;
+        }
+
+        .attr-bonus-display h4 {
+            margin: 0 0 10px;
+            color: var(--success-color);
+            font-size: 1em;
+        }
+
+        .attr-bonus-display p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        /* 总览区域 */
+        .character-summary {
+            padding: 30px 50px;
+            background: rgba(0, 0, 0, 0.02);
+            border-top: 2px solid var(--border-color);
+        }
+
+        .character-summary h3 {
+            font-size: 1.3em;
+            color: var(--text-color);
+            margin: 0 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .summary-preview {
+            background: var(--panel-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: var(--text-color);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            min-height: 150px;
+        }
+
+        /* 提交按钮 */
+        .submit-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .submit-btn {
+            padding: 16px 60px;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 8px 20px var(--glow-color);
+            font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 30px var(--glow-color);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .validation-message {
+            margin-top: 15px;
+            color: var(--danger-color);
+            font-size: 0.9em;
+            min-height: 20px;
+            font-weight: 600;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .creator-container {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .creator-header {
+                padding: 50px 25px 20px;
+            }
+
+            .creator-header h1 {
+                font-size: 1.8em;
+            }
+
+            .creator-content,
+            .character-summary {
+                padding: 25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            #theme-toggle {
+                width: 38px;
+                height: 38px;
+            }
+
+            #theme-toggle svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            #attributes-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .creator-header h1 {
+                font-size: 1.5em;
+            }
+
+            .submit-btn {
+                padding: 14px 40px;
+                font-size: 1em;
+            }
+
+            .summary-preview {
+                font-size: 0.85em;
+                padding: 15px;
+            }
+        }
+
+        /* 主题 */
+        body.theme-dark {
+            --bg-color: #1e1e1e;
+            --text-color: #e0e0e0;
+            --border-color: #333333;
+            --panel-bg-color: #2a2a2a;
+            --accent-color: #bb86fc;
+            --body-bg-color: #121212;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --glow-color: rgba(187, 134, 252, 0.4);
+        }
+
+        body.theme-ocean {
+            --bg-color: #e8f4f8;
+            --text-color: #1a4d5e;
+            --border-color: #b3dae6;
+            --panel-bg-color: #f0f9fc;
+            --accent-color: #0891b2;
+            --body-bg-color: #d4ebf2;
+            --shadow-color: rgba(8, 145, 178, 0.2);
+            --glow-color: rgba(8, 145, 178, 0.3);
+        }
+
+        body.theme-matrix {
+            --bg-color: #020d03;
+            --text-color: #39ff14;
+            --border-color: #0f3312;
+            --panel-bg-color: #051a08;
+            --accent-color: #39ff14;
+            --body-bg-color: #000000;
+            --shadow-color: rgba(57, 255, 20, 0.3);
+            --glow-color: rgba(57, 255, 20, 0.4);
+        }
+
+        /* 手动选择样式 */
+        .manual-select-container {
+            margin-top: 20px;
+            padding: 25px;
+            background: var(--panel-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px var(--shadow-color);
+        }
+
+        .manual-select-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .manual-select-header h4 {
+            margin: 0;
+            font-size: 1.3em;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .close-manual-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.5em;
+            color: var(--text-color);
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-manual-btn:hover {
+            background: var(--danger-color);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .manual-select-content {
+            min-height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .manual-select-item {
+            padding: 20px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .manual-item-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+        }
+
+        .manual-item-desc {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .manual-item-effect {
+            color: var(--accent-secondary);
+            font-style: italic;
+            font-size: 0.95em;
+        }
+
+        .manual-select-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 150px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--glow-color);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .page-indicator {
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--text-color);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .manual-select-actions {
+            display: flex;
+            justify-content: center;
+        }
+
+        .confirm-btn {
+            padding: 12px 40px;
+            background: linear-gradient(135deg, var(--success-color), #20c997);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        @media (max-width: 600px) {
+            .manual-select-container {
+                padding: 15px;
+            }
+
+            .manual-select-footer {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                max-width: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="creator-container">
+        <!-- 主题切换 -->
+        <button id="theme-toggle" title="切换主题">
+            <svg viewBox="0 0 24 24">
+                <path
+                    d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z" />
+            </svg>
+        </button>
+
+        <div class="theme-dropdown" id="theme-dropdown">
+            <div class="theme-option active" data-theme="light">☀️ 明亮白昼</div>
+            <div class="theme-option" data-theme="dark">🌙 静谧午夜</div>
+            <div class="theme-option" data-theme="ocean">🌊 深海蓝调</div>
+            <div class="theme-option" data-theme="matrix">💻 矩阵终端</div>
+        </div>
+
+        <div class="creator-header">
+            <h1>🌫️ 蒸汽朋克·依希利亚</h1>
+            <p>Character Creator - 角色创建器</p>
+        </div>
+
+        <div class="creator-content">
+            <form id="character-form">
+                <!-- 基础信息 -->
+                <div class="form-section" data-section="1">
+                    <h3>📋 基础信息</h3>
+
+                    <div class="form-group">
+                        <label for="char-name">
+                            姓名 <span class="optional">(可留空，默认为 {{user}})</span>
+                        </label>
+                        <input type="text" id="char-name" class="form-input" placeholder="输入角色姓名...">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="char-gender">性别</label>
+                            <input type="text" id="char-gender" class="form-input" placeholder="例如: 男/女/其他" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="char-age">年龄</label>
+                            <input type="number" id="char-age" class="form-input" placeholder="输入年龄..." min="1"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>出生地</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="birthplace-core" name="birthplace" value="核心区" required>
+                                <label for="birthplace-core">🏛️ 核心区</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="birthplace-civilian" name="birthplace" value="平民区" required>
+                                <label for="birthplace-civilian">🌫️ 平民区</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 经历投骰 -->
+                <div class="form-section" data-section="2">
+                    <h3>🎲 命运骰子</h3>
+
+                    <div class="form-group">
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button type="button" id="roll-background-btn" class="dice-button">
+                                🎲 投掷骰子决定经历
+                            </button>
+                            <button type="button" id="manual-select-btn" class="dice-button" style="background: linear-gradient(135deg, #6610f2, #9b59b6);">
+                                📖 手动选择经历
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="background-display" id="background-display">
+                        <div class="bg-item" id="bg-childhood"></div>
+                        <div class="bg-item" id="bg-event"></div>
+                        <div class="bg-item" id="bg-encounter"></div>
+                    </div>
+
+                    <!-- 手动选择界面 -->
+                    <div class="manual-select-container" id="manual-select-container" style="display: none;">
+                        <div class="manual-select-header">
+                            <h4 id="manual-select-title">选择童年经历</h4>
+                            <button type="button" id="close-manual-select" class="close-manual-btn">✕</button>
+                        </div>
+                        <div class="manual-select-content">
+                            <div class="manual-select-item" id="manual-item-display">
+                                <!-- 动态内容 -->
+                            </div>
+                        </div>
+                        <div class="manual-select-footer">
+                            <button type="button" id="prev-item-btn" class="nav-btn">⬅ 上一个</button>
+                            <span class="page-indicator" id="page-indicator">1 / 11</span>
+                            <button type="button" id="next-item-btn" class="nav-btn">下一个 ➡</button>
+                        </div>
+                        <div class="manual-select-actions">
+                            <button type="button" id="confirm-item-btn" class="confirm-btn">✓ 确认选择</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 属性分配 -->
+                <div class="form-section" data-section="3">
+                    <h3>⚡ 属性分配</h3>
+
+                    <div id="points-display">
+                        剩余点数: <span id="points-remaining">0</span>
+                    </div>
+
+                    <div id="attributes-container"></div>
+
+                    <div class="attr-bonus-display" id="attr-bonus-display" style="display: none;">
+                        <h4>📊 属性加成预览</h4>
+                        <p id="bonus-childhood"></p>
+                        <p id="bonus-event"></p>
+                    </div>
+                </div>
+
+                <!-- 身体特征 -->
+                <div class="form-section" data-section="4">
+                    <h3>✨ 身体特征与补充</h3>
+
+                    <div class="form-group">
+                        <label for="char-description">
+                            详细描述 <span class="optional">(选填)</span>
+                        </label>
+                        <textarea id="char-description" class="form-textarea"
+                            placeholder="描述角色的外貌特征、性格特点、背景故事等...&#10;例如：身高、发色、瞳色、体型、性格、特殊标记等"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- 总览 -->
+        <div class="character-summary">
+            <h3>📊 角色档案总览</h3>
+            <div class="summary-preview" id="summary-preview">暂无数据，请填写上方表单...</div>
+
+            <div class="submit-section">
+                <button type="submit" class="submit-btn" id="submit-btn">
+                    🚀 确认创建并开始冒险
+                </button>
+                <div class="validation-message" id="validation-msg"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // ========== 数据库 ==========
+            const backgroundData = {
+                childhood: {
+                    核心区: {
+                        2: { name: "底城移民", desc: "你是随母亲来到上城的底城移民，目睹母亲日夜劳作，却有人坐享其成" },
+                        3: { name: "没落勋爵", desc: "你出身在一个没落的贵族家庭，拥有高贵的谈吐，却背负着巨额债务",},
+                        4: { name: "星穹学者", desc: "你的父母是星穹学院的学者，书本构筑了你的世界，理论知识丰富，但缺乏实战经验"},
+                        5: { name: "执行官", desc: "你出身在执行官世家，熟悉防御体系和武器操作，秩序与服从是你的第一课" },
+                        6: { name: "记者", desc: "从学院毕业后，你成为了一名记者，开始探索这个世界的真相"},
+                        7: { name: "中产阶层", desc: "你在舒适但平凡的环境中长大，身体健康"},
+                        8: { name: "齿轮之子", desc: "你在黄铜大街的精密机油味中长大，继承了父母的店铺，比起人，你更懂机器" },
+                        9: { name: "商会继承人", desc: "从小耳濡目染的是契约与金币的碰撞声。你懂得万物的价格，却未必懂价值" },
+                        10: { name: "圣堂孤儿", desc: "你被圣恩大教堂收养，在唱诗班与经文中度过童年。表面纯洁无瑕，内心压抑着叛逆"},
+                        11: { name: "贵族", desc: "你是贵族家庭的一员，享受着优越的生活和教育，也承担着家族的责任和期" },
+                        12: { name: "王室侍从", desc: "你在星光宫长大，服侍着年幼的女王，是她孤独童年中唯一的玩伴"}
+                    },
+                    平民区: {
+                        2: { name: "雾巷野狗", desc: "没有父母，垃圾堆是你的摇篮。为了活下去，你学会了偷窃、欺诈和装死" },
+                        3: { name: "矿工团遗孤", desc: "你从记事起就在锈蚀裂谷的矿区长大，死亡是比矿石更常见的东西" },
+                        4: { name: "码头水手", desc: "你在黑水港的栈桥下长大，不仅水性极佳，还熟悉每一艘走私船的靠岸时间，大海是你的后花园" },
+                        5: { name: "竞技场拳手", desc: "你的童年就是在熔炉竞技场为一顿饱饭而战，鲜血与欢呼是你唯一的记忆" },
+                        6: { name: "百灵鸟私生子", desc: "你在妓女的怀抱和嫖客的醉话中长大，见过男人们最丑陋的样子" },
+                        7: { name: "甜雾居民", desc: "你在甜雾中出生，在甜雾中长大，它就是你的空气、你的背景、你的宿命" },
+                        8: { name: "铁拳之子", desc: "你的父母是大罢工的参与者，你继承了他们的铁锤，也继承了他们的愤怒" },
+                        9: { name: "教会孤儿", desc: "你在黎明教会长大，修女和信徒是你的家人，信仰是你唯一的面包" },
+                        10: { name: "铁道游击队", desc: "你和孩子们靠扒窃蒸汽火车上的煤炭和货物为生。你在飞驰的列车顶上奔跑，生来自由" },
+                        11: { name: "猎人学徒", desc: "一位老猎人将你抚养长大，教会了你在禁区生存的一切"},
+                        12: { name: "行商护卫", desc: "你的童年在往返于平民区与新约镇的行商中度过，比起甜雾，你更熟悉结晶兽的嘶吼与劫匪的黑话" }
+                    }
+                },
+                event: {
+                    核心区: {
+                        2: { name: "侦探", desc: "你被雷纳德侦探所招募，成为了一位私家侦探，偶尔也处理上不得台面的脏活", effect: "雷纳德先生似乎与王室有着联系，总能接到一些有趣的委托" },
+                        3: { name: "星核学者", desc: "你发现", effect: "你的剑术备受赞誉，但也被教会列入了黑名单" },
+                        4: { name: "记者", desc: "从学院毕业后，你成为了一名记者，开始探索这个世界的真相", effect: "你知道了议会的黑暗，并被黎各视为一个不稳定的因素" },
+                        5: { name: "矿权之争", desc: "你的家族因旧贵族的打压，失去了关键灵质矿的开采权，一夜之间家道中落", effect: "你深刻理解了血脉与土地在亚楠意味着什么，并对艾丽西亚代表的旧贵族阶层心存芥蒂" },
+                        6: { name: "高墙之恋", desc: "你与一名平民区的猎人相恋，但这段关系被家族发现并强行切断，爱人从此杳无音信", effect: "你对隔绝两个世界的高墙怀有刻骨的恨意" },
+                        7: { name: "温室之花", desc: "你在核心区无菌的环境中长大，对墙外的世界一无所知", effect: "你纯真善良，但也对世界的残酷一无所知" },
+                        8: { name: "星穹荣光", desc: "你在星穹学院击败了所有对手，获得了院长艾丽西亚的亲自嘉奖，你的名字在贵族圈中无人不晓", effect: "你获得了声望与荣誉，但也成为无数嫉妒目光的焦点" },
+                        9: { name: "墙梯一瞥", desc: "在执行局实习期间，你在墙梯关口执勤，亲眼目睹了平民区的物资被课以重税，而核心区的废料却被倾倒而下", effect: "你对亚楠的'公平'产生了动摇，内心种下了变革的种子" },
+                        10: { name: "发条鸟邂逅", desc: "你频繁光顾发条鸟咖啡厅，与温柔的咖啡师菲娜逐渐熟悉，你们的关系正在悄然萌芽", effect: "你有了一位心仪的对象，以及一个可以暂时逃离纷扰的去处" },
+                        11: { name: "星光宫召见", desc: "你被女王伊芙琳秘密召见，成为了她平衡议会的隐藏棋子", effect: "你踏入了权力的中心，但也失去了退出的自由" },
+                        12: { name: "负债继承人", desc: "你继承了家族的头衔，却也背负了欠贸易同盟的巨额债务", effect: "你拥有贵族的身份，但脖子上的项圈握在多莉手中" }
+                    },
+                    平民区: {
+                        2: { name: "黄金航线", desc: "你往返于港口与平民区之间，熟悉海风与盐味的气息", effect: "你知道近海的情况，攒下了一笔不小的财富" },
+                        3: { name: "结晶病", desc: "在甜雾与圣香中，你患上了严重的结晶病", effect: "你需要去寻找治愈结晶病的方法" },
+                        4: { name: "移民", desc: "你的母亲日益劳作，最终攒下了扶梯的费用，给了你一笔足以离开平民区的钱", effect: "你拥有了选择的权利" },
+                        5: { name: "冠军之子", desc: "你的父亲曾是熔炉竞技场的冠军，但在接受贸易同盟的合同后便人间蒸发", effect: "你继承了他的格斗技巧，也继承了他留下的敌人和谜团" },
+                        6: { name: "渡鸦交易", desc: "你为酒馆老板娘卡门完成了一次危险的走私，并从执行局的围剿中死里逃生", effect: "你上了卡门的可用名单，这意味着更多的金钱和更大的危险" },
+                        7: { name: "阴沟老鼠", desc: "你在平民区最肮脏的街巷中长大，学会的第一件事就是从死人手里抢食物", effect: "你坚韧而务实，不相信任何人，包括明天的太阳" },
+                        8: { name: "诅咒财富", desc: "你在禁区边缘捡到一颗高纯度灵晶，但它诡异的光芒正吸引着结晶兽和贪婪的猎人", effect: "你一夜暴富，但也成为了众矢之的" },
+                        9: { name: "血色舰队", desc: "阿加莎作为贵宾到达黑水港，准备去拜见女王伊芙琳", effect: "一切的故事从这里开始" },
+                        10: { name: "雾中幻梦", desc: "你曾沉迷于吸食“甜雾”带来的虚假极乐，直到咳出的痰中带上了晶体碎屑", effect: "你戒除了毒瘾，同时也开始调查圣香的来源" },
+                        11: { name: "猎人", desc: "在一次混乱的委托中，你出色的表现赢得了成为猎人的资格", effect: "你成为了一名猎人，可以自由的在酒馆接取委托" },
+                        12: { name: "星渊花海", desc: "在寂静的午夜，你看到了花海中结晶少女的熟睡，并看到了它从星海坠落的幻象", effect: "你从睡眠中惊醒，记住了伊文爱姆这个名字" }
+                    }
+                },
+                encounter: {
+                    核心区: {
+                        2: "罗森伯格家族 - 艾丽西亚院长密切关注着你，将你视为潜在的威胁或可争取的盟友",
+                        3: "发条鸟邂逅 - 你频繁光顾发条鸟咖啡厅，与温柔的咖啡师菲娜逐渐熟悉，你们的关系正在悄然萌芽",
+                        4: "旧识 - 侦探雷纳德曾与你共事，你们之间的信任因他的离开皇家卫队而变得复杂",
+                        5: "执行官 - 首席执行官黎各看中了你，对你抱有期许",
+                        6: "记者 - 《皇家蜂鸟报》的记者夏琳把你当作她的潜在情报源，总是试图从你这获取独家新闻",
+                        7: "路人 - 你没有特别深刻的人际羁绊",
+                        8: "救命之恩 - 在一次任务意外中，执行官秋水救了你的命，这是一份沉重的人情",
+                        9: "酒友 - 你经常和执行官姬野离一起喝酒，你们的关系渐渐熟络",
+                        10: "墙内之花 - 你与贵族继承人日笠阳之间有着不为人知的私交，她是你的秘密朋友",
+                        11: "好友 - 你与圣骑士团长伊琳娜在白蔷薇击剑俱乐部是长期的竞争对手，惺惺相惜",
+                        12: "王座阴影 - 你与女王伊芙琳有秘密的联系，这份关系是你的底牌，也是你的枷锁"
+                    },
+                    平民区: {
+                        2: "公会审视 - 公会会长黑濑正在评估你，判断你究竟是可用的武器，还是必须清除的障碍",
+                        3: "酒馆账单 - 你欠渡鸦酒馆老板娘卡门一笔巨额债务",
+                        4: "搭档 - 冷漠的精英猎人赫卡特是你生死与共的搭档",
+                        5: "黑市商人 - 伊希莉是你在黑市的主要联络人，她总能找到你需要的东西，但价格不菲",
+                        6: "情报贩子 - 你是情报贩子诺丽艾的重要客户之一，也是她重点观察的对象",
+                        7: "孤独行者 - 你在平民区独来独往，与公会、教会等势力都保持着安全的距离",
+                        8: "教会援手 - 在一次濒死的危机中，黎明教会的修女艾莉救了你的命，她温柔的善意让你难以忘怀",
+                        9: "公会联络 - 沃里克是你在公会内部的联络人，他意外地可靠",
+                        10: "机械师 - 你深爱着独立机械师小薇，她是猎人赫卡特的妹妹，也是你心中最柔软的部分",
+                        11: "义贼 - 你在集市上结识了猎人克莉丝，你们渐渐处成了朋友",
+                        12: "修女 - 在你结晶化初期，修女艾莉阻止了你体内的晶体蔓延，她是你生命中的恩人"
+                    }
+                }
+            };
+
+            // 属性加成表
+            const childhoodBonusMap = {
+                "底城移民": { 意志: 1, 感知: 1 },
+                "没落勋爵": { 魅力: 1, 知识: 1 },
+                "星穹学者": { 知识: 2 },
+                "执行官": { 力量: 1, 意志: 1 },
+                "记者": { 魅力: 2 },
+                "中产阶层": { 力量: 1, 知识: 1 },
+                "齿轮之子": { 知识: 2 },
+                "记者": { 敏捷: 1, 感知: 1 },
+                "商会继承人": { 魅力: 1, 知识: 1 },
+                "圣堂孤儿": { 敏捷: 1, 感知: 1 },
+                "贵族": { 感知: 2 },
+                "王室侍从": { 魅力: 2, 知识: 1 },
+                "雾巷野狗": { 感知: 1, 力量: 1 },
+                "矿工团遗孤": { 力量: 1, 意志: 1 },
+                "码头水手": { 力量: 1, 敏捷: 1 },
+                "竞技场拳手": { 敏捷: 1, 感知: 1 },
+                "百灵鸟私生子": { 意志: 1, 力量: 1 },
+                "甜雾居民": { 魅力: 1, 感知: 1 },
+                "铁拳之子": { 知识: 1, 感知: 1 },
+                "教会孤儿": { 魅力: 1, 意志: 1 },
+                "铁道游击队": { 敏捷: 1, 感知: 1 },
+                "猎人学徒": {  敏捷: 1, 感知: 1 },
+                "行商护卫": { 力量: 1, 敏捷: 1 }
+            };
+
+            const eventBonusMap = {
+                "侦探": { 意志: 1 },
+                "黄铜法官": { 力量: 1 },
+                "十五年前真相": { 知识: 1 },
+                "矿权之争": { 魅力: -1, 意志: 1 },
+                "高墙之恋": { 魅力: 1 },
+                "温室之花": { 魅力: 1 },
+                "星穹荣光": { 知识: 1 },
+                "墙梯一瞥": { 力量: 1 },
+                "议员": { 魅力: 1 },
+                "星光宫召见": { 魅力: 1 },
+                "负债继承人": { 意志: 1 },
+                "黄金航线": { 意志: -1, 感知: 1 },
+                "结晶病": { 意志: 1 },
+                "移民": { 力量: 1 },
+                "冠军之子": { 力量: 1 },
+                "渡鸦交易": { 魅力: 1 },
+                "阴沟老鼠": { 意志: 1 },
+                "诅咒财富": { 感知: 1 },
+                "血色舰队": { 意志: 1 },
+                "雾中幻梦": { 意志: 2 },
+                "猎人": { 敏捷: 1 },
+                "星渊花海": { 感知: 1, 意志: -1 }
+            };
+
+            // ========== 工具函数 ==========
+            function roll2D6() {
+                const d1 = Math.floor(Math.random() * 6) + 1;
+                const d2 = Math.floor(Math.random() * 6) + 1;
+                return d1 + d2;
+            }
+
+            function formatBonus(bonus) {
+                if (!bonus || Object.keys(bonus).length === 0) return '无';
+                return Object.entries(bonus)
+                    .map(([attr, value]) => `${attr}${value > 0 ? '+' : ''}${value}`)
+                    .join(', ');
+            }
+
+            // ========== 元素引用 ==========
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeDropdown = document.getElementById('theme-dropdown');
+            const themeOptions = document.querySelectorAll('.theme-option');
+            const submitBtn = document.getElementById('submit-btn');
+            const validationMsg = document.getElementById('validation-msg');
+            const summaryPreview = document.getElementById('summary-preview');
+
+            const charName = document.getElementById('char-name');
+            const charGender = document.getElementById('char-gender');
+            const charAge = document.getElementById('char-age');
+            const birthplaceInputs = document.querySelectorAll('input[name="birthplace"]');
+            const charDescription = document.getElementById('char-description');
+
+            const rollBackgroundBtn = document.getElementById('roll-background-btn');
+            const manualSelectBtn = document.getElementById('manual-select-btn');
+            const backgroundDisplay = document.getElementById('background-display');
+            const bgChildhood = document.getElementById('bg-childhood');
+            const bgEvent = document.getElementById('bg-event');
+            const bgEncounter = document.getElementById('bg-encounter');
+
+            // 手动选择相关元素
+            const manualSelectContainer = document.getElementById('manual-select-container');
+            const manualSelectTitle = document.getElementById('manual-select-title');
+            const manualItemDisplay = document.getElementById('manual-item-display');
+            const closeManualSelectBtn = document.getElementById('close-manual-select');
+            const prevItemBtn = document.getElementById('prev-item-btn');
+            const nextItemBtn = document.getElementById('next-item-btn');
+            const pageIndicator = document.getElementById('page-indicator');
+            const confirmItemBtn = document.getElementById('confirm-item-btn');
+
+            const attributesContainer = document.getElementById('attributes-container');
+            const pointsRemainingEl = document.getElementById('points-remaining');
+            const attrBonusDisplay = document.getElementById('attr-bonus-display');
+            const bonusChildhoodEl = document.getElementById('bonus-childhood');
+            const bonusEventEl = document.getElementById('bonus-event');
+
+            // 角色数据
+            const character = {
+                name: '',
+                gender: '',
+                age: '',
+                birthplace: '',
+                description: '',
+                childhood: null,
+                event: null,
+                encounter: null,
+                attributes: {
+                    力量: 3,
+                    敏捷: 3,
+                    感知: 3,
+                    知识: 3,
+                    意志: 3,
+                    魅力: 3
+                },
+                basePoints: 0,
+                maxSingleAttr: 0,
+                remainingPoints: 0
+            };
+
+            // 手动选择状态
+            const manualSelectState = {
+                currentType: 'childhood', // 'childhood', 'event', 'encounter'
+                currentIndex: 0,
+                items: [],
+                selected: {
+                    childhood: null,
+                    event: null,
+                    encounter: null
+                }
+            };
+
+            // ========== 主题切换 ==========
+            themeToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                themeDropdown.classList.toggle('visible');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!themeDropdown.contains(e.target) && !themeToggle.contains(e.target)) {
+                    themeDropdown.classList.remove('visible');
+                }
+            });
+
+            themeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const theme = option.dataset.theme;
+                    themeOptions.forEach(opt => opt.classList.remove('active'));
+                    option.classList.add('active');
+                    document.body.className = theme === 'light' ? '' : `theme-${theme}`;
+                    localStorage.setItem('yananCreatorTheme', theme);
+                    themeDropdown.classList.remove('visible');
+                });
+            });
+
+            const savedTheme = localStorage.getItem('yananCreatorTheme') || 'light';
+            if (savedTheme !== 'light') {
+                document.body.className = `theme-${savedTheme}`;
+            }
+            themeOptions.forEach(opt => {
+                if (opt.dataset.theme === savedTheme) {
+                    opt.classList.add('active');
+                } else {
+                    opt.classList.remove('active');
+                }
+            });
+
+            // ========== 入场动画 ==========
+            gsap.to('.form-section', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: 'power3.out',
+                delay: 0.3
+            });
+
+            // ========== 初始化属性控制器 ==========
+            function initAttributesControls() {
+                const attrNames = ['力量', '敏捷', '感知', '知识', '意志', '魅力'];
+                attributesContainer.innerHTML = '';
+
+                attrNames.forEach(attr => {
+                    const control = document.createElement('div');
+                    control.className = 'point-control';
+                    control.innerHTML = `
+                        <span class="label">${attr}</span>
+                        <div class="controls">
+                            <button type="button" class="adjust-btn minus" data-attr="${attr}" disabled>-</button>
+                            <input type="text" id="attr-${attr}" readonly value="3">
+                            <button type="button" class="adjust-btn plus" data-attr="${attr}" disabled>+</button>
+                        </div>
+                    `;
+                    attributesContainer.appendChild(control);
+                });
+            }
+
+            // ========== 更新属性显示 ==========
+            function updateAttributesDisplay() {
+                const attrNames = ['力量', '敏捷', '感知', '知识', '意志', '魅力'];
+
+                attrNames.forEach(attr => {
+                    const input = document.getElementById(`attr-${attr}`);
+                    const plusBtn = document.querySelector(`.adjust-btn.plus[data-attr="${attr}"]`);
+                    const minusBtn = document.querySelector(`.adjust-btn.minus[data-attr="${attr}"]`);
+
+                    if (input) input.value = character.attributes[attr];
+
+                    if (plusBtn) {
+                        plusBtn.disabled = character.remainingPoints <= 0 ||
+                            character.attributes[attr] >= character.maxSingleAttr ||
+                            character.basePoints === 0;
+                    }
+
+                    if (minusBtn) {
+                        minusBtn.disabled = character.attributes[attr] <= 3 ||
+                            character.basePoints === 0;
+                    }
+                });
+
+                pointsRemainingEl.textContent = character.remainingPoints;
+            }
+
+            // ========== 属性调整 ==========
+            attributesContainer.addEventListener('click', (e) => {
+                if (!e.target.matches('.adjust-btn')) return;
+
+                const attr = e.target.dataset.attr;
+                const isPlus = e.target.classList.contains('plus');
+
+                if (isPlus) {
+                    if (character.remainingPoints > 0 && character.attributes[attr] < character.maxSingleAttr) {
+                        character.attributes[attr]++;
+                        character.remainingPoints--;
+                    }
+                } else {
+                    if (character.attributes[attr] > 3) {
+                        character.attributes[attr]--;
+                        character.remainingPoints++;
+                    }
+                }
+
+                updateAttributesDisplay();
+                updateSummary();
+            });
+
+            // ========== 手动选择功能 ==========
+            manualSelectBtn.addEventListener('click', () => {
+                const birthplace = document.querySelector('input[name="birthplace"]:checked');
+                if (!birthplace) {
+                    alert('请先选择出生地！');
+                    return;
+                }
+
+                // 初始化手动选择
+                manualSelectState.currentType = 'childhood';
+                manualSelectState.currentIndex = 0;
+                manualSelectState.selected = {
+                    childhood: null,
+                    event: null,
+                    encounter: null
+                };
+
+                // 显示手动选择界面
+                manualSelectContainer.style.display = 'block';
+                // 不隐藏背景显示，让手动选择界面覆盖在上面
+                
+                // 加载童年选项
+                loadManualSelectItems('childhood', birthplace.value);
+
+                // 先重置样式，然后播放动画
+                gsap.set(manualSelectContainer, { opacity: 1, y: 0 });
+                gsap.fromTo(manualSelectContainer, 
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, duration: 0.5 }
+                );
+            });
+
+            // 关闭手动选择
+            closeManualSelectBtn.addEventListener('click', () => {
+                gsap.to(manualSelectContainer, {
+                    opacity: 0,
+                    y: -20,
+                    duration: 0.3,
+                    onComplete: () => {
+                        manualSelectContainer.style.display = 'none';
+                    }
+                });
+            });
+
+            // 加载手动选择项目
+            function loadManualSelectItems(type, birthplace) {
+                manualSelectState.currentType = type;
+                manualSelectState.currentIndex = 0;
+
+                const titles = {
+                    childhood: '选择童年经历',
+                    event: '选择重大事件',
+                    encounter: '选择邂逅'
+                };
+
+                manualSelectTitle.textContent = titles[type];
+
+                if (type === 'childhood' || type === 'event') {
+                    const data = backgroundData[type][birthplace];
+                    manualSelectState.items = Object.entries(data).map(([key, value]) => ({
+                        key,
+                        ...value
+                    }));
+                    // 添加自定义选项
+                    manualSelectState.items.push({
+                        key: 'custom',
+                        name: '自定义',
+                        desc: '',
+                        effect: '',
+                        isCustom: true
+                    });
+                } else {
+                    const data = backgroundData.encounter[birthplace];
+                    manualSelectState.items = Object.entries(data).map(([key, value]) => ({
+                        key,
+                        name: value,
+                        desc: ''
+                    }));
+                    // 添加自定义选项
+                    manualSelectState.items.push({
+                        key: 'custom',
+                        name: '自定义',
+                        desc: '',
+                        isCustom: true
+                    });
+                }
+
+                updateManualItemDisplay();
+            }
+
+            // 更新手动选择项目显示
+            function updateManualItemDisplay() {
+                const item = manualSelectState.items[manualSelectState.currentIndex];
+                const type = manualSelectState.currentType;
+
+                if (item.isCustom) {
+                    // 自定义输入界面
+                    if (type === 'childhood') {
+                        manualItemDisplay.innerHTML = `
+                            <div class="manual-item-title">✏️ 自定义童年经历</div>
+                            <div style="margin-top: 15px;">
+                                <label style="display: block; margin-bottom: 8px; color: var(--text-color); font-weight: 600;">名称：</label>
+                                <input type="text" id="custom-name" class="form-input" placeholder="输入童年经历的名称..." style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; color: var(--text-color); font-weight: 600;">描述：</label>
+                                <textarea id="custom-desc" class="form-input" rows="4" placeholder="描述这段童年经历..."></textarea>
+                            </div>
+                        `;
+                    } else if (type === 'event') {
+                        manualItemDisplay.innerHTML = `
+                            <div class="manual-item-title">✏️ 自定义重大事件</div>
+                            <div style="margin-top: 15px;">
+                                <label style="display: block; margin-bottom: 8px; color: var(--text-color); font-weight: 600;">名称：</label>
+                                <input type="text" id="custom-name" class="form-input" placeholder="输入事件的名称..." style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 8px; color: var(--text-color); font-weight: 600;">描述：</label>
+                                <textarea id="custom-desc" class="form-input" rows="3" placeholder="描述这个事件..." style="margin-bottom: 15px;"></textarea>
+                                <label style="display: block; margin-bottom: 8px; color: var(--text-color); font-weight: 600;">影响：</label>
+                                <input type="text" id="custom-effect" class="form-input" placeholder="输入事件的影响...">
+                            </div>
+                        `;
+                    } else {
+                        manualItemDisplay.innerHTML = `
+                            <div class="manual-item-title">✏️ 自定义邂逅</div>
+                            <div style="margin-top: 15px;">
+                                <label style="display: block; margin-bottom: 8px; color: var(--text-color); font-weight: 600;">邂逅内容：</label>
+                                <textarea id="custom-name" class="form-input" rows="4" placeholder="描述你的邂逅..."></textarea>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // 正常显示
+                    if (type === 'childhood') {
+                        manualItemDisplay.innerHTML = `
+                            <div class="manual-item-title">${item.name}</div>
+                            <div class="manual-item-desc">${item.desc}</div>
+                        `;
+                    } else if (type === 'event') {
+                        manualItemDisplay.innerHTML = `
+                            <div class="manual-item-title">${item.name}</div>
+                            <div class="manual-item-desc">${item.desc}</div>
+                            <div class="manual-item-effect">▸ 影响: ${item.effect}</div>
+                        `;
+                    } else {
+                        manualItemDisplay.innerHTML = `
+                            <div class="manual-item-title">${item.name}</div>
+                        `;
+                    }
+                }
+
+                // 更新页码
+                pageIndicator.textContent = `${manualSelectState.currentIndex + 1} / ${manualSelectState.items.length}`;
+
+                // 更新按钮状态
+                prevItemBtn.disabled = manualSelectState.currentIndex === 0;
+                nextItemBtn.disabled = manualSelectState.currentIndex === manualSelectState.items.length - 1;
+
+                // 动画 - 只使用水平滑动，不改变透明度
+                gsap.fromTo(manualItemDisplay, 
+                    { x: 20 },
+                    { x: 0, duration: 0.3, ease: 'power2.out' }
+                );
+            }
+
+            // 上一个
+            prevItemBtn.addEventListener('click', () => {
+                if (manualSelectState.currentIndex > 0) {
+                    manualSelectState.currentIndex--;
+                    updateManualItemDisplay();
+                }
+            });
+
+            // 下一个
+            nextItemBtn.addEventListener('click', () => {
+                if (manualSelectState.currentIndex < manualSelectState.items.length - 1) {
+                    manualSelectState.currentIndex++;
+                    updateManualItemDisplay();
+                }
+            });
+
+            // 确认选择
+            confirmItemBtn.addEventListener('click', () => {
+                let item = manualSelectState.items[manualSelectState.currentIndex];
+                const type = manualSelectState.currentType;
+                const birthplace = document.querySelector('input[name="birthplace"]:checked').value;
+
+                // 如果是自定义选项，获取输入内容
+                if (item.isCustom) {
+                    const customName = document.getElementById('custom-name')?.value.trim();
+                    const customDesc = document.getElementById('custom-desc')?.value.trim();
+                    const customEffect = document.getElementById('custom-effect')?.value.trim();
+
+                    if (!customName) {
+                        alert('请输入内容！');
+                        return;
+                    }
+
+                    // 创建自定义项
+                    if (type === 'childhood') {
+                        item = {
+                            key: 'custom',
+                            name: customName,
+                            desc: customDesc || '自定义童年经历',
+                            skills: []
+                        };
+                    } else if (type === 'event') {
+                        if (!customDesc) {
+                            alert('请输入描述！');
+                            return;
+                        }
+                        item = {
+                            key: 'custom',
+                            name: customName,
+                            desc: customDesc,
+                            effect: customEffect || '自定义影响'
+                        };
+                    } else {
+                        item = {
+                            key: 'custom',
+                            name: customName,
+                            desc: ''
+                        };
+                    }
+                }
+
+                // 保存当前选择
+                if (type === 'childhood') {
+                    manualSelectState.selected.childhood = item;
+                    character.childhood = item;
+                    // 进入事件选择
+                    loadManualSelectItems('event', birthplace);
+                } else if (type === 'event') {
+                    manualSelectState.selected.event = item;
+                    character.event = item;
+                    // 进入邂逅选择
+                    loadManualSelectItems('encounter', birthplace);
+                } else {
+                    manualSelectState.selected.encounter = item.name;
+                    character.encounter = item.name;
+                    
+                    // 全部选择完成，显示结果
+                    displayManualSelectionResults();
+                    
+                    // 关闭手动选择界面
+                    gsap.to(manualSelectContainer, {
+                        opacity: 0,
+                        y: -20,
+                        duration: 0.3,
+                        onComplete: () => {
+                            manualSelectContainer.style.display = 'none';
+                        }
+                    });
+                }
+            });
+
+            // 显示手动选择结果
+            function displayManualSelectionResults() {
+                const bp = document.querySelector('input[name="birthplace"]:checked').value;
+
+                // 显示结果
+                bgChildhood.innerHTML = `
+                    <div class="bg-item-title">📖 童年 (手动选择)</div>
+                    <div class="bg-item-name">${character.childhood.name}</div>
+                    <div class="bg-item-desc">${character.childhood.desc}</div>
+                `;
+
+                bgEvent.innerHTML = `
+                    <div class="bg-item-title">📖 重大事件 (手动选择)</div>
+                    <div class="bg-item-name">${character.event.name}</div>
+                    <div class="bg-item-desc">${character.event.desc}</div>
+                    <div class="bg-item-skills">▸ 影响: ${character.event.effect}</div>
+                `;
+
+                bgEncounter.innerHTML = `
+                    <div class="bg-item-title">📖 邂逅 (手动选择)</div>
+                    <div class="bg-item-name">${character.encounter}</div>
+                `;
+
+                backgroundDisplay.classList.add('visible');
+
+                // 动画
+                gsap.killTweensOf('.bg-item');
+                gsap.set('.bg-item', { opacity: 1, y: 0 });
+                gsap.from('.bg-item', {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.5,
+                    stagger: 0.2
+                });
+
+                // 初始化属性点数
+                character.basePoints = bp === '核心区' ? 35 : 30;
+                character.maxSingleAttr = bp === '核心区' ? 8 : 7;
+
+                // 重置属性为最低值
+                Object.keys(character.attributes).forEach(key => {
+                    character.attributes[key] = 3;
+                });
+
+                character.remainingPoints = character.basePoints - 18;
+
+                updateAttributesDisplay();
+
+                // 显示加成预览
+                const childhoodBonus = childhoodBonusMap[character.childhood.name] || {};
+                const eventBonus = eventBonusMap[character.event.name] || {};
+
+                bonusChildhoodEl.textContent = `童年加成: ${formatBonus(childhoodBonus)}`;
+                bonusEventEl.textContent = `事件加成: ${formatBonus(eventBonus)}`;
+                attrBonusDisplay.style.display = 'block';
+
+                updateSummary();
+            }
+
+            // ========== 骰子投掷 ==========
+            rollBackgroundBtn.addEventListener('click', () => {
+                const birthplace = document.querySelector('input[name="birthplace"]:checked');
+                if (!birthplace) {
+                    alert('请先选择出生地！');
+                    return;
+                }
+
+                const bp = birthplace.value;
+
+                // 投掷三次2D6
+                const roll1 = roll2D6();
+                const roll2 = roll2D6();
+                const roll3 = roll2D6();
+
+                // 获取结果
+                character.childhood = backgroundData.childhood[bp][roll1];
+                character.event = backgroundData.event[bp][roll2];
+                character.encounter = backgroundData.encounter[bp][roll3];
+
+                // 显示结果
+                bgChildhood.innerHTML = `
+                    <div class="bg-item-title">🎲 童年 (投掷结果: ${roll1})</div>
+                    <div class="bg-item-name">${character.childhood.name}</div>
+                    <div class="bg-item-desc">${character.childhood.desc}</div>
+                `;
+
+                bgEvent.innerHTML = `
+                    <div class="bg-item-title">🎲 重大事件 (投掷结果: ${roll2})</div>
+                    <div class="bg-item-name">${character.event.name}</div>
+                    <div class="bg-item-desc">${character.event.desc}</div>
+                    <div class="bg-item-skills">▸ 影响: ${character.event.effect}</div>
+                `;
+
+                bgEncounter.innerHTML = `
+                    <div class="bg-item-title">🎲 邂逅 (投掷结果: ${roll3})</div>
+                    <div class="bg-item-name">${character.encounter}</div>
+                `;
+
+                backgroundDisplay.classList.add('visible');
+                
+                // 先杀死所有正在进行的动画，然后重置opacity为1
+                gsap.killTweensOf('.bg-item');
+                gsap.set('.bg-item', { opacity: 1, y: 0 });
+                
+                // 再执行新的动画
+                gsap.from('.bg-item', {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.5,
+                    stagger: 0.2
+                });
+
+                // 初始化属性点数
+                character.basePoints = bp === '核心区' ? 35 : 30;
+                character.maxSingleAttr = bp === '核心区' ? 8 : 7;
+
+                // 重置属性为最低值
+                Object.keys(character.attributes).forEach(key => {
+                    character.attributes[key] = 3;
+                });
+
+                character.remainingPoints = character.basePoints - 18; // 6个属性 × 3点
+
+                updateAttributesDisplay();
+
+                // 显示加成预览
+                const childhoodBonus = childhoodBonusMap[character.childhood.name] || {};
+                const eventBonus = eventBonusMap[character.event.name] || {};
+
+                bonusChildhoodEl.textContent = `童年加成: ${formatBonus(childhoodBonus)}`;
+                bonusEventEl.textContent = `事件加成: ${formatBonus(eventBonus)}`;
+                attrBonusDisplay.style.display = 'block';
+
+                updateSummary();
+            });
+
+            // ========== 出生地切换重置属性 ==========
+            birthplaceInputs.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    // 清空经历
+                    character.childhood = null;
+                    character.event = null;
+                    character.encounter = null;
+                    backgroundDisplay.classList.remove('visible');
+                    attrBonusDisplay.style.display = 'none';
+
+                    // 重置属性
+                    character.basePoints = 0;
+                    character.remainingPoints = 0;
+                    Object.keys(character.attributes).forEach(key => {
+                        character.attributes[key] = 3;
+                    });
+
+                    updateAttributesDisplay();
+                    updateSummary();
+                });
+            });
+
+            // ========== 实时更新总览 ==========
+            function updateSummary() {
+                const name = charName.value.trim() || '{{user}}';
+                const gender = charGender.value.trim() || '未设定';
+                const age = charAge.value || '未设定';
+                const birthplace = document.querySelector('input[name="birthplace"]:checked')?.value || '未选择';
+                const description = charDescription.value.trim() || '未填写';
+
+                // 计算最终属性（基础 + 加成）
+                let finalAttributes = { ...character.attributes };
+
+                if (character.childhood) {
+                    const childhoodBonus = childhoodBonusMap[character.childhood.name] || {};
+                    Object.entries(childhoodBonus).forEach(([attr, value]) => {
+                        finalAttributes[attr] = Math.max(3, Math.min(20, finalAttributes[attr] + value));
+                    });
+                }
+
+                if (character.event) {
+                    const eventBonus = eventBonusMap[character.event.name] || {};
+                    Object.entries(eventBonus).forEach(([attr, value]) => {
+                        finalAttributes[attr] = Math.max(3, Math.min(20, finalAttributes[attr] + value));
+                    });
+                }
+
+                // 计算衍生数值
+                const hp = 10 + (finalAttributes.力量 * 5) + (finalAttributes.意志 * 2);
+                const stamina = 5 + finalAttributes.敏捷 + finalAttributes.力量;
+                const resistance = birthplace === '核心区' ? 20 : 0;
+                const pollution = birthplace === '核心区' ? 0 : 5;
+
+                let summary = `
+═══════════════════════════════════════
+      🌫️ 蒸汽朋克·依希利亚 - 角色档案
+═══════════════════════════════════════
+
+【基础信息】
+姓名: ${name}
+性别: ${gender}
+年龄: ${age}${age !== '未设定' ? '岁' : ''}
+出生地: ${birthplace}
+
+`;
+
+                if (character.childhood) {
+                    summary += `【命运轨迹】
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎲 童年: ${character.childhood.name}
+${character.childhood.desc}
+
+🎲 重大事件: ${character.event.name}
+${character.event.desc}
+▸ 影响: ${character.event.effect}
+
+🎲 邂逅: ${character.encounter}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+【基础属性】(总计: ${character.basePoints}点)
+力量: ${character.attributes.力量} → 最终: ${finalAttributes.力量}
+敏捷: ${character.attributes.敏捷} → 最终: ${finalAttributes.敏捷}
+感知: ${character.attributes.感知} → 最终: ${finalAttributes.感知}
+知识: ${character.attributes.知识} → 最终: ${finalAttributes.知识}
+意志: ${character.attributes.意志} → 最终: ${finalAttributes.意志}
+魅力: ${character.attributes.魅力} → 最终: ${finalAttributes.魅力}
+
+【衍生数值】
+生命值: ${hp}
+体力值: ${stamina}
+护甲值: 0 (无装备)
+
+`;
+                }
+
+                summary += `【身体特征与补充】
+${description}
+
+═══════════════════════════════════════
+`;
+
+                summaryPreview.textContent = summary;
+            }
+
+            // 监听输入
+            [charName, charGender, charAge, charDescription].forEach(input => {
+                input.addEventListener('input', updateSummary);
+            });
+
+            birthplaceInputs.forEach(radio => {
+                radio.addEventListener('change', updateSummary);
+            });
+
+            // ========== 表单验证 ==========
+            function validateForm() {
+                const gender = charGender.value.trim();
+                const age = charAge.value;
+                const birthplace = document.querySelector('input[name="birthplace"]:checked');
+
+                if (!gender) {
+                    validationMsg.textContent = '❌ 请填写性别';
+                    return false;
+                }
+
+                if (!age || age < 1) {
+                    validationMsg.textContent = '❌ 请填写有效年龄';
+                    return false;
+                }
+
+                if (!birthplace) {
+                    validationMsg.textContent = '❌ 请选择出生地';
+                    return false;
+                }
+
+                if (!character.childhood) {
+                    validationMsg.textContent = '❌ 请投掷骰子决定经历';
+                    return false;
+                }
+
+                if (character.remainingPoints > 0) {
+                    validationMsg.textContent = `❌ 还有 ${character.remainingPoints} 点未分配`;
+                    return false;
+                }
+
+                validationMsg.textContent = '';
+                return true;
+            }
+
+            [charGender, charAge].forEach(input => {
+                input.addEventListener('input', validateForm);
+            });
+
+            birthplaceInputs.forEach(radio => {
+                radio.addEventListener('change', validateForm);
+            });
+
+            // ========== 提交 ==========
+            submitBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+
+                if (!validateForm()) {
+                    gsap.to(validationMsg, {
+                        scale: 1.1,
+                        duration: 0.2,
+                        yoyo: true,
+                        repeat: 1
+                    });
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = '⏳ 处理中...';
+
+                const finalName = charName.value.trim() || '{{user}}';
+                const finalGender = charGender.value.trim();
+                const finalAge = parseInt(charAge.value);
+                const finalBirthplace = document.querySelector('input[name="birthplace"]:checked').value;
+                const finalDescription = charDescription.value.trim() || '无';
+
+                // 计算最终属性（基础 + 加成）
+                let finalAttributes = { ...character.attributes };
+
+                const childhoodBonus = childhoodBonusMap[character.childhood.name] || {};
+                const eventBonus = eventBonusMap[character.event.name] || {};
+
+                Object.entries(childhoodBonus).forEach(([attr, value]) => {
+                    finalAttributes[attr] = Math.max(3, Math.min(20, finalAttributes[attr] + value));
+                });
+
+                Object.entries(eventBonus).forEach(([attr, value]) => {
+                    finalAttributes[attr] = Math.max(3, Math.min(20, finalAttributes[attr] + value));
+                });
+
+                // 计算衍生数值
+                const hp = 10 + (finalAttributes.力量 * 5) + (finalAttributes.意志 * 2);
+                const stamina = 5 + finalAttributes.敏捷 + finalAttributes.力量;
+                const armor = 0;
+                const resistance = finalBirthplace === '核心区' ? 20 : 0;
+                const pollution = finalBirthplace === '核心区' ? 0 : 5;
+
+                // SillyTavern变量
+                const characterVariables = {
+                    NAME: finalName,
+                    GENDER: finalGender,
+                    AGE: finalAge,
+                    BIRTHPLACE: finalBirthplace,
+                    CHILDHOOD: character.childhood.name,
+                    // CHILDHOOD_SKILLS: character.childhood.skills,
+                    EVENT: character.event.name,
+                    EVENT_EFFECT: character.event.effect,
+                    ENCOUNTER: character.encounter,
+                    DESCRIPTION: finalDescription,
+                    ATTRIBUTES: finalAttributes,
+                    HP: hp,
+                    STAMINA: stamina,
+                    RESISTANCE: resistance,
+                    POLLUTION: pollution
+                };
+
+                // 生成技能代码
+                /*
+                function generateSkillsCode(skills) {
+                    return skills.map((skill) => {
+                        const safeSkillName = skill.replace(/[()（）]/g, '_').replace(/\s+/g, '_');
+                        return `    _.set('主角.技能列表.${safeSkillName}', {
+        type: '被动',
+        level: '初级',
+        description: '${skill}的效果描述',
+        cost: ''
+    });`;
+                    }).join('\n');
+                }
+                */
+
+                // 斜杠命令
+                const slashCommand = `/send <START>
+Admin:
+根据以下角色设定，为玩家生成一段**沉浸式开场白**。
+
+故事核心要求
+请严格根据以下【角色完整设定】，撰写一段从角色童年到现在的成长故事。故事需要清晰地阐述是什么关键事件或心路历程。请在故事中自然地融入角色的出身背景、性格特点；接着在设置变量时，请你补全未设置的变量(补全全部新闻和传闻和流言)，已有的变量不需要进行更改。
+
+# 角色完整设定
+═══════════════════════════════════════
+## 基础信息
+- **姓名**: ${finalName}
+- **性别**: ${finalGender}
+- **年龄**: ${finalAge}岁
+- **出生地**: ${finalBirthplace}
+
+## 基础属性 (总计: ${character.basePoints}点)
+- **力量**: ${character.attributes.力量} → 最终: ${finalAttributes.力量} 
+- **敏捷**: ${character.attributes.敏捷} → 最终: ${finalAttributes.敏捷} 
+- **感知**: ${character.attributes.感知} → 最终: ${finalAttributes.感知} 
+- **知识**: ${character.attributes.知识} → 最终: ${finalAttributes.知识} 
+- **意志**: ${character.attributes.意志} → 最终: ${finalAttributes.意志} 
+- **魅力**: ${character.attributes.魅力} → 最终: ${finalAttributes.魅力} 
+
+## 衍生数值
+- **生命值**: ${hp} (公式: 10 + 力量×5 + 意志×2)
+- **体力值**: ${stamina} (公式: 5 + 敏捷 + 力量)
+- **护甲值**: ${armor} (无装备)
+
+## 命运轨迹
+**童年**: ${character.childhood.name}
+${character.childhood.desc}
+▸ 属性加成: ${formatBonus(childhoodBonus)}
+
+**重大事件**: ${character.event.name}
+${character.event.desc}
+▸ 影响: ${character.event.effect}
+▸ 属性加成: ${formatBonus(eventBonus)}
+
+**邂逅**: ${character.encounter}
+
+## 补充设定
+${finalDescription}
+
+═══════════════════════════════════════
+<OKstart>
+
+<UpdateVariable>
+<Analysis>
+Game initialization: Character creation starting.
+- Time passed: none (start of game)
+- Dramatic updates allowed: yes (initialization)
+- Variables updated: Setting protagonist's name, birthplace, all base attributes (6 dimensions with current/max values), derived stats (HP formula: 10+(STR×5)+(WIL×2), stamina formula: 5+AGI+STR), armor/resistance based on birthplace, pollution level, initial currency, empty equipment slots, and starting date/time.
+</Analysis>
+<JSONPatch>
+[
+  { "op": "replace", "path": "/主角/姓名", "value": "${finalName}" },
+  { "op": "replace", "path": "/主角/所在区域", "value": "${finalBirthplace === '核心区' ? '核心区' : '平民区'}" },
+  { "op": "replace", "path": "/主角/基础属性/力量", "value": { "当前值": ${finalAttributes.力量}, "最大值": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/敏捷", "value": { "当前值": ${finalAttributes.敏捷}, "最大值": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/感知", "value": { "当前值": ${finalAttributes.感知}, "最大值": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/知识", "value": { "当前值": ${finalAttributes.知识}, "最大值": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/意志", "value": { "当前值": ${finalAttributes.意志}, "最大值": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/魅力", "value": { "当前值": ${finalAttributes.魅力}, "最大值": 20 } },
+  { "op": "replace", "path": "/主角/总属性", "value": { 
+    "力量": ${finalAttributes.力量}, 
+    "敏捷": ${finalAttributes.敏捷}, 
+    "感知": ${finalAttributes.感知}, 
+    "知识": ${finalAttributes.知识}, 
+    "意志": ${finalAttributes.意志}, 
+    "魅力": ${finalAttributes.魅力} 
+  } },
+  { "op": "replace", "path": "/主角/生命值", "value": { "当前值": ${hp}, "最大值": ${hp} } },
+  { "op": "replace", "path": "/主角/护甲值", "value": { "当前值": ${armor}, "最大值": ${armor} } },
+  { "op": "replace", "path": "/主角/体力值", "value": { "当前值": ${stamina}, "最大值": ${stamina} } },
+  { "op": "add", "path": "/主角/背包/货币/精制币", "value": ${finalBirthplace === '核心区' ? 50 : 0}},
+  { "op": "add", "path": "/主角/背包/货币/劳工券", "value": ${finalBirthplace === '平民区' ? 100 : 0}},
+  { "op": "replace", "path": "/主角/装备栏", "value": { 
+    "主武器": null, 
+    "副手": null, 
+    "防具": { "头部": null, "身体": null, "手部": null, "腿部": null }, 
+    "饰品": null 
+  } },
+  { "op": "replace", "path": "/时间系统/当前日期", "value": "王国历1800年4月23日" },
+  { "op": "replace", "path": "/时间系统/当前时间", "value": "06:00" },
+     { "op": "replace", "path": "/时间系统/天气", "value": "晴天" }
+   
+]
+</JSONPatch>
+</UpdateVariable>
+|
+/trigger`;
+
+                try {
+                    if (typeof replaceVariables === 'function') {
+                        await replaceVariables(characterVariables);
+                        console.log('✅ SillyTavern 变量已更新:', characterVariables);
+                    } else {
+                        console.warn('⚠️ 非SillyTavern环境');
+                    }
+
+                    if (typeof triggerSlash === 'function') {
+                        await triggerSlash(slashCommand, 'Send');
+                        console.log('✅ 斜杠命令已发送');
+                    } else {
+                        await navigator.clipboard.writeText(slashCommand);
+                        alert('✅ 命令已复制到剪贴板！\n\n请粘贴到SillyTavern的输入框中执行。');
+                    }
+
+                    gsap.to(submitBtn, {
+                        scale: 1.2,
+                        duration: 0.3,
+                        yoyo: true,
+                        repeat: 1,
+                        onComplete: () => {
+                            submitBtn.textContent = '✅ 创建成功！';
+                            submitBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                        }
+                    });
+
+                    validationMsg.textContent = '🎉 角色创建完成！AI正在生成开场白...';
+                    validationMsg.style.color = 'var(--success-color)';
+
+                } catch (error) {
+                    console.error('❌ 创建失败:', error);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '🚀 确认创建并开始冒险';
+                    validationMsg.textContent = '❌ 创建失败，请检查浏览器控制台';
+                    validationMsg.style.color = 'var(--danger-color)';
+                }
+            });
+
+            // 初始化
+            initAttributesControls();
+            updateSummary();
+
+        })();
+    </script>
+</body>
+
+</html>
+
+```
