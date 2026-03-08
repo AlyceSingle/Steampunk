@@ -2288,24 +2288,7 @@
                             detailsHtml += '<div style="font-size: 0.85em; color: #888; padding: 10px;">暂无重要事件</div>';
                         }
 
-                        // NPC成长系统
-                        const npcGrowth = data.成长系统 || {};
-                        if (npcGrowth && typeof npcGrowth === 'object') {
-                            const npcLevel = (npcGrowth.等级 && npcGrowth.等级.cur !== undefined) ? npcGrowth.等级.cur : 1;
-                            const npcLevelMax = (npcGrowth.等级 && npcGrowth.等级.max) || 20;
-                            const npcExp = (npcGrowth.经验值 && npcGrowth.经验值.cur !== undefined) ? npcGrowth.经验值.cur : 0;
-                            const npcExpNeeded = (npcGrowth.经验值 && npcGrowth.经验值.升级所需) || 100;
-                            const npcAttrPoints = npcGrowth.属性点 || 0;
-                            const npcSkillPoints = npcGrowth.技能点 || 0;
-                            const npcEsc = name.replace(/'/g, "\\'");
-                            detailsHtml += '<h4 style="color: var(--accent-color); margin: 15px 0 10px; font-size: 0.95em;">成长系统</h4>';
-                            detailsHtml += '<div class="stats-grid" style="gap: 10px;">';
-                            detailsHtml += '<div class="stat-box" style="position: relative;"><div style="display: flex; justify-content: space-between; align-items: center;"><div class="stat-label">等级</div><button class="delete-btn" onclick="StatusManager.editNPCGrowthSystem(event, \'' + npcEsc + '\', \'等级\', ' + npcLevel + ', ' + npcLevelMax + ')" title="修改等级" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button></div>' + self.createProgressBar(npcLevel, npcLevelMax) + '</div>';
-                            detailsHtml += '<div class="stat-box" style="position: relative;"><div style="display: flex; justify-content: space-between; align-items: center;"><div class="stat-label">经验值</div><button class="delete-btn" onclick="StatusManager.editNPCGrowthSystem(event, \'' + npcEsc + '\', \'经验值\', ' + npcExp + ', ' + npcExpNeeded + ')" title="修改经验值" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button></div>' + self.createProgressBar(npcExp, npcExpNeeded) + '</div>';
-                            detailsHtml += '<div class="stat-box" style="position: relative;"><div style="display: flex; justify-content: space-between; align-items: center;"><div class="stat-label">属性点</div><button class="delete-btn" onclick="StatusManager.editNPCGrowthSystemPoint(event, \'' + npcEsc + '\', \'属性点\', ' + npcAttrPoints + ')" title="修改属性点" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button></div><div class="stat-value">' + npcAttrPoints + '</div></div>';
-                            detailsHtml += '<div class="stat-box" style="position: relative;"><div style="display: flex; justify-content: space-between; align-items: center;"><div class="stat-label">技能点</div><button class="delete-btn" onclick="StatusManager.editNPCGrowthSystemPoint(event, \'' + npcEsc + '\', \'技能点\', ' + npcSkillPoints + ')" title="修改技能点" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button></div><div class="stat-value">' + npcSkillPoints + '</div></div>';
-                            detailsHtml += '</div>';
-                        }
+                        // NPC成长系统已移除 (User Requested)
 
                         detailsHtml += '</div></div>'; // End details
 
