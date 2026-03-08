@@ -1,0 +1,77 @@
+1342: this.renderStatus();
+1373: // 用于替代 loadData().then(render)，确保手动编辑后 UI 立刻更新
+1374: refreshAndRender(renderFn) {
+1388: renderFn.call(this);
+1546: renderCharacterInfo() {
+1786: renderInventory() {
+1800: const renderEquipSlot = function (slotName, slotIcon, itemData, slotId, equipPath) {
+1897: html += renderEquipSlot('主武器', '', mainWeapon, 'main-weapon', '主武器');
+1898: html += renderEquipSlot('副手', '', offhand, 'offhand', '副手');
+1899: html += renderEquipSlot('饰品', '', accessory, 'accessory', '饰品');
+1908: html += renderEquipSlot(part.name, part.icon, item, 'armor-' + part.name, '防具.' + part.name);
+1912: html += this.renderItemList('武器列表', this.SafeGetValue('主角.背包.武器列表', {}), 'weapons', '主角.背包.武器列表');
+1913: html += this.renderItemList('防具列表', this.SafeGetValue('主角.背包.防具列表', {}), 'armor', '主角.背包.防具列表');
+1914: html += this.renderItemList('饰品列表', this.SafeGetValue('主角.背包.饰品列表', {}), 'accessories', '主角.背包.饰品列表'
+1915: html += this.renderItemList('消耗品', this.SafeGetValue('主角.背包.消耗品', {}), 'consumables', '主角.背包.消耗品');
+1916: html += this.renderItemList('杂物', this.SafeGetValue('主角.背包.杂物', {}), 'misc', '主角.背包.杂物');
+1926: renderItemList(title, items, sectionId, pathPrefix) {
+2029: renderWorldInfo() {
+2070: renderRelationships() {
+2322: renderEnemies() {
+2361: renderTasks() {
+2430: renderNews() {
+2469: renderLaws() {
+2545: renderProperty() {
+2628: renderWatchList() {
+2688: renderStatus() {
+2692: this.renderCharacterInfo();
+2693: this.renderInventory();
+2694: this.renderWorldInfo();
+2695: this.renderRelationships();
+2696: this.renderEnemies();
+2697: this.renderTasks();
+2698: this.renderProperty();
+2699: this.renderNews();
+2700: this.renderLaws();
+2701: this.renderWatchList();
+2975: this.refreshAndRender(this.renderStatus);
+3038: this.refreshAndRender(this.renderStatus);
+3151: this.refreshAndRender(this.renderCharacterInfo);
+3323: this.renderWatchList();
+3383: this.refreshAndRender(this.renderCharacterInfo);
+3434: this.refreshAndRender(this.renderCharacterInfo);
+3468: this.refreshAndRender(this.renderNews);
+3505: this.refreshAndRender(this.renderCharacterInfo);
+3581: this.refreshAndRender(this.renderInventory);
+3628: this.refreshAndRender(this.renderCharacterInfo);
+3665: this.refreshAndRender(this.renderWorldInfo);
+3712: this.refreshAndRender(this.renderRelationships);
+3806: this.refreshAndRender(this.renderWorldInfo);
+3859: this.refreshAndRender(this.renderCharacterInfo);
+3908: this.refreshAndRender(this.renderRelationships);
+3985: this.refreshAndRender(this.renderRelationships);
+4056: this.refreshAndRender(this.renderRelationships);
+4103: this.refreshAndRender(this.renderRelationships);
+4136: this.refreshAndRender(this.renderRelationships);
+4171: this.refreshAndRender(this.renderRelationships);
+4206: this.refreshAndRender(this.renderRelationships);
+4235: this.refreshAndRender(this.renderRelationships);
+4272: this.refreshAndRender(this.renderProperties);
+4356: this.refreshAndRender(this.renderProperties);
+4389: this.refreshAndRender(this.renderLaws);
+4468: this.refreshAndRender(this.renderLaws);
+4490: this.refreshAndRender(this.renderCharacterInfo);
+4549: this.refreshAndRender(this.renderCharacterInfo);
+4594: this.refreshAndRender(this.renderCharacterInfo);
+4611: this.refreshAndRender(this.renderRelationships);
+4671: this.refreshAndRender(this.renderRelationships);
+4719: this.refreshAndRender(this.renderRelationships);
+4751: this.refreshAndRender(this.renderCharacterInfo);
+4771: this.refreshAndRender(this.renderCharacterInfo);
+4803: this.refreshAndRender(this.renderRelationships);
+4823: this.refreshAndRender(this.renderRelationships);
+4855: this.refreshAndRender(this.renderCharacterInfo);
+4898: this.refreshAndRender(this.renderCharacterInfo);
+4929: this.refreshAndRender(this.renderRelationships);
+4975: this.refreshAndRender(this.renderRelationships);
+5030: this.refreshAndRender(this.renderLaws);
