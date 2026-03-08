@@ -952,11 +952,33 @@
                     <h3>✨ 身体特征与补充</h3>
 
                     <div class="form-group">
+                         <button type="button" id="roll-traits-btn" class="dice-button" style="margin-bottom: 20px; background: linear-gradient(135deg, #20c997, #28a745);">
+                             🎲 随机生成特征 (身高/发色/性格)
+                         </button>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="char-height">身高</label>
+                            <input type="text" id="char-height" class="form-input" placeholder="例如: 175cm">
+                        </div>
+                        <div class="form-group">
+                            <label for="char-hair">发色</label>
+                            <input type="text" id="char-hair" class="form-input" placeholder="例如: 亚麻色">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="char-personality">性格标签</label>
+                        <input type="text" id="char-personality" class="form-input" placeholder="例如: 冷静, 腹黑, 乐观 (可多选)">
+                    </div>
+
+                    <div class="form-group">
                         <label for="char-description">
                             详细描述 <span class="optional">(选填)</span>
                         </label>
                         <textarea id="char-description" class="form-textarea"
-                            placeholder="描述角色的外貌特征、性格特点、背景故事等...&#10;例如：身高、发色、瞳色、体型、性格、特殊标记等"></textarea>
+                            placeholder="描述角色的外貌特征、背景故事等...&#10;除了上述特征外，还有什么特别之处？"></textarea>
                     </div>
                 </div>
             </form>
@@ -964,12 +986,12 @@
 
         <!-- 总览 -->
         <div class="character-summary">
-            <h3>📊 角色档案总览</h3>
+            <h3>角色档案总览</h3>
             <div class="summary-preview" id="summary-preview">暂无数据，请填写上方表单...</div>
 
             <div class="submit-section">
                 <button type="submit" class="submit-btn" id="submit-btn">
-                    🚀 确认创建并开始冒险
+                    确认创建并开始冒险
                 </button>
                 <div class="validation-message" id="validation-msg"></div>
             </div>
@@ -986,13 +1008,13 @@
                         3: { name: "没落勋爵", desc: "你出身在一个没落的贵族家庭，拥有高贵的谈吐，却背负着巨额债务",},
                         4: { name: "星穹学者", desc: "你的父母是星穹学院的学者，书本构筑了你的世界，理论知识丰富，但缺乏实战经验"},
                         5: { name: "执行官", desc: "你出身在执行官世家，熟悉防御体系和武器操作，秩序与服从是你的第一课" },
-                        6: { name: "记者", desc: "从学院毕业后，你成为了一名记者，开始探索这个世界的真相"},
+                        6: { name: "报业之子", desc: "你的父母是《皇家蜂鸟报》的主编。你在油墨味和未删减的新闻稿中识字，懂得舆论是最锋利的刀" },
                         7: { name: "中产阶层", desc: "你在舒适但平凡的环境中长大，身体健康"},
                         8: { name: "齿轮之子", desc: "你在黄铜大街的精密机油味中长大，继承了父母的店铺，比起人，你更懂机器" },
                         9: { name: "商会继承人", desc: "从小耳濡目染的是契约与金币的碰撞声。你懂得万物的价格，却未必懂价值" },
                         10: { name: "圣堂孤儿", desc: "你被圣恩大教堂收养，在唱诗班与经文中度过童年。表面纯洁无瑕，内心压抑着叛逆"},
                         11: { name: "贵族", desc: "你是贵族家庭的一员，享受着优越的生活和教育，也承担着家族的责任和期" },
-                        12: { name: "王室侍从", desc: "你在星光宫长大，服侍着年幼的女王，是她孤独童年中唯一的玩伴"}
+                        12: { name: "王室侍从", desc: "你在星光宫长大，服侍着年幼的伊芙琳女王，是她孤独童年中唯一的玩伴"}
                     },
                     平民区: {
                         2: { name: "雾巷野狗", desc: "没有父母，垃圾堆是你的摇篮。为了活下去，你学会了偷窃、欺诈和装死" },
@@ -1010,30 +1032,30 @@
                 },
                 event: {
                     核心区: {
-                        2: { name: "侦探", desc: "你被雷纳德侦探所招募，成为了一位私家侦探，偶尔也处理上不得台面的脏活", effect: "雷纳德先生似乎与王室有着联系，总能接到一些有趣的委托" },
-                        3: { name: "星核学者", desc: "你发现", effect: "你的剑术备受赞誉，但也被教会列入了黑名单" },
-                        4: { name: "记者", desc: "从学院毕业后，你成为了一名记者，开始探索这个世界的真相", effect: "你知道了议会的黑暗，并被黎各视为一个不稳定的因素" },
-                        5: { name: "矿权之争", desc: "你的家族因旧贵族的打压，失去了关键灵质矿的开采权，一夜之间家道中落", effect: "你深刻理解了血脉与土地在亚楠意味着什么，并对艾丽西亚代表的旧贵族阶层心存芥蒂" },
-                        6: { name: "高墙之恋", desc: "你与一名平民区的猎人相恋，但这段关系被家族发现并强行切断，爱人从此杳无音信", effect: "你对隔绝两个世界的高墙怀有刻骨的恨意" },
-                        7: { name: "温室之花", desc: "你在核心区无菌的环境中长大，对墙外的世界一无所知", effect: "你纯真善良，但也对世界的残酷一无所知" },
-                        8: { name: "星穹荣光", desc: "你在星穹学院击败了所有对手，获得了院长艾丽西亚的亲自嘉奖，你的名字在贵族圈中无人不晓", effect: "你获得了声望与荣誉，但也成为无数嫉妒目光的焦点" },
-                        9: { name: "墙梯一瞥", desc: "在执行局实习期间，你在墙梯关口执勤，亲眼目睹了平民区的物资被课以重税，而核心区的废料却被倾倒而下", effect: "你对亚楠的'公平'产生了动摇，内心种下了变革的种子" },
-                        10: { name: "发条鸟邂逅", desc: "你频繁光顾发条鸟咖啡厅，与温柔的咖啡师菲娜逐渐熟悉，你们的关系正在悄然萌芽", effect: "你有了一位心仪的对象，以及一个可以暂时逃离纷扰的去处" },
+                        2: { name: "侦探", desc: "被雷纳德侦探所招募，成为了一名私家侦探，偶尔当做大人物的白手套", effect: "雷纳德先生似乎总能接到王室的委托..." },
+                        3: { name: "黄铜法官", desc: "你曾是负责审核墙梯通行证的基层官员，因放行了一批携带违禁药品的难民而被革职", effect: "你深知官僚体系的漏洞，并在下城拥有极高的风评" },
+                        4: { name: "清道夫", desc: "你是塞莱斯汀手里最锋利的一把刀，专门负责处理商业竞争对手", effect: "你是一个刺客，只论金钱，精通暗杀与破坏" },
+                        5: { name: "矿权之争", desc: "你的家族因旧贵族的打压，失去了关键灵质矿的开采权，一夜之间家道中落", effect: "你深刻理解了血脉与土地在依希利亚意味着什么，并对艾丽西亚代表的旧贵族阶层心存芥蒂" },
+                        6: { name: "告解室", desc: "你最后成为了告解室的神父，隔着那层纱帘，你听到了太多秘密", effect: "今天依然要开始聆听..." },
+                        7: { name: "温室之花", desc: "你在核心区温和的环境中长大，对墙外的世界一无所知", effect: "你纯真善良，但也对世界的残酷一无所知" },
+                        8: { name: "星穹荣光", desc: "你在星穹学院名列前茅，获得了院长艾丽西亚的亲自嘉奖，你的名字在贵族圈中无人不晓", effect: "你获得了声望与荣誉，但也成为无数嫉妒目光的焦点" },
+                        9: { name: "记者", desc: "从学院毕业后，你成为了一名记者，开始探索这个世界的真相", effect: "你在皇家蜂鸟报社工作，和夏琳是朋友" },
+                        10: { name: "议员", desc: "你被塞莱斯汀看中并亲手培养，成为了她的左右手", effect: "你随着塞莱斯汀进入了议会，成为议事厅中的一员" },
                         11: { name: "星光宫召见", desc: "你被女王伊芙琳秘密召见，成为了她平衡议会的隐藏棋子", effect: "你踏入了权力的中心，但也失去了退出的自由" },
-                        12: { name: "负债继承人", desc: "你继承了家族的头衔，却也背负了欠贸易同盟的巨额债务", effect: "你拥有贵族的身份，但脖子上的项圈握在多莉手中" }
+                        12: { name: "影子", desc: "你是伊芙琳女王的秘密替身，经过炼金整容与严苛训练。你帮助她逃离皇宫再也没有回来，而你就是新的女王...。", effect: "现在我是女王了？" }
                     },
                     平民区: {
                         2: { name: "黄金航线", desc: "你往返于港口与平民区之间，熟悉海风与盐味的气息", effect: "你知道近海的情况，攒下了一笔不小的财富" },
-                        3: { name: "结晶病", desc: "在甜雾与圣香中，你患上了严重的结晶病", effect: "你需要去寻找治愈结晶病的方法" },
-                        4: { name: "移民", desc: "你的母亲日益劳作，最终攒下了扶梯的费用，给了你一笔足以离开平民区的钱", effect: "你拥有了选择的权利" },
-                        5: { name: "冠军之子", desc: "你的父亲曾是熔炉竞技场的冠军，但在接受贸易同盟的合同后便人间蒸发", effect: "你继承了他的格斗技巧，也继承了他留下的敌人和谜团" },
+                        3: { name: "红死神", desc: "你成为了禁区单枪匹马的牛仔，截下了不少商队，被通缉？你天生自由", effect: "你被悬赏，但你并不在乎" },
+                        4: { name: "安稳", desc: "你与维兹一同经营着一家奇货铺，生活谈不上好，但至少不坏", effect: "也许这样也不错呢？" },
+                        5: { name: "冠军之子", desc: "你的父亲曾是熔炉竞技场的冠军，但在接受贸易同盟的合同后便人间蒸发", effect: "你继承了他的格斗技巧，并且进入竞技场准备重塑传奇" },
                         6: { name: "渡鸦交易", desc: "你为酒馆老板娘卡门完成了一次危险的走私，并从执行局的围剿中死里逃生", effect: "你上了卡门的可用名单，这意味着更多的金钱和更大的危险" },
                         7: { name: "阴沟老鼠", desc: "你在平民区最肮脏的街巷中长大，学会的第一件事就是从死人手里抢食物", effect: "你坚韧而务实，不相信任何人，包括明天的太阳" },
-                        8: { name: "诅咒财富", desc: "你在禁区边缘捡到一颗高纯度灵晶，但它诡异的光芒正吸引着结晶兽和贪婪的猎人", effect: "你一夜暴富，但也成为了众矢之的" },
+                        8: { name: "诅咒财富", desc: "你在禁区边缘捡到一颗高纯度灵晶，它的价值超乎你的想象", effect: "你一夜暴富，但首先你要先将它卖出去..." },
                         9: { name: "血色舰队", desc: "阿加莎作为贵宾到达黑水港，准备去拜见女王伊芙琳", effect: "一切的故事从这里开始" },
                         10: { name: "雾中幻梦", desc: "你曾沉迷于吸食“甜雾”带来的虚假极乐，直到咳出的痰中带上了晶体碎屑", effect: "你戒除了毒瘾，同时也开始调查圣香的来源" },
                         11: { name: "猎人", desc: "在一次混乱的委托中，你出色的表现赢得了成为猎人的资格", effect: "你成为了一名猎人，可以自由的在酒馆接取委托" },
-                        12: { name: "星渊花海", desc: "在寂静的午夜，你看到了花海中结晶少女的熟睡，并看到了它从星海坠落的幻象", effect: "你从睡眠中惊醒，记住了伊文爱姆这个名字" }
+                        12: { name: "星渊花海", desc: "在寂静的午夜，你看到了花海中结晶少女的熟睡，并看到了它从星海坠落的幻象", effect: "你从睡眠中惊醒，记住了伊文爱姆这个名字，她似乎在呼唤你？" }
                     }
                 },
                 encounter: {
@@ -1072,7 +1094,7 @@
                 "没落勋爵": { 魅力: 1, 知识: 1 },
                 "星穹学者": { 知识: 2 },
                 "执行官": { 力量: 1, 意志: 1 },
-                "记者": { 魅力: 2 },
+                "报业之子": { 魅力: 2 },
                 "中产阶层": { 力量: 1, 知识: 1 },
                 "齿轮之子": { 知识: 2 },
                 "记者": { 敏捷: 1, 感知: 1 },
@@ -1096,18 +1118,18 @@
             const eventBonusMap = {
                 "侦探": { 意志: 1 },
                 "黄铜法官": { 力量: 1 },
-                "十五年前真相": { 知识: 1 },
+                "清道夫": { 力量: 1 },
                 "矿权之争": { 魅力: -1, 意志: 1 },
-                "高墙之恋": { 魅力: 1 },
+                "告解室": { 魅力: 1 },
                 "温室之花": { 魅力: 1 },
                 "星穹荣光": { 知识: 1 },
-                "墙梯一瞥": { 力量: 1 },
+                "记者": { 感知: 1, 意志: -1 },
                 "议员": { 魅力: 1 },
                 "星光宫召见": { 魅力: 1 },
-                "负债继承人": { 意志: 1 },
+                "影子": { 意志: 1, 魅力: 1 },
                 "黄金航线": { 意志: -1, 感知: 1 },
-                "结晶病": { 意志: 1 },
-                "移民": { 力量: 1 },
+                "红死神": { 力量: 1 },
+                "安稳": { 魅力: 1 },
                 "冠军之子": { 力量: 1 },
                 "渡鸦交易": { 魅力: 1 },
                 "阴沟老鼠": { 意志: 1 },
@@ -1116,6 +1138,21 @@
                 "雾中幻梦": { 意志: 2 },
                 "猎人": { 敏捷: 1 },
                 "星渊花海": { 感知: 1, 意志: -1 }
+            };
+
+            // 特征数据库 (无emoji)
+            const traitData = {
+                hair: [
+                    "如瀑的黑发", "银白色短发", "亚麻色长发", "酒红色卷发", "深棕色微卷", 
+                    "金灿灿的马尾", "灰蓝色直发", "墨绿色短发", "白金色", "栗色", 
+                    "挑染紫色的黑发", "琥珀金", "淡粉色", "焦糖色", "雾霾蓝"
+                ],
+                personality: [
+                    "冷静", "温柔", "热情", "开朗", "沉默", "活泼", "坚毅", 
+                    "随和", "严谨", "慵懒", "高傲", "谦逊", "机智", "勇敢", 
+                    "内向", "外向", "感性", "理性", "幽默", "正直", "狡黠",
+                    "淡然", "务实", "敏感", "坚强", "纯真", "稳重"
+                ]
             };
 
             // ========== 工具函数 ==========
@@ -1145,6 +1182,12 @@
             const charAge = document.getElementById('char-age');
             const birthplaceInputs = document.querySelectorAll('input[name="birthplace"]');
             const charDescription = document.getElementById('char-description');
+            
+            // 新增特征引用
+            const charHeight = document.getElementById('char-height');
+            const charHair = document.getElementById('char-hair');
+            const charPersonality = document.getElementById('char-personality');
+            const rollTraitsBtn = document.getElementById('roll-traits-btn');
 
             const rollBackgroundBtn = document.getElementById('roll-background-btn');
             const manualSelectBtn = document.getElementById('manual-select-btn');
@@ -1631,6 +1674,51 @@
             }
 
             // ========== 骰子投掷 ==========
+            rollTraitsBtn.addEventListener('click', () => {
+                // 不再覆盖性别
+                const currentGender = charGender.value.trim();
+
+                // 1. 随机身高 (根据性别微调，如果未填性别则默认160-180)
+                let hMin = 160;
+                let hMax = 180;
+                
+                if (currentGender === '女') {
+                    hMin = 150; 
+                    hMax = 175;
+                } else if (currentGender === '男') {
+                    hMin = 165; 
+                    hMax = 190;
+                }
+                
+                const height = Math.floor(Math.random() * (hMax - hMin + 1)) + hMin;
+                charHeight.value = height + 'cm';
+
+                // 2. 随机发色
+                const hair = traitData.hair[Math.floor(Math.random() * traitData.hair.length)];
+                charHair.value = hair;
+
+                // 3. 随机性格 (2-3个)
+                const numTraits = Math.floor(Math.random() * 2) + 2; 
+                let pool = [...traitData.personality];
+                let traits = [];
+                for(let i=0; i<numTraits; i++){
+                    if(pool.length === 0) break;
+                    const idx = Math.floor(Math.random() * pool.length);
+                    traits.push(pool[idx]);
+                    pool.splice(idx, 1);
+                }
+                charPersonality.value = traits.join(', ');
+
+                updateSummary();
+                
+                // 视觉反馈
+                gsap.from([charHeight, charHair, charPersonality], {
+                    backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                    duration: 0.5,
+                    clearProps: 'backgroundColor'
+                });
+            });
+
             rollBackgroundBtn.addEventListener('click', () => {
                 const birthplace = document.querySelector('input[name="birthplace"]:checked');
                 if (!birthplace) {
@@ -1736,6 +1824,9 @@
                 const age = charAge.value || '未设定';
                 const birthplace = document.querySelector('input[name="birthplace"]:checked')?.value || '未选择';
                 const description = charDescription.value.trim() || '未填写';
+                const height = charHeight.value.trim();
+                const hair = charHair.value.trim();
+                const personality = charPersonality.value.trim();
 
                 // 计算最终属性（基础 + 加成）
                 let finalAttributes = { ...character.attributes };
@@ -1803,7 +1894,7 @@ ${character.event.desc}
                 }
 
                 summary += `【身体特征与补充】
-${description}
+${height ? `身高: ${height}\n` : ''}${hair ? `发色: ${hair}\n` : ''}${personality ? `性格: ${personality}\n\n` : ''}${description}
 
 ═══════════════════════════════════════
 `;
@@ -1812,7 +1903,7 @@ ${description}
             }
 
             // 监听输入
-            [charName, charGender, charAge, charDescription].forEach(input => {
+            [charName, charGender, charAge, charDescription, charHeight, charHair, charPersonality].forEach(input => {
                 input.addEventListener('input', updateSummary);
             });
 
@@ -1885,6 +1976,10 @@ ${description}
                 const finalAge = parseInt(charAge.value);
                 const finalBirthplace = document.querySelector('input[name="birthplace"]:checked').value;
                 const finalDescription = charDescription.value.trim() || '无';
+                
+                const finalHeight = charHeight.value.trim() || '未设定';
+                const finalHair = charHair.value.trim() || '未设定';
+                const finalPersonality = charPersonality.value.trim() || '未设定';
 
                 // 计算最终属性（基础 + 加成）
                 let finalAttributes = { ...character.attributes };
@@ -1919,6 +2014,9 @@ ${description}
                     EVENT_EFFECT: character.event.effect,
                     ENCOUNTER: character.encounter,
                     DESCRIPTION: finalDescription,
+                    HEIGHT: finalHeight,
+                    HAIR: finalHair,
+                    PERSONALITY: finalPersonality,
                     ATTRIBUTES: finalAttributes,
                     HP: hp,
                     STAMINA: stamina,
@@ -1983,6 +2081,10 @@ ${character.event.desc}
 **邂逅**: ${character.encounter}
 
 ## 补充设定
+- **身高**: ${finalHeight}
+- **发色**: ${finalHair}
+- **性格**: ${finalPersonality}
+
 ${finalDescription}
 
 ═══════════════════════════════════════
@@ -1999,12 +2101,12 @@ Game initialization: Character creation starting.
 [
   { "op": "replace", "path": "/主角/姓名", "value": "${finalName}" },
   { "op": "replace", "path": "/主角/所在区域", "value": "${finalBirthplace === '核心区' ? '核心区' : '平民区'}" },
-  { "op": "replace", "path": "/主角/基础属性/力量", "value": { "当前值": ${finalAttributes.力量}, "最大值": 20 } },
-  { "op": "replace", "path": "/主角/基础属性/敏捷", "value": { "当前值": ${finalAttributes.敏捷}, "最大值": 20 } },
-  { "op": "replace", "path": "/主角/基础属性/感知", "value": { "当前值": ${finalAttributes.感知}, "最大值": 20 } },
-  { "op": "replace", "path": "/主角/基础属性/知识", "value": { "当前值": ${finalAttributes.知识}, "最大值": 20 } },
-  { "op": "replace", "path": "/主角/基础属性/意志", "value": { "当前值": ${finalAttributes.意志}, "最大值": 20 } },
-  { "op": "replace", "path": "/主角/基础属性/魅力", "value": { "当前值": ${finalAttributes.魅力}, "最大值": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/力量", "value": { "cur": ${finalAttributes.力量}, "max": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/敏捷", "value": { "cur": ${finalAttributes.敏捷}, "max": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/感知", "value": { "cur": ${finalAttributes.感知}, "max": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/知识", "value": { "cur": ${finalAttributes.知识}, "max": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/意志", "value": { "cur": ${finalAttributes.意志}, "max": 20 } },
+  { "op": "replace", "path": "/主角/基础属性/魅力", "value": { "cur": ${finalAttributes.魅力}, "max": 20 } },
   { "op": "replace", "path": "/主角/总属性", "value": { 
     "力量": ${finalAttributes.力量}, 
     "敏捷": ${finalAttributes.敏捷}, 
@@ -2013,9 +2115,9 @@ Game initialization: Character creation starting.
     "意志": ${finalAttributes.意志}, 
     "魅力": ${finalAttributes.魅力} 
   } },
-  { "op": "replace", "path": "/主角/生命值", "value": { "当前值": ${hp}, "最大值": ${hp} } },
-  { "op": "replace", "path": "/主角/护甲值", "value": { "当前值": ${armor}, "最大值": ${armor} } },
-  { "op": "replace", "path": "/主角/体力值", "value": { "当前值": ${stamina}, "最大值": ${stamina} } },
+  { "op": "replace", "path": "/主角/生命值", "value": { "cur": ${hp}, "max": ${hp} } },
+  { "op": "replace", "path": "/主角/护甲值", "value": { "cur": ${armor}, "max": ${armor} } },
+  { "op": "replace", "path": "/主角/体力值", "value": { "cur": ${stamina}, "max": ${stamina} } },
   { "op": "add", "path": "/主角/背包/货币/精制币", "value": ${finalBirthplace === '核心区' ? 50 : 0}},
   { "op": "add", "path": "/主角/背包/货币/劳工券", "value": ${finalBirthplace === '平民区' ? 100 : 0}},
   { "op": "replace", "path": "/主角/装备栏", "value": { 
@@ -2082,5 +2184,4 @@ Game initialization: Character creation starting.
 </body>
 
 </html>
-
 ```

@@ -1,0 +1,453 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<!-- Single出品,仅在类脑旅程发布 -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选项选择器</title>
+    
+    <!-- 使用 unpkg CDN 替代 Google Fonts (国内外都可访问) -->
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/400.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
+    <link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/600.css" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
+    <noscript><link href="https://unpkg.com/@fontsource/noto-sans-sc@5.0.0/400.css" rel="stylesheet"></noscript>
+    
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+            --panel-bg-color: #ffffff;
+            --accent-color: #007bff;
+            --body-bg-color: #e9ecef;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --glow-color: rgba(0, 123, 255, 0.3);
+            --hover-bg-color: rgba(0, 123, 255, 0.05);
+            --option-bg-color: #ffffff;
+            --transition-speed: 0.3s;
+            --collapse-speed: 0.5s;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            margin: 0;
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: transparent;
+            -webkit-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .selector-container {
+            background: var(--bg-color);
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px var(--shadow-color);
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            margin: 0;
+        }
+
+        .selector-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #0056b3);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .selector-header {
+            padding: 20px 40px;
+            cursor: pointer;
+            user-select: none;
+            transition: background var(--transition-speed) ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .selector-header:hover {
+            background: var(--hover-bg-color);
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin: 0 0 8px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #6c757d;
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        .expand-indicator {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%) rotate(0deg);
+            width: 24px;
+            height: 24px;
+            transition: transform var(--collapse-speed) cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            color: var(--accent-color);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .selector-container.open .expand-indicator {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .options-collapsible {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows var(--collapse-speed) cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .selector-container.open .options-collapsible {
+            grid-template-rows: 1fr;
+        }
+
+        .options-wrapper {
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .options-container {
+            padding: 20px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-item {
+            cursor: pointer;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--option-bg-color);
+            color: var(--text-color);
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .selector-container.open .option-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 为每个选项添加延迟动画 */
+        .selector-container.open .option-item:nth-child(1) { transition-delay: 0.05s; }
+        .selector-container.open .option-item:nth-child(2) { transition-delay: 0.1s; }
+        .selector-container.open .option-item:nth-child(3) { transition-delay: 0.15s; }
+        .selector-container.open .option-item:nth-child(4) { transition-delay: 0.2s; }
+        .selector-container.open .option-item:nth-child(5) { transition-delay: 0.25s; }
+        .selector-container.open .option-item:nth-child(6) { transition-delay: 0.3s; }
+        .selector-container.open .option-item:nth-child(7) { transition-delay: 0.35s; }
+        .selector-container.open .option-item:nth-child(8) { transition-delay: 0.4s; }
+
+        .option-item:hover {
+            background: var(--hover-bg-color);
+            border-color: var(--accent-color);
+            transform: translateX(8px) translateY(-2px);
+            box-shadow: 0 8px 20px var(--glow-color);
+        }
+
+        .option-item:active {
+            transform: translateX(6px) scale(0.98);
+        }
+
+        .option-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-color);
+            transform: scaleY(0);
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .option-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .option-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 波纹效果 */
+        @keyframes ripple {
+            0% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        .option-item::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: var(--glow-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .option-item:active::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+
+            .selector-container {
+                width: 100%;
+                border-radius: 16px;
+            }
+
+            .selector-header {
+                padding: 18px 30px;
+            }
+
+            .header-title {
+                font-size: 20px;
+            }
+
+            .header-subtitle {
+                font-size: 13px;
+            }
+
+            .expand-indicator {
+                right: 20px;
+            }
+
+            .options-container {
+                padding: 0 20px 20px;
+                gap: 10px;
+            }
+
+            .option-item {
+                padding: 14px 16px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+
+            .selector-container {
+                width: 100%;
+                border-radius: 12px;
+            }
+
+            .selector-header {
+                padding: 16px 24px;
+            }
+
+            .header-title {
+                font-size: 18px;
+            }
+
+            .header-subtitle {
+                font-size: 12px;
+            }
+
+            .expand-indicator {
+                right: 16px;
+                width: 20px;
+                height: 20px;
+                font-size: 18px;
+            }
+
+            .options-container {
+                padding: 0 16px 16px;
+                gap: 8px;
+            }
+
+            .option-item {
+                padding: 12px 14px;
+                font-size: 14px;
+                border-radius: 8px;
+            }
+        }
+
+        /* 加载动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .selector-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="selector-container" id="selector-card">
+        <div class="selector-header" id="selector-header">
+            <h2 class="header-title">请选择一个选项</h2>
+            <p class="header-subtitle">点击展开查看所有选项</p>
+            <div class="expand-indicator">▼</div>
+        </div>
+        <div class="options-collapsible" id="options-collapsible">
+            <div class="options-wrapper">
+                <div class="options-container" id="options-container"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="raw-options-data" style="display:none">$1</div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const elements = {
+                card: document.getElementById('selector-card'),
+                header: document.getElementById('selector-header'),
+                collapsible: document.getElementById('options-collapsible'),
+                container: document.getElementById('options-container'),
+                rawData: document.getElementById('raw-options-data')
+            };
+
+            // 检查必要元素
+            if (!elements.card || !elements.rawData || !elements.container) {
+                console.error("选择器必要元素未找到");
+                return;
+            }
+
+            // 解析并渲染选项
+            function parseAndRenderOptions() {
+                const rawText = elements.rawData.textContent.trim();
+                const lines = rawText.split(/\r?\n/).filter(line => line.trim() !== "");
+                
+                if (lines.length === 0) {
+                    elements.container.innerHTML = '<div class="empty-state">暂无可选项</div>';
+                    return;
+                }
+
+                lines.forEach(line => {
+                    const optionText = line.trim().replace(/^[A-Z]\.\s*/i, "");
+                    if (optionText) {
+                        const optionElement = document.createElement("div");
+                        optionElement.className = "option-item";
+                        optionElement.setAttribute("data-action", optionText);
+                        optionElement.innerHTML = `<div class="option-text">${optionText}</div>`;
+                        
+                        // 点击选项事件
+                        optionElement.addEventListener("click", function (e) {
+                            e.stopPropagation();
+                            const action = this.getAttribute("data-action");
+                            handleOptionClick(action);
+                        });
+                        
+                        elements.container.appendChild(optionElement);
+                    }
+                });
+            }
+
+            // 处理选项点击
+            function handleOptionClick(action) {
+                try {
+                    const parentTextarea = window.parent.document.querySelector("#send_textarea");
+                    const triggerSlash = window.parent.triggerSlash;
+                    
+                    if (parentTextarea) {
+                        const newValue = parentTextarea.value + action;
+                        if (triggerSlash) {
+                            triggerSlash(`/setinput ${newValue}`);
+                        } else {
+                            parentTextarea.value = newValue;
+                            parentTextarea.dispatchEvent(new Event("input", { bubbles: true }));
+                        }
+                    } else if (triggerSlash) {
+                        triggerSlash(`/setinput ${action}`);
+                    }
+                } catch (error) {
+                    console.error("设置输入文本时出错:", error);
+                }
+            }
+
+            // 切换展开/收起
+            function initToggle() {
+                elements.header.addEventListener("click", function (e) {
+                    // 如果点击的是选项，不触发展开/收起
+                    const isOptionClick = [...elements.container.querySelectorAll(".option-item")]
+                        .some(option => option && option.contains(e.target));
+                    
+                    if (!isOptionClick) {
+                        elements.card.classList.toggle("open");
+                    }
+                });
+            }
+
+            // 初始化
+            parseAndRenderOptions();
+            initToggle();
+        });
+    </script>
+</body>
+
+</html>
+```
