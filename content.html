@@ -509,6 +509,20 @@
             padding-left: 15px;
         }
 
+        .district-block {
+            margin: 15px 0;
+            padding-left: 10px;
+            border-left: 2px solid rgba(0, 123, 255, 0.25);
+        }
+
+        .district-title {
+            font-size: 1.15em;
+            color: var(--accent-color);
+            margin: 0 0 8px 0;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
         .street-title {
             font-size: 1.3em;
             color: var(--text-color);
@@ -771,6 +785,245 @@
 
         html.fullscreen-mode .content-text::-webkit-scrollbar-thumb:hover {
             background: var(--glow-color);
+        }
+
+        /* 全屏模式 content-text 底部留出聊天栏空间 */
+        html.fullscreen-mode .content-text {
+            padding-bottom: 90px !important;
+        }
+
+        :fullscreen .content-text,
+        :-webkit-full-screen .content-text,
+        :-moz-full-screen .content-text,
+        :-ms-fullscreen .content-text {
+            padding-bottom: 90px !important;
+        }
+
+        /* 全屏聊天输入栏 */
+        #fullscreen-chat-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1500;
+            padding: 10px 20px 14px;
+            background: var(--panel-bg-color);
+            border-top: 2px solid var(--border-color);
+            box-shadow: 0 -4px 20px var(--shadow-color);
+        }
+
+        html.fullscreen-mode #fullscreen-chat-bar,
+        :fullscreen #fullscreen-chat-bar,
+        :-webkit-full-screen #fullscreen-chat-bar,
+        :-moz-full-screen #fullscreen-chat-bar {
+            display: block;
+        }
+
+        .chat-bar-inner {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #fullscreen-input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 15px;
+            resize: none;
+            min-height: 44px;
+            max-height: 130px;
+            overflow-y: auto;
+            line-height: 1.5;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #fullscreen-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--glow-color);
+        }
+
+        #fullscreen-input::placeholder {
+            opacity: 0.6;
+        }
+
+        #fullscreen-send-btn {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px var(--glow-color);
+        }
+
+        #fullscreen-send-btn:hover {
+            opacity: 0.85;
+            transform: scale(1.08);
+        }
+
+        #fullscreen-send-btn:active {
+            transform: scale(0.95);
+        }
+
+        #fullscreen-send-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #fullscreen-send-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        /* 分支选项弹出框 */
+        .branches-popup {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 0;
+            right: 54px;
+            max-height: 45vh;
+            overflow-y: auto;
+            background: var(--panel-bg-color);
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
+            box-shadow: 0 -8px 30px var(--shadow-color), 0 4px 15px var(--shadow-color);
+            padding: 8px;
+            z-index: 1600;
+        }
+
+        .branches-popup.hidden {
+            display: none;
+        }
+
+        .branches-popup::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .branches-popup::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .branches-popup::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        .branches-popup-title {
+            font-size: 12px;
+            color: var(--accent-color);
+            font-weight: 600;
+            padding: 4px 14px 8px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+            user-select: none;
+        }
+
+        .branch-option {
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            border: 1px solid transparent;
+            margin-bottom: 4px;
+            line-height: 1.5;
+            color: var(--text-color);
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .branch-option:hover {
+            background: rgba(0, 0, 0, 0.07);
+            border-color: var(--accent-color);
+        }
+
+        .branch-option:last-child {
+            margin-bottom: 0;
+        }
+
+        .branch-option-letter {
+            display: inline-block;
+            min-width: 26px;
+            height: 26px;
+            line-height: 26px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 13px;
+            border-radius: 6px;
+            background: var(--accent-color);
+            color: #fff;
+            margin-right: 10px;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+
+        .branch-option-text {
+            vertical-align: middle;
+        }
+
+        .branch-option {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        /* 全屏通知弹窗 */
+        .fs-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-120%);
+            background: linear-gradient(135deg, rgba(30,35,50,0.95), rgba(45,50,70,0.95));
+            border: 1px solid var(--accent-color, #c8a96e);
+            border-radius: 12px;
+            padding: 12px 24px;
+            color: #e8d5b5;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 100000;
+            pointer-events: none;
+            opacity: 0;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 15px rgba(200,169,110,0.15);
+            text-align: center;
+            max-width: 90vw;
+            white-space: nowrap;
+        }
+        .fs-toast.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .fs-toast-icon {
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            #fullscreen-chat-bar {
+                padding: 8px 10px 12px;
+            }
+            .branches-popup {
+                right: 54px;
+                max-height: 50vh;
+            }
         }
 
         /* Calendar Overlay */
@@ -1781,99 +2034,98 @@
         <div class="map-content">
             <button id="map-close">×</button>
             <h1 class="map-title">依希利亚王国</h1>
-            
+
             <!-- 上城 -->
             <div class="region-block">
                 <h2 class="region-title collapsible-header collapsed">
-                    <span class="collapsible-icon">▼</span>上城 (核心区)
+                    <span class="collapsible-icon">▼</span>上城
                 </h2>
                 <div class="collapsible-content collapsed">
                     <p class="region-desc">位于王国东部，威尔海姆城的上层区域，洁净有序，也就是所谓的"云端之上"。</p>
-                    
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>百业大街 (商业文化中心)
+
+                    <!-- 核心区 -->
+                    <div class="district-block">
+                        <h3 class="district-title collapsible-header collapsed">
+                            <span class="collapsible-icon">▼</span>核心区
                         </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">执行局总部</span>: <span class="location-desc">维持秩序的铁腕机构，黑色的建筑如同一只蹲伏的巨兽。</span></li>
-                                <li class="location-item"><span class="location-name">皇家蜂鸟报社</span>: <span class="location-desc">信息的集散地，整日回响着印刷机的轰鸣。</span></li>
-                                <li class="location-item"><span class="location-name">皇家大剧院</span>: <span class="location-desc">奢华的公众娱乐中心，名流云集。</span></li>
-                            </ul>
+                        <div class="collapsible-content collapsed">
+                            <p class="region-desc">政治、商业与贵族生活的核心地带。</p>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>百业大街
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">执行局总部</span>: <span class="location-desc">维持秩序的铁腕机构</span></li>
+                                        <li class="location-item"><span class="location-name">皇家蜂鸟报社</span>: <span class="location-desc">信息的集散地，整日回响着印刷机的轰鸣。</span></li>
+                                        <li class="location-item"><span class="location-name">皇家大剧院</span>: <span class="location-desc">奢华的公众娱乐中心，名流云集。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>白银长廊
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">泰晤士交易所</span>: <span class="location-desc">贸易同盟总部，巨大的穹顶下流动着足以买下半个王国的财富。</span></li>
+                                        <li class="location-item"><span class="location-name">雷纳德侦探所</span>: <span class="location-desc">处理各类私人委托，透过窗户常能看到那个冷峻的身影。</span></li>
+                                        <li class="location-item"><span class="location-name">政信差</span>: <span class="location-desc">官方委托板，张贴着来自议会或富商的各类需求。</span></li>
+                                        <li class="location-item"><span class="location-name">发条鸟咖啡厅</span>: <span class="location-desc">享受午后时光的绝佳去处，空气中弥漫着昂贵的咖啡豆香气。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>星辰大道
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">圣恩大教堂</span>: <span class="location-desc">黎明教会的权力核心，尖塔高耸入云，钟声肃穆。</span></li>
+                                        <li class="location-item"><span class="location-name">星光宫</span>: <span class="location-desc">女王与议会的所在地，依希利亚的心脏。</span></li>
+                                        <li class="location-item"><span class="location-name">星穹学院</span>: <span class="location-desc">贵族精英的摇篮，也是灵质科技的研发前沿。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>蔷薇大道
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">罗森伯格庄园</span>: <span class="location-desc">艾丽西亚公爵的府邸，古典而威严。</span></li>
+                                        <li class="location-item"><span class="location-name">温特公馆</span>: <span class="location-desc">露熙特与海纳尔的家</span></li>
+                                        <li class="location-item"><span class="location-name">白蔷薇击剑俱乐部</span>: <span class="location-desc">贵族子弟磨练剑术与社交的场所。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>黄铜大街
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">金百合服装店</span>: <span class="location-desc">引领王国时尚潮流的高级成衣店。</span></li>
+                                        <li class="location-item"><span class="location-name">皇家武器工坊</span>: <span class="location-desc">提供最顶尖的装备定制服务，当然，价格不菲。</span></li>
+                                        <li class="location-item"><span class="location-name">蒸汽动力</span>: <span class="location-desc">专精于高难度精密机械与义肢的维修与改造。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>白银长廊 (泰晤士河沿岸)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">泰晤士交易所</span>: <span class="location-desc">贸易同盟总部，巨大的穹顶下流动着足以买下半个王国的财富。</span></li>
-                                <li class="location-item"><span class="location-name">雷纳德侦探所</span>: <span class="location-desc">处理各类私人委托，透过窗户常能看到那个冷峻的身影。</span></li>
-                                <li class="location-item"><span class="location-name">政信差</span>: <span class="location-desc">官方委托板，张贴着来自议会或富商的各类需求。</span></li>
-                                <li class="location-item"><span class="location-name">发条鸟咖啡厅</span>: <span class="location-desc">享受午后时光的绝佳去处，空气中弥漫着昂贵的咖啡豆香气。</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>星辰大道 (政治中心)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">圣恩大教堂</span>: <span class="location-desc">黎明教会的权力核心，尖塔高耸入云，钟声肃穆。</span></li>
-                                <li class="location-item"><span class="location-name">星光宫</span>: <span class="location-desc">女王与议会的所在地，依希利亚的心脏。</span></li>
-                                <li class="location-item"><span class="location-name">星穹学院</span>: <span class="location-desc">贵族精英的摇篮，也是灵质科技的研发前沿。</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>蔷薇大道 (贵族居住区)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">罗森伯格庄园</span>: <span class="location-desc">艾丽西亚公爵的府邸，古典而威严。</span></li>
-                                <li class="location-item"><span class="location-name">温特公馆</span>: <span class="location-desc">露熙特与海纳尔的家</span></li>
-                                <li class="location-item"><span class="location-name">白蔷薇击剑俱乐部</span>: <span class="location-desc">贵族子弟磨练剑术与社交的场所。</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>黄铜大街 (工坊区)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">金百合服装店</span>: <span class="location-desc">引领王国时尚潮流的高级成衣店。</span></li>
-                                <li class="location-item"><span class="location-name">皇家武器工坊</span>: <span class="location-desc">提供最顶尖的装备定制服务，当然，价格不菲。</span></li>
-                                <li class="location-item"><span class="location-name">蒸汽动力</span>: <span class="location-desc">专精于高难度精密机械与义肢的维修与改造。</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>暮光巷(文化区与交通)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">皇家植物园</span>: <span class="location-desc">培养各种珍稀植物的展览馆，圣香的原料</span></li>
-                                <li class="location-item"><span class="location-name">云端空港</span>: <span class="location-desc">飞艇升降与空中交通枢纽</span></li>
-                                <li class="location-item"><span class="location-name">万国博览馆</span>: <span class="location-desc">展览新奇的科技产物与奇珍异兽</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
+                    <!-- 居民区 -->
+                    <div class="district-block">
+                        <h3 class="district-title collapsible-header collapsed">
                             <span class="collapsible-icon">▼</span>居民区
                         </h3>
-                        <div class="collapsible-content">
+                        <div class="collapsible-content collapsed">
+                            <p class="region-desc">上城中产与普通公民的居住地。</p>
                             <ul class="location-list">
                                 <li class="location-item"><span class="location-name">圣保罗车站</span>: <span class="location-desc">上城最大的火车站，蒸汽列车通往北部自治领与上城各处</span></li>
                                 <li class="location-item"><span class="location-name">白鸥区</span>: <span class="location-desc">石砌建筑群，维多利亚风格的广阔居民区</span></li>
@@ -1882,6 +2134,30 @@
                         </div>
                     </div>
 
+                    <!-- 金盏花大区 -->
+                    <div class="district-block">
+                        <h3 class="district-title collapsible-header collapsed">
+                            <span class="collapsible-icon">▼</span>金盏花大区
+                        </h3>
+                        <div class="collapsible-content collapsed">
+                            <p class="region-desc">文化、娱乐与科研展览区。</p>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>暮光巷
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">皇家植物园</span>: <span class="location-desc">培养各种珍稀植物的展览馆，圣香的原料</span></li>
+                                        <li class="location-item"><span class="location-name">云端空港</span>: <span class="location-desc">飞艇升降与空中交通枢纽</span></li>
+                                        <li class="location-item"><span class="location-name">万国博览馆</span>: <span class="location-desc">展览新奇的科技产物与奇珍异兽</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 连接通道 -->
                     <div class="street-block">
                         <h3 class="street-title collapsible-header">
                             <span class="collapsible-icon">▼</span>连接通道
@@ -1898,11 +2174,133 @@
             <!-- 底城 -->
             <div class="region-block">
                 <h2 class="region-title collapsible-header collapsed">
-                    <span class="collapsible-icon">▼</span>底城 (平民区)
+                    <span class="collapsible-icon">▼</span>底城
                 </h2>
                 <div class="collapsible-content collapsed">
                     <p class="region-desc">位于王国中部，被甜雾笼罩的下层区域，混乱、生机勃勃且充满危险。</p>
 
+                    <!-- 中心区 -->
+                    <div class="district-block">
+                        <h3 class="district-title collapsible-header collapsed">
+                            <span class="collapsible-icon">▼</span>中心区
+                        </h3>
+                        <div class="collapsible-content collapsed">
+                            <p class="region-desc">底城的混乱心脏，势力交错。</p>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>独立日大道
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">罢工纪念碑</span>: <span class="location-desc">广场中央的沉默石碑，铭刻着大罢工牺牲者的名字。</span></li>
+                                        <li class="location-item"><span class="location-name">公会总部</span>: <span class="location-desc">这里的影子政府，工人们的后盾。</span></li>
+                                        <li class="location-item"><span class="location-name">渡鸦酒馆</span>: <span class="location-desc">情报与委托的集散地，卡门老板娘总是笑脸迎人。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>铁锈水岸
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">一号工业区</span>: <span class="location-desc">黑烟滚滚，机器日夜轰鸣的生产线。</span></li>
+                                        <li class="location-item"><span class="location-name">齿轮匠集市</span>: <span class="location-desc">各类二手零件、改装武器的淘金地。</span></li>
+                                        <li class="location-item"><span class="location-name">哑雀行</span>: <span class="location-desc">表面是商铺，实则是伊希莉的情报网与走私黑市。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>夜莺街
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">百灵鸟妓院</span>: <span class="location-desc">欲望的销金窟，也流通着最隐秘的消息。</span></li>
+                                        <li class="location-item"><span class="location-name">熔炉竞技场</span>: <span class="location-desc">血汗与欢呼交织的地下角斗场。</span></li>
+                                        <li class="location-item"><span class="location-name">第七天堂赌场</span>: <span class="location-desc">能够一夜暴富也能瞬间倾家荡产的地方。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>喜鹊巷
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">蒸汽温室</span>: <span class="location-desc">大型公共浴场，底城洗浴文化的体现</span></li>
+                                        <li class="location-item"><span class="location-name">灰烬总站</span>: <span class="location-desc">大型火车站，连接矿区与工业区</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>地下区域
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">下水道</span>: <span class="location-desc">错综复杂的地下迷宫，隐藏着不为人知的秘密通道。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 居民区 -->
+                    <div class="district-block">
+                        <h3 class="district-title collapsible-header collapsed">
+                            <span class="collapsible-icon">▼</span>居民区
+                        </h3>
+                        <div class="collapsible-content collapsed">
+                            <p class="region-desc">底城平民的生存空间。</p>
+                            <ul class="location-list">
+                                <li class="location-item"><span class="location-name">旧砖区</span>: <span class="location-desc">密集的四层公寓楼，典型的底城生活区</span></li>
+                                <li class="location-item"><span class="location-name">烟囱区</span>: <span class="location-desc">有些年代的建筑群，租金廉价，更混乱也更自由的居民区</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 滩涂区 -->
+                    <div class="district-block">
+                        <h3 class="district-title collapsible-header collapsed">
+                            <span class="collapsible-icon">▼</span>滩涂区
+                        </h3>
+                        <div class="collapsible-content collapsed">
+                            <p class="region-desc">南部沿海区域，贫穷与自由并存。</p>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>磐石巷
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">黎明教堂</span>: <span class="location-desc">底城人的精神寄托，更加质朴亲民。</span></li>
+                                        <li class="location-item"><span class="location-name">黑水港</span>: <span class="location-desc">吞吐着货物的咽喉，总是弥漫着鱼腥味和机油味。</span></li>
+                                        <li class="location-item"><span class="location-name">齿轮与花工作室</span>: <span class="location-desc">这里的机械师技术精湛，那是小薇的地盘。</span></li>
+                                        <li class="location-item"><span class="location-name">奇货铺</span>: <span class="location-desc">维兹的奇货铺，贩卖各种道具。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="street-block">
+                                <h4 class="street-title collapsible-header">
+                                    <span class="collapsible-icon">▼</span>浮木镇
+                                </h4>
+                                <div class="collapsible-content">
+                                    <ul class="location-list">
+                                        <li class="location-item"><span class="location-name">海上棚屋区</span>: <span class="location-desc">由废船和木筏拼接而成的水上聚落。</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 连接通道 -->
                     <div class="street-block">
                         <h3 class="street-title collapsible-header">
                             <span class="collapsible-icon">▼</span>连接通道
@@ -1913,95 +2311,6 @@
                             </ul>
                         </div>
                     </div>
-                    
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>磐石巷 (沿海街道)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">黎明教堂</span>: <span class="location-desc">底城人的精神寄托，更加质朴亲民。</span></li>
-                                <li class="location-item"><span class="location-name">黑水港</span>: <span class="location-desc">吞吐着货物的咽喉，总是弥漫着鱼腥味和机油味。</span></li>
-                                <li class="location-item"><span class="location-name">齿轮与花工作室</span>: <span class="location-desc">这里的机械师技术精湛，那是小薇的地盘。</span></li>
-                                <li class="location-item"><span class="location-name">奇货铺</span>: <span class="location-desc">维兹的奇货铺，贩卖各种道具。</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>独立日大道 (底城心脏)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">罢工纪念碑</span>: <span class="location-desc">广场中央的沉默石碑，铭刻着大罢工牺牲者的名字。</span></li>
-                                <li class="location-item"><span class="location-name">公会总部</span>: <span class="location-desc">这里的影子政府，工人们的后盾。</span></li>
-                                <li class="location-item"><span class="location-name">渡鸦酒馆</span>: <span class="location-desc">情报与委托的集散地，卡门老板娘总是笑脸迎人。</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>铁锈水岸 (工业河岸)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">一号工业区</span>: <span class="location-desc">黑烟滚滚，机器日夜轰鸣的生产线。</span></li>
-                                <li class="location-item"><span class="location-name">齿轮匠集市</span>: <span class="location-desc">各类二手零件、改装武器的淘金地。</span></li>
-                                <li class="location-item"><span class="location-name">哑雀行</span>: <span class="location-desc">表面是商铺，实则是伊希莉的情报网与走私黑市。</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>夜莺街 (红灯区)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">百灵鸟妓院</span>: <span class="location-desc">欲望的销金窟，也流通着最隐秘的消息。</span></li>
-                                <li class="location-item"><span class="location-name">熔炉竞技场</span>: <span class="location-desc">血汗与欢呼交织的地下角斗场。</span></li>
-                                <li class="location-item"><span class="location-name">第七天堂赌场</span>: <span class="location-desc">能够一夜暴富也能瞬间倾家荡产的地方。</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>喜鹊巷 (文化区与交通)
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">蒸汽温室</span>: <span class="location-desc">大型公共浴场，底城洗浴文化的体现</span></li>
-                                <li class="location-item"><span class="location-name">灰烬总站</span>: <span class="location-desc">大型火车站，连接矿区与工业区</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>居民区
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">旧砖区</span>: <span class="location-desc">密集的四层公寓楼，典型的底城生活区</span></li>
-                                <li class="location-item"><span class="location-name">烟囱区</span>: <span class="location-desc">有些年代的建筑群，租金廉价，更混乱也更自由的居民区</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="street-block">
-                        <h3 class="street-title collapsible-header">
-                            <span class="collapsible-icon">▼</span>地下区域
-                        </h3>
-                        <div class="collapsible-content">
-                            <ul class="location-list">
-                                <li class="location-item"><span class="location-name">下水道</span>: <span class="location-desc">错综复杂的地下迷宫，隐藏着不为人知的秘密通道。</span></li>
-                            </ul>
-                        </div>
-                    </div>
-
 
                     <div class="street-block">
                         <h3 class="street-title collapsible-header">
@@ -2013,21 +2322,16 @@
                             </ul>
                         </div>
                     </div>
-
                 </div>
             </div>
 
             <!-- 禁区 -->
             <div class="region-block">
                 <h2 class="region-title collapsible-header collapsed">
-                    <span class="collapsible-icon">▼</span>禁区 (西部荒野)
+                    <span class="collapsible-icon">▼</span>禁区
                 </h2>
                 <div class="collapsible-content collapsed">
                     <p class="region-desc">危机四伏的西部疆域，那是星核坠落的方向。</p>
-                    
-                    <div class="street-block">
-                        <h3 class="street-title">核心地点</h3>
-                    </div>
 
                     <div class="street-block">
                         <h3 class="street-title collapsible-header">
@@ -2039,7 +2343,7 @@
                             </ul>
                         </div>
                     </div>
-    
+
                     <div class="street-block">
                         <h3 class="street-title collapsible-header">
                             <span class="collapsible-icon">▼</span>锈蚀裂谷
@@ -2093,6 +2397,19 @@
 
                     <div class="street-block">
                         <h3 class="street-title collapsible-header">
+                            <span class="collapsible-icon">▼</span>北部雪脉
+                        </h3>
+                        <div class="collapsible-content">
+                            <ul class="location-list">
+                                <li class="location-item"><span class="location-name">碎星雪脉</span>: <span class="location-desc">连绵的雪山群。</span></li>
+                                <li class="location-item"><span class="location-name">霜华冰原</span>: <span class="location-desc">外围冰原。</span></li>
+                                <li class="location-item"><span class="location-name">冰川带</span>: <span class="location-desc">深邃的冰川峡谷。</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="street-block">
+                        <h3 class="street-title collapsible-header">
                             <span class="collapsible-icon">▼</span>星渊花海
                         </h3>
                         <div class="collapsible-content">
@@ -2123,14 +2440,18 @@
             <!-- 凛冬自治领 -->
             <div class="region-block">
                 <h2 class="region-title collapsible-header collapsed">
-                    <span class="collapsible-icon">▼</span>凛冬自治领 (北方)
+                    <span class="collapsible-icon">▼</span>凛冬自治领
                 </h2>
                 <div class="collapsible-content collapsed">
                     <p class="region-desc">泰晤士河上游的粮仓，寒冷而丰饶。</p>
                     <ul class="location-list">
+                        <li class="location-item"><span class="location-name">黑松林</span>: <span class="location-desc">广阔且危险的森林地带。</span></li>
                         <li class="location-item"><span class="location-name">沃顿镇</span>: <span class="location-desc">北方的核心枢纽，连接着贵族庄园与磨坊。</span></li>
                         <li class="location-item"><span class="location-name">麦田海</span>: <span class="location-desc">一望无际的金黄麦浪，风吹过时有金属摩擦的声响。</span></li>
                         <li class="location-item"><span class="location-name">黑河渡口</span>: <span class="location-desc">粮食运往核心区的重要码头。</span></li>
+                        <li class="location-item"><span class="location-name">霜叶村</span>: <span class="location-desc">伐木工聚集的村落。</span></li>
+                        <li class="location-item"><span class="location-name">织雾村</span>: <span class="location-desc">利用地热蒸汽的纺织村落。</span></li>
+                        <li class="location-item"><span class="location-name">铁犁村</span>: <span class="location-desc">传统的农耕村庄。</span></li>
                     </ul>
                 </div>
             </div>
@@ -2182,6 +2503,25 @@
             </div>
         </div>
     </div>
+
+    <!-- 全屏聊天输入栏 -->
+    <div id="fullscreen-chat-bar">
+        <div class="chat-bar-inner">
+            <div class="branches-popup hidden" id="branches-popup">
+                <div class="branches-popup-title">⚡ 分支选项（点击填入）</div>
+                <div id="branches-list"></div>
+            </div>
+            <textarea id="fullscreen-input" placeholder="在全屏模式下与AI对话（回车发送，Shift+回车换行；点此查看分支选项）" rows="1"></textarea>
+            <button id="fullscreen-send-btn" title="发送消息">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- 全屏通知弹窗 -->
+    <div class="fs-toast" id="fs-toast"></div>
 
     <div id="settings-panel">
         <div class="settings-header">
@@ -3062,42 +3402,88 @@
             initMapCollapse();
 
             // 全屏功能
-            fullscreenToggle.addEventListener('click', () => {
-                if (!document.fullscreenElement && !document.webkitFullscreenElement && 
-                    !document.mozFullScreenElement && !document.msFullscreenElement) {
-                    // 进入全屏
-                    if (document.documentElement.requestFullscreen) {
-                        document.documentElement.requestFullscreen();
-                    } else if (document.documentElement.webkitRequestFullscreen) {
-                        document.documentElement.webkitRequestFullscreen();
-                    } else if (document.documentElement.mozRequestFullScreen) {
-                        document.documentElement.mozRequestFullScreen();
-                    } else if (document.documentElement.msRequestFullscreen) {
-                        document.documentElement.msRequestFullscreen();
-                    }
+            // 用自维护的 flag，直接控制元素内联样式，确保 iframe 环境下也能正常工作
+            let _isFullscreen = false;
+            const chatBarEl = document.getElementById('fullscreen-chat-bar');
+            let _fixedFloorHTML = ''; // 保存非全屏时的固定楼层内容
+            let _updateSingleFn = null; // 将由全屏聊天模块设置
+
+            function applyFullscreenState(entering) {
+                _isFullscreen = entering;
+                if (entering) {
+                    // 保存当前固定楼层内容
+                    _fixedFloorHTML = contentElement.innerHTML;
+                    document.documentElement.classList.add('fullscreen-mode');
                 } else {
-                    // 退出全屏
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    } else if (document.mozCancelFullScreen) {
-                        document.mozCancelFullScreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
+                    document.documentElement.classList.remove('fullscreen-mode');
+                    // 恢复固定楼层内容
+                    if (_fixedFloorHTML) {
+                        contentElement.innerHTML = _fixedFloorHTML;
+                        originalContent = _fixedFloorHTML;
                     }
+                }
+                // 直接设置内联样式，不依赖 CSS 选择器
+                if (chatBarEl) {
+                    chatBarEl.style.display = entering ? 'block' : 'none';
+                }
+                if (contentElement) {
+                    contentElement.style.paddingBottom = entering ? '90px' : '';
+                }
+                updateFullscreenIcon();
+                // 进入全屏时立即拉取最后一楼内容
+                if (entering && typeof _updateSingleFn === 'function') {
+                    _updateSingleFn();
+                }
+            }
+
+            fullscreenToggle.addEventListener('click', () => {
+                if (!_isFullscreen) {
+                    // 先立即切换 CSS 样式（不等原生事件，iframe 环境下原生事件可能不触发）
+                    applyFullscreenState(true);
+                    // 同时尝试原生全屏
+                    try {
+                        if (document.documentElement.requestFullscreen) {
+                            document.documentElement.requestFullscreen().catch(() => {});
+                        } else if (document.documentElement.webkitRequestFullscreen) {
+                            document.documentElement.webkitRequestFullscreen();
+                        } else if (document.documentElement.mozRequestFullScreen) {
+                            document.documentElement.mozRequestFullScreen();
+                        } else if (document.documentElement.msRequestFullscreen) {
+                            document.documentElement.msRequestFullscreen();
+                        }
+                    } catch (e) { /* 忽略 iframe 安全限制 */ }
+                } else {
+                    applyFullscreenState(false);
+                    try {
+                        if (document.exitFullscreen) {
+                            document.exitFullscreen().catch(() => {});
+                        } else if (document.webkitExitFullscreen) {
+                            document.webkitExitFullscreen();
+                        } else if (document.mozCancelFullScreen) {
+                            document.mozCancelFullScreen();
+                        } else if (document.msExitFullscreen) {
+                            document.msExitFullscreen();
+                        }
+                    } catch (e) { /* 忽略 */ }
                 }
             });
 
-            // 监听全屏状态变化，更新图标
-            document.addEventListener('fullscreenchange', updateFullscreenIcon);
-            document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
-            document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
-            document.addEventListener('MSFullscreenChange', updateFullscreenIcon);
+            // 仍然监听原生全屏变更（如用户按 Esc 退出），保持状态同步
+            function handleNativeFullscreenChange() {
+                const nativeFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement ||
+                                            document.mozFullScreenElement || document.msFullscreenElement);
+                // 仅当原生全屏状态与当前 flag 不一致时才同步（防止循环）
+                if (!nativeFullscreen && _isFullscreen) {
+                    applyFullscreenState(false);
+                }
+            }
+            document.addEventListener('fullscreenchange', handleNativeFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleNativeFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleNativeFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleNativeFullscreenChange);
 
             function updateFullscreenIcon() {
-                const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || 
-                                   document.mozFullScreenElement || document.msFullscreenElement;
+                const isFullscreen = _isFullscreen;
                 
                 // 添加/移除 fullscreen-mode class 以确保样式正确应用
                 if (isFullscreen) {
@@ -3715,6 +4101,244 @@ ${historyContent}
             }
 
             console.log('[智能总结器] 初始化完成');
+
+            // ============================================
+            // 全屏聊天输入栏 / <single>实时更新 / <branches>分支弹出
+            // ============================================
+            (function () {
+                const fullscreenInputEl = document.getElementById('fullscreen-input');
+                const fullscreenSendBtn = document.getElementById('fullscreen-send-btn');
+                const branchesPopupEl   = document.getElementById('branches-popup');
+                const branchesListEl    = document.getElementById('branches-list');
+
+                if (!fullscreenInputEl || !fullscreenSendBtn) {
+                    console.warn('[全屏聊天] 找不到输入框元素，跳过初始化');
+                    return;
+                }
+
+                // ── <single> 精准正则（取最后一个匹配）─────────────────
+                const SINGLE_REGEX = /<single>\s*((?:(?!<\/?single>).)*?)\s*<\/single>(?![\s\S]*<\/?single>)/gsi;
+
+                /**
+                 * 从最后一楼提取 <single> 内容并实时更新正文窗口（仅全屏时生效）
+                 */
+                function updateContentFromSingle() {
+                    if (!_isFullscreen) return; // 非全屏不更新
+                    try {
+                        const lastMsgs = getChatMessages(-1);
+                        if (!lastMsgs || lastMsgs.length === 0) return;
+                        const raw = lastMsgs[0].message;
+
+                        SINGLE_REGEX.lastIndex = 0;
+                        let singleMatch = null;
+                        let m;
+                        while ((m = SINGLE_REGEX.exec(raw)) !== null) {
+                            singleMatch = m;
+                        }
+                        if (!singleMatch) return;
+
+                        const freshText = singleMatch[1].trim();
+                        // 设置纯文本后走完整高亮流程
+                        contentElement.textContent = freshText;
+                        applyHighlights();
+                        // 滚动到底部（全屏时看最新内容）
+                        contentElement.scrollTop = contentElement.scrollHeight;
+                    } catch (e) {
+                        console.warn('[全屏] 从 <single> 更新内容失败:', e);
+                    }
+                }
+
+                // 将函数挂到外层，供 applyFullscreenState 调用
+                _updateSingleFn = updateContentFromSingle;
+
+                // 新消息收到 & 消息更新时均触发（内部会判断 _isFullscreen）
+                eventOn(tavern_events.MESSAGE_RECEIVED, updateContentFromSingle);
+                eventOn(tavern_events.MESSAGE_UPDATED,  updateContentFromSingle);
+
+                // ── 角色/怪物/地点 检索通知 ──────────────────────────────
+                const CHAR_REGEX   = /<char_info>\s*((?:(?!<\/?char_info>).)*)\s*<\/char_info>(?![\s\S]*<\/?char_info>)/gsi;
+                const MONSTER_REGEX = /<Monster_info>\s*((?:(?!<\/?Monster_info>).)*)\s*<\/Monster_info>(?![\s\S]*<\/?Monster_info>)/gsi;
+                const AREA_REGEX   = /<area_info>\s*((?:(?!<\/?area_info>).)*)\s*<\/area_info>(?![\s\S]*<\/?area_info>)/gsi;
+
+                const fsToastEl = document.getElementById('fs-toast');
+
+                let _fsToastTimer = null;
+                function showFsToast(msg) {
+                    if (!fsToastEl) return;
+                    fsToastEl.innerHTML = msg + '<span style="margin-left:12px;opacity:0.6;font-size:12px;">点击关闭</span>';
+                    fsToastEl.classList.add('visible');
+                    if (_fsToastTimer) clearTimeout(_fsToastTimer);
+                    _fsToastTimer = setTimeout(() => {
+                        fsToastEl.classList.remove('visible');
+                        _fsToastTimer = null;
+                    }, 3000);
+                }
+
+                // 点击关闭 toast
+                if (fsToastEl) {
+                    fsToastEl.addEventListener('click', () => {
+                        fsToastEl.classList.remove('visible');
+                    });
+                }
+
+                /**
+                 * 检索最后一楼的 <char_info>/<Monster_info>/<area_info> 标签
+                 * 发现时弹出通知（仅全屏时）
+                 */
+                function checkInfoTags() {
+                    if (!_isFullscreen) return;
+                    try {
+                        const lastMsgs = getChatMessages(-1);
+                        if (!lastMsgs || lastMsgs.length === 0) return;
+                        const raw = lastMsgs[0].message;
+                        const found = [];
+
+                        CHAR_REGEX.lastIndex = 0;
+                        if (CHAR_REGEX.test(raw)) found.push('角色');
+
+                        MONSTER_REGEX.lastIndex = 0;
+                        if (MONSTER_REGEX.test(raw)) found.push('怪物');
+
+                        AREA_REGEX.lastIndex = 0;
+                        if (AREA_REGEX.test(raw)) found.push('地点');
+
+                        if (found.length > 0) {
+                            showFsToast('<span class="fs-toast-icon">📋</span>' + found.join(' / ') + ' 已生成，请注意查收哦');
+                        }
+                    } catch (e) {
+                        console.warn('[全屏] 检索信息标签失败:', e);
+                    }
+                }
+
+                // 消息收到/更新时检索信息标签
+                eventOn(tavern_events.MESSAGE_RECEIVED, checkInfoTags);
+                eventOn(tavern_events.MESSAGE_UPDATED, checkInfoTags);
+
+                // ── 解析 <branches> 分支选项 ─────────────────────────────
+                /**
+                 * 从消息文本中解析分支选项
+                 * 匹配 <branches> 块内以 A./B./C./D. 等字母开头的选项
+                 * 点击选项只填入字母（如 A、B、C、D）
+                 * @param {string} text
+                 * @returns {{letter:string, label:string}[]}
+                 */
+                function parseBranchOptions(text) {
+                    if (!text) return [];
+
+                    // 提取 <branches> 块（含 <details> 包裹的情况）
+                    const branchBlockRe = /<branches>\s+(?:<details>[\s\S]*?<\/summary>\s*)?([\s\S]+?)(?:<\/details>\s*)?<\/branches>/gi;
+                    const opts = [];
+                    let bm;
+                    while ((bm = branchBlockRe.exec(text)) !== null) {
+                        const inner = bm[1];
+                        // 去除 HTML 标签
+                        const plain = inner.replace(/<[^>]+>/g, '');
+                        // 匹配 "A.内容"、"B.内容" 等（支持 A-Z）
+                        const optRe = /([A-Z])\.\s*([^\n]+)/g;
+                        let om;
+                        while ((om = optRe.exec(plain)) !== null) {
+                            const letter = om[1];
+                            const desc = om[2].trim();
+                            if (desc) opts.push({ letter, label: desc });
+                        }
+                    }
+                    return opts;
+                }
+
+                // ── 分支弹出框逻辑 ────────────────────────────────────────
+                function showBranchesPopup() {
+                    try {
+                        const lastMsgs = getChatMessages(-1);
+                        if (!lastMsgs || lastMsgs.length === 0) {
+                            branchesPopupEl.classList.add('hidden');
+                            return;
+                        }
+                        const options = parseBranchOptions(lastMsgs[0].message);
+                        if (options.length === 0) {
+                            branchesPopupEl.classList.add('hidden');
+                            return;
+                        }
+
+                        branchesListEl.innerHTML = '';
+                        options.forEach((opt) => {
+                            const btn = document.createElement('div');
+                            btn.className = 'branch-option';
+                            // 字母标签 + 描述文本
+                            const letterSpan = document.createElement('span');
+                            letterSpan.className = 'branch-option-letter';
+                            letterSpan.textContent = opt.letter;
+                            const textSpan = document.createElement('span');
+                            textSpan.className = 'branch-option-text';
+                            textSpan.textContent = opt.label;
+                            btn.appendChild(letterSpan);
+                            btn.appendChild(textSpan);
+                            btn.addEventListener('click', e => {
+                                e.stopPropagation();
+                                // 只填入选项描述内容（不带字母前缀）
+                                fullscreenInputEl.value = opt.label;
+                                fullscreenInputEl.style.height = 'auto';
+                                branchesPopupEl.classList.add('hidden');
+                                fullscreenInputEl.focus();
+                            });
+                            branchesListEl.appendChild(btn);
+                        });
+                        branchesPopupEl.classList.remove('hidden');
+                    } catch (e) {
+                        console.warn('[全屏] 加载分支选项失败:', e);
+                    }
+                }
+
+                // 点击 / 聚焦输入框触发弹出
+                fullscreenInputEl.addEventListener('click', showBranchesPopup);
+                fullscreenInputEl.addEventListener('focus', showBranchesPopup);
+
+                // 点击输入框或弹出框外部时关闭弹出框
+                document.addEventListener('click', e => {
+                    if (!branchesPopupEl.contains(e.target) && e.target !== fullscreenInputEl) {
+                        branchesPopupEl.classList.add('hidden');
+                    }
+                }, true);
+
+                // ── 文本框自动高度 ────────────────────────────────────────
+                fullscreenInputEl.addEventListener('input', () => {
+                    fullscreenInputEl.style.height = 'auto';
+                    fullscreenInputEl.style.height = Math.min(fullscreenInputEl.scrollHeight, 130) + 'px';
+                });
+
+                // ── 发送消息 ──────────────────────────────────────────────
+                let _sending = false;
+                async function sendFullscreenMessage() {
+                    const text = fullscreenInputEl.value.trim();
+                    if (!text || _sending) return;
+
+                    _sending = true;
+                    branchesPopupEl.classList.add('hidden');
+                    fullscreenInputEl.value = '';
+                    fullscreenInputEl.style.height = 'auto';
+                    fullscreenSendBtn.disabled = true;
+
+                    try {
+                        await createChatMessages([{ role: 'user', message: text }]);
+                        showFsToast('消息已发送');
+                        await triggerSlash('/trigger');
+                    } catch (e) {
+                        console.error('[全屏] 发送消息失败:', e);
+                    }
+                    _sending = false;
+                    fullscreenSendBtn.disabled = false;
+                }
+
+                fullscreenSendBtn.addEventListener('click', sendFullscreenMessage);
+                fullscreenInputEl.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendFullscreenMessage();
+                    }
+                });
+
+                console.log('[全屏聊天] 初始化完成');
+            })();
+
         })();
     </script>
 </body>

@@ -1,0 +1,269 @@
+```
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开局设置</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: transparent; /* 为了融入背景 */
+            color: #ccc;
+        }
+
+        .container {
+            width: 600px;
+            height: 80px;
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid #444;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+            border-color: #666;
+        }
+
+        .text-label {
+            font-size: 18px;
+            font-weight: 500;
+            color: #e0e0e0;
+            user-select: none;
+        }
+
+        .action-button {
+            padding: 10px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            outline: none;
+        }
+
+        .action-button:hover {
+            background-color: #0069d9;
+        }
+
+        .action-button:active {
+            transform: scale(0.98);
+        }
+
+        .action-button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* 简单的反馈动画/样式 */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="text-label">点击切换条目</div>
+        <button id="startBtn" class="action-button">切换条目</button>
+    </div>
+
+    <div id="toast" class="toast">设置已应用！</div>
+
+    <script>
+        // 定义需要处理的条目
+        const ENTRIES_TO_DISABLE = [
+            '<公爵>艾丽西亚',
+            '艾丽西亚详细',
+            '勇者开局'
+        ];
+
+        const ENTRIES_TO_ENABLE = [
+            '<退休>艾丽西亚',
+            '主角议员',
+            '艾丽西亚退休详细'
+        ];
+
+        const btn = document.getElementById('startBtn');
+        const toast = document.getElementById('toast');
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        /**
+         * 尝试获取上下文中的API。
+         * 优先检查 window, 然后 window.parent
+         */
+        function getApi() {
+            // 在某些扩展实现中，API可能在 window.TavernHelper 或者被直接注入到 window
+            // 通常在iframe中，需要通过 window.parent 访问主窗口的全局变量
+            
+            // 尝试直接访问 (如果是注入脚本)
+            if (typeof updateWorldbookWith !== 'undefined') {
+                return {
+                    getGlobalWorldbookNames: typeof getGlobalWorldbookNames !== 'undefined' ? getGlobalWorldbookNames : undefined,
+                    getCharWorldbookNames: typeof getCharWorldbookNames !== 'undefined' ? getCharWorldbookNames : undefined,
+                    updateWorldbookWith: updateWorldbookWith,
+                };
+            }
+
+            // 尝试通过 window.parent (如果是iframe)
+            try {
+                if (window.parent && window.parent !== window && typeof window.parent.updateWorldbookWith !== 'undefined') {
+                    return {
+                        getGlobalWorldbookNames: window.parent.getGlobalWorldbookNames,
+                        getCharWorldbookNames: window.parent.getCharWorldbookNames,
+                        updateWorldbookWith: window.parent.updateWorldbookWith,
+                    };
+                }
+            } catch (e) {
+                // 跨域错误，忽略
+            }
+
+            // 如果都找不到，返回空对象或模拟对象(用于测试UI)
+            return {};
+        }
+
+        async function applySettings() {
+            btn.disabled = true;
+            btn.textContent = '处理中...';
+
+            try {
+                const api = getApi();
+                
+                // 检查必要的API是否存在
+                if (!api.updateWorldbookWith) {
+                    throw new Error('无法找到世界书API (updateWorldbookWith)。请确保在SillyTavern环境运行。');
+                }
+
+                // 1. 获取所有相关的世界书名称
+                // 我们需要扫描 全局世界书 和 当前角色绑定的世界书
+                let worldbookNames = new Set();
+                
+                if (api.getGlobalWorldbookNames) {
+                    (api.getGlobalWorldbookNames() || []).forEach(name => worldbookNames.add(name));
+                }
+
+                if (api.getCharWorldbookNames) {
+                    const charLore = api.getCharWorldbookNames('current');
+                    if (charLore) {
+                        if (charLore.primary) worldbookNames.add(charLore.primary);
+                        if (charLore.additional) charLore.additional.forEach(name => worldbookNames.add(name));
+                    }
+                }
+
+                // 如果API不可用，尝试用 getWorldbookNames 获取所有（虽然可能会慢，或者是获取不到已启用的）
+                 // 但通常我们只关心启用的，或者特定的。这里假设条目都在已启用的世界书里，或者至少在已绑定的里。
+                
+                console.log('Scanning worldbooks:', Array.from(worldbookNames));
+
+                let modifiedCount = 0;
+
+                // 2. 遍历每一个世界书，查找并修改条目
+                for (const bookName of worldbookNames) {
+                    try {
+                        // 使用 updateWorldbookWith 进行原子更新
+                        await api.updateWorldbookWith(bookName, (entries) => {
+                            let changed = false;
+                            
+                            // 所有的条目都在 entries 数组里
+                            for (const entry of entries) {
+                                // 规范化当前条目名称（去除首尾空格）
+                                const entryName = (entry.name || '').trim();
+                                const entryComment = (entry.comment || '').trim();
+
+                                console.log(`Checking entry: "${entryName}" (Enabled: ${entry.enabled})`);
+
+                                // 检查是否需要禁用
+                                // 增加更宽松的匹配逻辑
+                                const shouldDisable = ENTRIES_TO_DISABLE.some(target => 
+                                    target === entryName || 
+                                    target === entryComment ||
+                                    (entryName.includes(target) && target.length > 5) // 防止过短误伤，但允许部分匹配
+                                );
+
+                                if (shouldDisable) { 
+                                    if (entry.enabled !== false) {
+                                        entry.enabled = false;
+                                        changed = true;
+                                        modifiedCount++;
+                                        console.log(`Disabled: ${entryName} in ${bookName}`);
+                                    }
+                                }
+                                
+                                // 检查是否需要启用
+                                const shouldEnable = ENTRIES_TO_ENABLE.some(target => 
+                                    target === entryName || 
+                                    target === entryComment
+                                );
+
+                                if (shouldEnable) {
+                                    if (entry.enabled !== true) {
+                                        entry.enabled = true;
+                                        changed = true;
+                                        modifiedCount++;
+                                        console.log(`Enabled: ${entryName} in ${bookName}`);
+                                    }
+                                }
+                            }
+                            
+                            // 如果有变动，返回新的数组（updateWorldbookWith 会处理替换）
+                            // 建议返回新数组以确保变更被检测到
+                            return changed ? [...entries] : entries; 
+                        });
+                    } catch (e) {
+                        console.warn(`Failed to update worldbook ${bookName}:`, e);
+                    }
+                }
+
+                showToast(`设置完成！已更新 ${modifiedCount} 个条目状态。`);
+                btn.textContent = '设置完成';
+
+            } catch (err) {
+                console.error(err);
+                showToast('错误: ' + err.message);
+                btn.textContent = '重试';
+                btn.disabled = false;
+            }
+        }
+
+        btn.addEventListener('click', applySettings);
+    </script>
+</body>
+</html>
+```

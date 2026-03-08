@@ -1,0 +1,2516 @@
+```
+<!DOCTYPE html>
+<html>
+<!-- Single出品,仅在类脑旅程发布 -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>神骸之城·依希利亚 - 完整自由创造模式</title>
+
+  <style>
+    /* 使用系统字体，不依赖任何外部资源 */
+    :root {
+      --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', '微软雅黑', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+      --font-mono: 'Courier New', Consolas, Monaco, 'Lucida Console', monospace;
+    }
+
+    :root {
+      --bg-color: #f8f9fa;
+      --text-color: #212529;
+      --border-color: #dee2e6;
+      --panel-bg-color: #ffffff;
+      --accent-color: #007bff;
+      --accent-secondary: #6610f2;
+      --body-bg-color: #e9ecef;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --glow-color: rgba(0, 123, 255, 0.3);
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+      --warning-color: #ffc107;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--body-bg-color) 0%, #d4d9e0 100%);
+      margin: 0;
+      font-family: var(--font-main);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(0, 123, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(187, 134, 252, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #theme-toggle {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 44px;
+      height: 44px;
+      background: var(--panel-bg-color);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 12px var(--shadow-color);
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 10;
+    }
+
+    #theme-toggle:hover {
+      transform: scale(1.15) rotate(180deg);
+      box-shadow: 0 8px 20px var(--glow-color);
+    }
+
+    #theme-toggle svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--accent-color);
+    }
+
+    .theme-dropdown {
+      position: fixed;
+      top: 65px;
+      left: 15px;
+      background: var(--panel-bg-color);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px var(--shadow-color);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      overflow: hidden;
+      z-index: 9;
+    }
+
+    .theme-dropdown.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .theme-option {
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9em;
+      font-weight: 600;
+      color: var(--text-color);
+      white-space: nowrap;
+    }
+
+    .theme-option:hover {
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+      color: white;
+    }
+
+    .theme-option.active {
+      background: rgba(0, 123, 255, 0.1);
+      color: var(--accent-color);
+    }
+
+    .creator-container {
+      background: var(--bg-color);
+      width: 90%;
+      max-width: 1200px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px var(--shadow-color), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+      overflow: visible;
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(10px);
+      margin-bottom: 40px;
+    }
+
+    .creator-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-color) 0%, var(--accent-secondary) 50%, var(--accent-color) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 3s ease-in-out infinite;
+      border-radius: 20px 20px 0 0;
+    }
+
+    @keyframes shimmer {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .creator-header {
+      padding: 50px 50px 30px;
+      text-align: center;
+      border-bottom: 2px solid var(--border-color);
+      background: linear-gradient(180deg, rgba(0, 123, 255, 0.03), transparent);
+    }
+
+    .creator-header h1 {
+      margin: 0 0 10px;
+      font-size: 2.5em;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: var(--font-mono);
+      letter-spacing: 2px;
+    }
+
+    .creator-header p {
+      margin: 0;
+      color: #6c757d;
+      font-size: 1em;
+    }
+
+    .creator-content {
+      padding: 40px 50px;
+    }
+
+    .form-section {
+      margin-bottom: 35px;
+    }
+
+    .form-section h3 {
+      font-size: 1.3em;
+      color: var(--text-color);
+      margin: 0 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border-color);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .add-item-btn {
+      padding: 6px 12px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .add-item-btn:hover {
+      background: var(--accent-secondary);
+      transform: scale(1.05);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-color);
+      font-weight: 600;
+      font-size: 0.95em;
+    }
+
+    .form-group label .optional {
+      color: #6c757d;
+      font-weight: 400;
+      font-size: 0.9em;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1em;
+      font-family: 'Noto Sans SC', sans-serif;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px var(--glow-color);
+      transform: translateY(-2px);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .radio-option {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .radio-option input[type="radio"],
+    .radio-option input[type="checkbox"] {
+      display: none;
+    }
+
+    .radio-option label {
+      display: block;
+      padding: 12px 20px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+      font-weight: 600;
+    }
+
+    .radio-option input[type="radio"]:checked+label,
+    .radio-option input[type="checkbox"]:checked+label {
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+      color: white;
+      border-color: var(--accent-color);
+      box-shadow: 0 4px 15px var(--glow-color);
+      transform: translateY(-2px);
+    }
+
+    .radio-option label:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+
+    #attributes-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    @media (min-width: 480px) {
+      #attributes-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .point-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(0, 123, 255, 0.05);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .point-control:hover {
+      border-color: var(--accent-color);
+      transform: translateX(5px);
+    }
+
+    .point-control .label {
+      font-weight: 700;
+      color: var(--text-color);
+      font-size: 1em;
+      flex-shrink: 0;
+    }
+
+    .point-control .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .point-control input {
+      width: 60px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.1em;
+      color: var(--accent-color);
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 6px;
+      padding: 6px;
+      font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+    }
+
+    .point-control input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+    }
+
+    .adjust-btn {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .adjust-btn:hover:not(:disabled) {
+      background: var(--accent-secondary);
+      transform: scale(1.1);
+    }
+
+    .adjust-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .dynamic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .list-item {
+      padding: 15px;
+      background: rgba(0, 123, 255, 0.03);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      position: relative;
+    }
+
+    .list-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .list-item-title {
+      font-weight: 700;
+      color: var(--accent-color);
+      font-size: 1.05em;
+    }
+
+    .remove-item-btn {
+      padding: 4px 12px;
+      background: var(--danger-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .remove-item-btn:hover {
+      background: #c82333;
+      transform: scale(1.05);
+    }
+
+    .character-summary {
+      padding: 30px 50px;
+      background: rgba(0, 0, 0, 0.02);
+      border-top: 2px solid var(--border-color);
+    }
+
+    .character-summary h3 {
+      font-size: 1.3em;
+      color: var(--text-color);
+      margin: 0 0 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    .summary-preview {
+      background: var(--panel-bg-color);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.8em;
+      line-height: 1.8;
+      color: var(--text-color);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      min-height: 150px;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .submit-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .submit-btn {
+      padding: 16px 60px;
+      font-size: 1.1em;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      box-shadow: 0 8px 20px var(--glow-color);
+      font-family: 'Orbitron', 'Noto Sans SC', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 30px var(--glow-color);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .validation-message {
+      margin-top: 15px;
+      color: var(--danger-color);
+      font-size: 0.9em;
+      min-height: 20px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 10px;
+      }
+
+      .creator-container {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .creator-header {
+        padding: 50px 25px 20px;
+      }
+
+      .creator-header h1 {
+        font-size: 1.8em;
+      }
+
+      .creator-content,
+      .character-summary {
+        padding: 25px 20px;
+      }
+
+      .form-row,
+      .form-row-3 {
+        grid-template-columns: 1fr;
+      }
+
+      #theme-toggle {
+        width: 38px;
+        height: 38px;
+      }
+
+      #theme-toggle svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      #attributes-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .creator-header h1 {
+        font-size: 1.5em;
+      }
+
+      .submit-btn {
+        padding: 14px 40px;
+        font-size: 1em;
+      }
+
+      .summary-preview {
+        font-size: 0.75em;
+        padding: 15px;
+      }
+    }
+
+    /* 主题 */
+    body.theme-dark {
+      --bg-color: #1e1e1e;
+      --text-color: #e0e0e0;
+      --border-color: #333333;
+      --panel-bg-color: #2a2a2a;
+      --accent-color: #bb86fc;
+      --body-bg-color: #121212;
+      --shadow-color: rgba(0, 0, 0, 0.5);
+      --glow-color: rgba(187, 134, 252, 0.4);
+    }
+
+    body.theme-ocean {
+      --bg-color: #e8f4f8;
+      --text-color: #1a4d5e;
+      --border-color: #b3dae6;
+      --panel-bg-color: #f0f9fc;
+      --accent-color: #0891b2;
+      --body-bg-color: #d4ebf2;
+      --shadow-color: rgba(8, 145, 178, 0.2);
+      --glow-color: rgba(8, 145, 178, 0.3);
+    }
+
+    body.theme-matrix {
+      --bg-color: #020d03;
+      --text-color: #39ff14;
+      --border-color: #0f3312;
+      --panel-bg-color: #051a08;
+      --accent-color: #39ff14;
+      --body-bg-color: #000000;
+      --shadow-color: rgba(57, 255, 20, 0.3);
+      --glow-color: rgba(57, 255, 20, 0.4);
+    }
+
+    .nested-group {
+      margin-left: 15px;
+      padding-left: 15px;
+      border-left: 3px solid var(--border-color);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="creator-container">
+    <button id="theme-toggle" title="切换主题">
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z" />
+      </svg>
+    </button>
+
+    <div class="theme-dropdown" id="theme-dropdown">
+      <div class="theme-option active" data-theme="light">☀️ 明亮白昼</div>
+      <div class="theme-option" data-theme="dark">🌙 静谧午夜</div>
+      <div class="theme-option" data-theme="ocean">🌊 深海蓝调</div>
+      <div class="theme-option" data-theme="matrix">💻 矩阵终端</div>
+    </div>
+
+    <div class="creator-header">
+      <h1>🌫️ 神骸之城·依希利亚</h1>
+      <p>Complete Free Creator - 完整自由创造模式</p>
+    </div>
+
+    <div class="creator-content">
+      <form id="character-form">
+        <!-- 基础信息 -->
+        <div class="form-section" data-section="1">
+          <h3>📋 主角 - 基础信息</h3>
+
+          <div class="form-group">
+            <label for="char-name">
+              姓名 <span class="optional">(可留空，默认为 {{user}})</span>
+            </label>
+            <input type="text" id="char-name" class="form-input" placeholder="输入角色姓名...">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="char-gender">性别</label>
+              <input type="text" id="char-gender" class="form-input" placeholder="例如: 男/女/其他" required>
+            </div>
+
+            <div class="form-group">
+              <label for="char-age">年龄</label>
+              <input type="number" id="char-age" class="form-input" placeholder="输入年龄..." min="1" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>出生地</label>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input type="radio" id="birthplace-core" name="birthplace" value="核心区" class="birthplace-radio" required>
+                <label for="birthplace-core">🏛️ 核心区</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="birthplace-civilian" name="birthplace" value="平民区" class="birthplace-radio" required>
+                <label for="birthplace-civilian">🌫️ 平民区</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="birthplace-skeleton" name="birthplace" value="神骸区" class="birthplace-radio">
+                <label for="birthplace-skeleton">💀 神骸区</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="char-location">当前所在区域</label>
+            <select id="char-location" class="form-select" required>
+              <option value="核心区">核心区</option>
+              <option value="平民区" selected>平民区</option>
+              <option value="神骸区">神骸区</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 基础属性 -->
+        <div class="form-section" data-section="2">
+          <h3>⚡ 主角 - 基础属性</h3>
+
+          <div id="attributes-container"></div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <label>
+              <input type="checkbox" id="auto-calc-derived" checked> 自动计算衍生数值
+            </label>
+          </div>
+        </div>
+
+        <!-- 衍生数值 -->
+        <div class="form-section" data-section="3">
+          <h3>💪 主角 - 衍生数值</h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="hp-max">生命值上限</label>
+              <input type="number" id="hp-max" class="form-input" min="1" required>
+            </div>
+            <div class="form-group">
+              <label for="hp-current">生命值当前</label>
+              <input type="number" id="hp-current" class="form-input" min="0" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="armor-max">护甲值上限</label>
+              <input type="number" id="armor-max" class="form-input" min="0" value="0" required>
+            </div>
+            <div class="form-group">
+              <label for="armor-current">护甲值当前</label>
+              <input type="number" id="armor-current" class="form-input" min="0" value="0" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="resistance-max">灵质抗性上限</label>
+              <input type="number" id="resistance-max" class="form-input" min="0" required>
+            </div>
+            <div class="form-group">
+              <label for="resistance-current">灵质抗性当前</label>
+              <input type="number" id="resistance-current" class="form-input" min="0" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="stamina-max">体力值上限</label>
+              <input type="number" id="stamina-max" class="form-input" min="1" required>
+            </div>
+            <div class="form-group">
+              <label for="stamina-current">体力值当前</label>
+              <input type="number" id="stamina-current" class="form-input" min="0" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- 污染度 -->
+        <div class="form-section" data-section="4">
+          <h3>☠️ 主角 - 污染度</h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pollution-current">污染度</label>
+              <input type="number" id="pollution-current" class="form-input" value="0" min="0" max="100" required>
+            </div>
+            <div class="form-group">
+              <label for="pollution-stage">污染阶段</label>
+              <select id="pollution-stage" class="form-select" required>
+                <option value="无污染">无污染</option>
+                <option value="轻微结晶">轻微结晶</option>
+                <option value="中度污染">中度污染</option>
+                <option value="重度污染">重度污染</option>
+                <option value="结晶化边缘">结晶化边缘</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pollution-symptoms">可见症状 <span class="optional">(选填，多个用逗号分隔)</span></label>
+            <input type="text" id="pollution-symptoms" class="form-input" placeholder="例如: 手臂有紫色晶簇,眼睛发光">
+          </div>
+        </div>
+
+        <!-- 职业 -->
+        <div class="form-section" data-section="5">
+          <h3>
+            <span>🎭 主角 - 职业</span>
+            <div class="section-actions">
+              <button type="button" class="add-item-btn" data-action="add-profession">➕ 添加职业</button>
+            </div>
+          </h3>
+          <div id="professions-container" class="dynamic-list"></div>
+        </div>
+
+        <!-- 技能 -->
+        <div class="form-section" data-section="6">
+          <h3>
+            <span>🔮 主角 - 技能列表</span>
+            <div class="section-actions">
+              <button type="button" class="add-item-btn" data-action="add-skill">➕ 添加技能</button>
+            </div>
+          </h3>
+          <div id="skills-container" class="dynamic-list"></div>
+        </div>
+
+        <!-- 装备 -->
+        <div class="form-section" data-section="7">
+          <h3>⚔️ 主角 - 装备栏</h3>
+
+          <div class="form-group">
+            <label for="equipment-weapon">主武器 <span class="optional">(选填)</span></label>
+            <input type="text" id="equipment-weapon" class="form-input" placeholder="武器名称">
+          </div>
+
+          <div class="form-group">
+            <label for="equipment-offhand">副手 <span class="optional">(选填)</span></label>
+            <input type="text" id="equipment-offhand" class="form-input" placeholder="盾牌/副武器">
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label for="equipment-head">头部 <span class="optional">(选填)</span></label>
+              <input type="text" id="equipment-head" class="form-input" placeholder="头盔">
+            </div>
+            <div class="form-group">
+              <label for="equipment-body">身体 <span class="optional">(选填)</span></label>
+              <input type="text" id="equipment-body" class="form-input" placeholder="护甲">
+            </div>
+            <div class="form-group">
+              <label for="equipment-hands">手部 <span class="optional">(选填)</span></label>
+              <input type="text" id="equipment-hands" class="form-input" placeholder="手套">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="equipment-legs">腿部 <span class="optional">(选填)</span></label>
+              <input type="text" id="equipment-legs" class="form-input" placeholder="护腿">
+            </div>
+            <div class="form-group">
+              <label for="equipment-accessory">饰品 <span class="optional">(选填)</span></label>
+              <input type="text" id="equipment-accessory" class="form-input" placeholder="饰品">
+            </div>
+          </div>
+        </div>
+
+        <!-- 背包物品 -->
+        <div class="form-section" data-section="8">
+          <h3>
+            <span>🎒 主角 - 背包物品</span>
+            <div class="section-actions">
+              <button type="button" class="add-item-btn" data-action="add-backpack">➕ 添加物品</button>
+            </div>
+          </h3>
+          <div id="backpack-container" class="dynamic-list"></div>
+
+          <div class="form-row" style="margin-top: 20px;">
+            <div class="form-group">
+              <label for="currency-core">核心区货币 (精制币)</label>
+              <input type="number" id="currency-core" class="form-input" value="0" min="0">
+            </div>
+            <div class="form-group">
+              <label for="currency-civilian">平民区货币 (劳工券)</label>
+              <input type="number" id="currency-civilian" class="form-input" value="0" min="0">
+            </div>
+          </div>
+        </div>
+
+        <!-- 当前状态 -->
+        <div class="form-section" data-section="9">
+          <h3>
+            <span>🌟 主角 - 当前状态</span>
+            <div class="section-actions">
+              <button type="button" class="add-item-btn" data-action="add-status">➕ 添加状态</button>
+            </div>
+          </h3>
+          <div id="status-container" class="dynamic-list"></div>
+        </div>
+
+        <!-- 背景故事 -->
+        <div class="form-section" data-section="10">
+          <h3>📖 主角 - 背景故事与补充</h3>
+
+          <div class="form-group">
+            <label for="char-background">角色背景 <span class="optional">(选填)</span></label>
+            <textarea id="char-background" class="form-textarea" placeholder="描述角色的过去、经历、特殊事件等..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="char-description">外貌特征 <span class="optional">(选填)</span></label>
+            <textarea id="char-description" class="form-textarea" placeholder="描述角色的外貌、身高、发色、瞳色、体型、特殊标记等..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="char-personality">性格特点 <span class="optional">(选填)</span></label>
+            <textarea id="char-personality" class="form-textarea" placeholder="描述角色的性格、行为习惯、说话方式等..."></textarea>
+          </div>
+        </div>
+
+        <!-- 时间系统 -->
+        <div class="form-section" data-section="11">
+          <h3>⏰ 时间系统</h3>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="time-date">当前日期</label>
+              <input type="text" id="time-date" class="form-input" value="王国历第1800年4月23日" required>
+            </div>
+            <div class="form-group">
+              <label for="time-time">当前时间</label>
+              <input type="text" id="time-time" class="form-input" value="06:00" placeholder="HH:MM" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- 关系列表(NPC) -->
+        <div class="form-section" data-section="12">
+          <h3>
+            <span>👥 关系列表 (NPC)</span>
+            <div class="section-actions">
+              <button type="button" class="add-item-btn" data-action="add-npc">➕ 添加NPC</button>
+            </div>
+          </h3>
+          <div id="npc-container" class="dynamic-list"></div>
+        </div>
+
+        <!-- 敌人列表 -->
+        <div class="form-section" data-section="13">
+          <h3>
+            <span>👾 敌人列表</span>
+            <div class="section-actions">
+              <button type="button" class="add-item-btn" data-action="add-enemy">➕ 添加敌人</button>
+            </div>
+          </h3>
+          <div id="enemy-container" class="dynamic-list"></div>
+        </div>
+      </form>
+    </div>
+
+    <!-- 总览 -->
+    <div class="character-summary">
+      <h3>📊 完整档案总览</h3>
+      <div class="summary-preview" id="summary-preview">暂无数据，请填写上方表单...</div>
+
+      <div class="submit-section">
+        <button type="submit" class="submit-btn" id="submit-btn">
+          🚀 确认创建并开始冒险
+        </button>
+        <div class="validation-message" id="validation-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function (window) {
+      // ========== 防抖函数 ==========
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+      // ========== 元素引用 ==========
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeDropdown = document.getElementById('theme-dropdown');
+      const themeOptions = document.querySelectorAll('.theme-option');
+      const submitBtn = document.getElementById('submit-btn');
+      const validationMsg = document.getElementById('validation-msg');
+      const summaryPreview = document.getElementById('summary-preview');
+
+      const charName = document.getElementById('char-name');
+      const charGender = document.getElementById('char-gender');
+      const charAge = document.getElementById('char-age');
+      const charLocation = document.getElementById('char-location');
+      const birthplaceInputs = document.querySelectorAll('.birthplace-radio');
+
+      const attributesContainer = document.getElementById('attributes-container');
+      const autoCalcDerived = document.getElementById('auto-calc-derived');
+
+      const hpMax = document.getElementById('hp-max');
+      const hpCurrent = document.getElementById('hp-current');
+      const armorMax = document.getElementById('armor-max');
+      const armorCurrent = document.getElementById('armor-current');
+      const resistanceMax = document.getElementById('resistance-max');
+      const resistanceCurrent = document.getElementById('resistance-current');
+      const staminaMax = document.getElementById('stamina-max');
+      const staminaCurrent = document.getElementById('stamina-current');
+
+      const pollutionCurrent = document.getElementById('pollution-current');
+      const pollutionStage = document.getElementById('pollution-stage');
+      const pollutionSymptoms = document.getElementById('pollution-symptoms');
+
+      const charBackground = document.getElementById('char-background');
+      const charDescription = document.getElementById('char-description');
+      const charPersonality = document.getElementById('char-personality');
+
+      const currencyCore = document.getElementById('currency-core');
+      const currencyCivilian = document.getElementById('currency-civilian');
+
+      const timeDate = document.getElementById('time-date');
+      const timeTime = document.getElementById('time-time');
+
+      // 角色数据
+      const character = {
+        name: '',
+        gender: '',
+        age: '',
+        birthplace: '',
+        location: '',
+        attributes: {
+          力量: 5,
+          敏捷: 5,
+          感知: 5,
+          知识: 5,
+          意志: 5,
+          魅力: 5
+        },
+        professions: [],
+        skills: [],
+        equipment: {},
+        backpack: [],
+        status: [],
+        background: '',
+        description: '',
+        personality: ''
+      };
+
+      // ========== 辅助函数：安全收集NPC和敌人数据 ==========
+      function collectProfessions() {
+        const professions = [];
+        document.querySelectorAll('#professions-container .list-item').forEach(item => {
+          try {
+            const profNameEl = item.querySelector('.profession-name');
+            const profName = profNameEl ? profNameEl.value.trim() : '';
+            if (profName) {
+              professions.push({
+                name: profName,
+                desc: item.querySelector('.profession-desc')?.value?.trim() || ''
+              });
+            }
+          } catch (e) {
+            console.error('收集职业数据出错:', e);
+          }
+        });
+        return professions;
+      }
+
+      function collectSkills() {
+        const skills = [];
+        document.querySelectorAll('#skills-container .list-item').forEach(item => {
+          try {
+            const skillNameEl = item.querySelector('.skill-name');
+            const skillName = skillNameEl ? skillNameEl.value.trim() : '';
+            if (skillName) {
+              skills.push({
+                name: skillName,
+                type: item.querySelector('.skill-type')?.value || '主动',
+                level: item.querySelector('.skill-level')?.value || '初级',
+                desc: item.querySelector('.skill-desc')?.value?.trim() || '',
+                cost: item.querySelector('.skill-cost')?.value?.trim() || ''
+              });
+            }
+          } catch (e) {
+            console.error('收集技能数据出错:', e);
+          }
+        });
+        return skills;
+      }
+
+      function collectBackpack() {
+        const backpack = [];
+        document.querySelectorAll('#backpack-container .list-item').forEach(item => {
+          try {
+            const itemNameEl = item.querySelector('.item-name');
+            const itemName = itemNameEl ? itemNameEl.value.trim() : '';
+            if (itemName) {
+              backpack.push({
+                name: itemName,
+                type: item.querySelector('.item-type')?.value || '杂物',
+                quantity: item.querySelector('.item-quantity')?.value || 1,
+                desc: item.querySelector('.item-desc')?.value?.trim() || ''
+              });
+            }
+          } catch (e) {
+            console.error('收集背包数据出错:', e);
+          }
+        });
+        return backpack;
+      }
+
+      function collectStatuses() {
+        const statuses = [];
+        document.querySelectorAll('#status-container .list-item').forEach(item => {
+          try {
+            const statusNameEl = item.querySelector('.status-name');
+            const statusName = statusNameEl ? statusNameEl.value.trim() : '';
+            if (statusName) {
+              statuses.push({
+                name: statusName,
+                type: item.querySelector('.status-type')?.value || '增益',
+                level: item.querySelector('.status-level')?.value?.trim() || '',
+                desc: item.querySelector('.status-desc')?.value?.trim() || ''
+              });
+            }
+          } catch (e) {
+            console.error('收集状态数据出错:', e);
+          }
+        });
+        return statuses;
+      }
+
+      function collectNPCs() {
+        const npcs = [];
+        document.querySelectorAll('#npc-container .list-item').forEach(item => {
+          try {
+            const npcNameEl = item.querySelector('.npc-name');
+            const npcName = npcNameEl ? npcNameEl.value.trim() : '';
+            if (npcName) {
+              npcs.push({
+                name: npcName,
+                profession: item.querySelector('.npc-profession')?.value?.trim() || '',
+                area: item.querySelector('.npc-area')?.value || '未知',
+                location: item.querySelector('.npc-location')?.value?.trim() || '',
+                companion: item.querySelector('.npc-companion')?.checked || false,
+                present: item.querySelector('.npc-present')?.checked || false,
+                attributes: {
+                  力量: item.querySelector('.npc-attr-str')?.value || 5,
+                  敏捷: item.querySelector('.npc-attr-agi')?.value || 5,
+                  感知: item.querySelector('.npc-attr-per')?.value || 5,
+                  知识: item.querySelector('.npc-attr-int')?.value || 5,
+                  意志: item.querySelector('.npc-attr-wil')?.value || 5,
+                  魅力: item.querySelector('.npc-attr-cha')?.value || 5
+                },
+                background: item.querySelector('.npc-background')?.value?.trim() || '',
+                personality: item.querySelector('.npc-personality')?.value?.trim() || '',
+                appearance: item.querySelector('.npc-appearance')?.value?.trim() || '',
+                title: item.querySelector('.npc-title')?.value?.trim() || '',
+                affection: item.querySelector('.npc-affection')?.value || 0,
+                trust: item.querySelector('.npc-trust')?.value || 0,
+                pollution: item.querySelector('.npc-pollution')?.value || 0
+              });
+            }
+          } catch (e) {
+            console.error('收集NPC数据出错:', e);
+          }
+        });
+        return npcs;
+      }
+
+      function collectEnemies() {
+        const enemies = [];
+        document.querySelectorAll('#enemy-container .list-item').forEach(item => {
+          try {
+            const enemyNameEl = item.querySelector('.enemy-name');
+            const enemyName = enemyNameEl ? enemyNameEl.value.trim() : '';
+            if (enemyName) {
+              enemies.push({
+                name: enemyName,
+                type: item.querySelector('.enemy-type')?.value || '未知',
+                hpMax: item.querySelector('.enemy-hp-max')?.value || 50,
+                hpCurrent: item.querySelector('.enemy-hp-current')?.value || 50,
+                armorMax: item.querySelector('.enemy-armor-max')?.value || 0,
+                armorCurrent: item.querySelector('.enemy-armor-current')?.value || 0,
+                attributes: {
+                  力量: item.querySelector('.enemy-attr-str')?.value || 5,
+                  敏捷: item.querySelector('.enemy-attr-agi')?.value || 5,
+                  感知: item.querySelector('.enemy-attr-per')?.value || 5,
+                  知识: item.querySelector('.enemy-attr-int')?.value || 5,
+                  意志: item.querySelector('.enemy-attr-wil')?.value || 5,
+                  魅力: item.querySelector('.enemy-attr-cha')?.value || 5
+                },
+                skills: item.querySelector('.enemy-skills')?.value?.trim() || '',
+                weakness: item.querySelector('.enemy-weakness')?.value?.trim() || '',
+                drops: item.querySelector('.enemy-drops')?.value?.trim() || '',
+                notes: item.querySelector('.enemy-notes')?.value?.trim() || ''
+              });
+            }
+          } catch (e) {
+            console.error('收集敌人数据出错:', e);
+          }
+        });
+        return enemies;
+      }
+
+      // ========== 主题切换 ==========
+      themeToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        themeDropdown.classList.toggle('visible');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!themeDropdown.contains(e.target) && !themeToggle.contains(e.target)) {
+          themeDropdown.classList.remove('visible');
+        }
+      });
+
+      themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          const theme = option.dataset.theme;
+          themeOptions.forEach(opt => opt.classList.remove('active'));
+          option.classList.add('active');
+          document.body.className = theme === 'light' ? '' : `theme-${theme}`;
+          localStorage.setItem('yananCreatorTheme', theme);
+          themeDropdown.classList.remove('visible');
+        });
+      });
+
+      const savedTheme = localStorage.getItem('yananCreatorTheme') || 'light';
+      if (savedTheme !== 'light') {
+        document.body.className = `theme-${savedTheme}`;
+      }
+      themeOptions.forEach(opt => {
+        if (opt.dataset.theme === savedTheme) {
+          opt.classList.add('active');
+        } else {
+          opt.classList.remove('active');
+        }
+      });
+
+      // ========== 初始化属性控制器 ==========
+      function initAttributesControls() {
+        const attrNames = ['力量', '敏捷', '感知', '知识', '意志', '魅力'];
+        attributesContainer.innerHTML = '';
+
+        attrNames.forEach(attr => {
+          const control = document.createElement('div');
+          control.className = 'point-control';
+          control.innerHTML = `
+                        <span class="label">${attr}</span>
+                        <div class="controls">
+                            <button type="button" class="adjust-btn minus" data-attr="${attr}">-</button>
+                            <input type="number" id="attr-${attr}" value="5" min="1" max="20" data-attr="${attr}">
+                            <button type="button" class="adjust-btn plus" data-attr="${attr}">+</button>
+                        </div>
+                    `;
+          attributesContainer.appendChild(control);
+        });
+
+        document.querySelectorAll('.adjust-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const attr = e.target.dataset.attr;
+            const input = document.getElementById(`attr-${attr}`);
+            const currentValue = parseInt(input.value);
+            const isPlus = e.target.classList.contains('plus');
+
+            if (isPlus && currentValue < 20) {
+              input.value = currentValue + 1;
+            } else if (!isPlus && currentValue > 1) {
+              input.value = currentValue - 1;
+            }
+
+            character.attributes[attr] = parseInt(input.value);
+            updateDerivedValues();
+            debouncedUpdateSummary();
+          });
+        });
+
+        document.querySelectorAll('.point-control input').forEach(input => {
+          input.addEventListener('input', (e) => {
+            const attr = e.target.dataset.attr;
+            let value = parseInt(e.target.value) || 1;
+            value = Math.max(1, Math.min(20, value));
+            e.target.value = value;
+            character.attributes[attr] = value;
+            updateDerivedValues();
+            debouncedUpdateSummary();
+          });
+        });
+      }
+
+      // ========== 自动计算衍生数值 ==========
+      function updateDerivedValues() {
+        if (!autoCalcDerived.checked) return;
+
+        const birthplace = document.querySelector('.birthplace-radio:checked')?.value;
+
+        const hp = 10 + (character.attributes.力量 * 5) + (character.attributes.意志 * 2);
+        hpMax.value = hp;
+        hpCurrent.value = hp;
+
+        const stamina = 5 + character.attributes.敏捷 + character.attributes.力量;
+        staminaMax.value = stamina;
+        staminaCurrent.value = stamina;
+
+        const resistance = birthplace === '核心区' ? 20 : 0;
+        resistanceMax.value = resistance;
+        resistanceCurrent.value = resistance;
+
+        if (birthplace) {
+          pollutionCurrent.value = birthplace === '核心区' ? 0 : 5;
+          pollutionStage.value = birthplace === '核心区' ? '无污染' : '轻微结晶';
+        }
+      }
+
+      autoCalcDerived.addEventListener('change', () => {
+        if (autoCalcDerived.checked) {
+          updateDerivedValues();
+        }
+      });
+
+      birthplaceInputs.forEach(radio => {
+        radio.addEventListener('change', updateDerivedValues);
+      });
+
+      // ========== 动态列表管理 ==========
+      let professionCounter = 0;
+      window.addProfession = function () {
+        professionCounter++;
+        const container = document.getElementById('professions-container');
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.dataset.id = professionCounter;
+    item.innerHTML = `
+          <div class="list-item-header">
+            <span class="list-item-title">职业 #${professionCounter}</span>
+            <button type="button" class="remove-item-btn" data-remove-type="profession">删除</button>
+          </div>
+                    <div class="form-group">
+                        <label>职业名称</label>
+                        <input type="text" class="form-input profession-name" placeholder="例如: 猎人" required>
+                    </div>
+                    <div class="form-group">
+                        <label>职业描述 <span class="optional">(选填)</span></label>
+                        <textarea class="form-textarea profession-desc" placeholder="描述职业特点..."></textarea>
+                    </div>
+                `;
+        container.appendChild(item);
+        debouncedUpdateSummary();
+      };
+
+      let skillCounter = 0;
+      window.addSkill = function () {
+        skillCounter++;
+        const container = document.getElementById('skills-container');
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.dataset.id = skillCounter;
+    item.innerHTML = `
+          <div class="list-item-header">
+            <span class="list-item-title">技能 #${skillCounter}</span>
+            <button type="button" class="remove-item-btn" data-remove-type="skill">删除</button>
+          </div>
+                    <div class="form-group">
+                        <label>技能名称</label>
+                        <input type="text" class="form-input skill-name" placeholder="例如: 剑术精通" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>技能类型</label>
+                            <select class="form-select skill-type" required>
+                                <option value="主动">主动</option>
+                                <option value="被动">被动</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>技能等级</label>
+                            <select class="form-select skill-level" required>
+                                <option value="初级">初级</option>
+                                <option value="中级">中级</option>
+                                <option value="高级">高级</option>
+                                <option value="大师">大师</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>技能描述</label>
+                        <textarea class="form-textarea skill-desc" placeholder="描述技能的效果..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>消耗 <span class="optional">(选填)</span></label>
+                        <input type="text" class="form-input skill-cost" placeholder="例如: 体力5点">
+                    </div>
+                `;
+        container.appendChild(item);
+        debouncedUpdateSummary();
+      };
+
+      let backpackCounter = 0;
+      window.addBackpackItem = function () {
+        backpackCounter++;
+        const container = document.getElementById('backpack-container');
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.dataset.id = backpackCounter;
+    item.innerHTML = `
+          <div class="list-item-header">
+            <span class="list-item-title">物品 #${backpackCounter}</span>
+            <button type="button" class="remove-item-btn" data-remove-type="backpack">删除</button>
+          </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>物品名称</label>
+                            <input type="text" class="form-input item-name" placeholder="例如: 生命药水" required>
+                        </div>
+                        <div class="form-group">
+                            <label>物品类型</label>
+                            <select class="form-select item-type" required>
+                                <option value="武器">武器</option>
+                                <option value="防具">防具</option>
+                                <option value="饰品">饰品</option>
+                                <option value="消耗品">消耗品</option>
+                                <option value="杂物">杂物</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>数量</label>
+                            <input type="number" class="form-input item-quantity" value="1" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>物品描述</label>
+                        <textarea class="form-textarea item-desc" placeholder="描述物品的效果和特性..."></textarea>
+                    </div>
+                `;
+        container.appendChild(item);
+        debouncedUpdateSummary();
+      };
+
+      let statusCounter = 0;
+      window.addStatus = function () {
+        statusCounter++;
+        const container = document.getElementById('status-container');
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.dataset.id = statusCounter;
+    item.innerHTML = `
+          <div class="list-item-header">
+            <span class="list-item-title">状态 #${statusCounter}</span>
+            <button type="button" class="remove-item-btn" data-remove-type="status">删除</button>
+          </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>状态名称</label>
+                            <input type="text" class="form-input status-name" placeholder="例如: 灵质祝福" required>
+                        </div>
+                        <div class="form-group">
+                            <label>状态类型</label>
+                            <select class="form-select status-type" required>
+                                <option value="临时">临时</option>
+                                <option value="永久">永久</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>状态等级 <span class="optional">(选填)</span></label>
+                        <input type="text" class="form-input status-level" placeholder="例如: 1">
+                    </div>
+                    <div class="form-group">
+                        <label>状态描述</label>
+                        <textarea class="form-textarea status-desc" placeholder="描述状态的效果..."></textarea>
+                    </div>
+                `;
+        container.appendChild(item);
+        debouncedUpdateSummary();
+      };
+
+      // 添加NPC
+      let npcCounter = 0;
+      window.addNPC = function () {
+        npcCounter++;
+        const container = document.getElementById('npc-container');
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.dataset.id = npcCounter;
+    item.innerHTML = `
+          <div class="list-item-header">
+            <span class="list-item-title">NPC #${npcCounter}</span>
+            <button type="button" class="remove-item-btn" data-remove-type="npc">删除</button>
+          </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>姓名</label>
+                            <input type="text" class="form-input npc-name" placeholder="NPC姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <label>职业</label>
+                            <input type="text" class="form-input npc-profession" placeholder="职业">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>所属区域</label>
+                            <select class="form-select npc-area">
+                                <option value="核心区">核心区</option>
+                                <option value="平民区" selected>平民区</option>
+                                <option value="神骸区">神骸区</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>当前地点</label>
+                            <input type="text" class="form-input npc-location" placeholder="具体地点">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" class="npc-companion"> 是否同伴
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" class="npc-present"> 是否在场
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="nested-group">
+                        <h4 style="font-size: 1em; margin: 15px 0 10px; color: var(--accent-color);">基础属性</h4>
+                        <div class="form-row-3">
+                            <div class="form-group">
+                                <label>力量</label>
+                                <input type="number" class="form-input npc-attr-str" value="5" min="1" max="20">
+                            </div>
+                            <div class="form-group">
+                                <label>敏捷</label>
+                                <input type="number" class="form-input npc-attr-agi" value="5" min="1" max="20">
+                            </div>
+                            <div class="form-group">
+                                <label>感知</label>
+                                <input type="number" class="form-input npc-attr-per" value="5" min="1" max="20">
+                            </div>
+                        </div>
+                        <div class="form-row-3">
+                            <div class="form-group">
+                                <label>知识</label>
+                                <input type="number" class="form-input npc-attr-int" value="5" min="1" max="20">
+                            </div>
+                            <div class="form-group">
+                                <label>意志</label>
+                                <input type="number" class="form-input npc-attr-wil" value="5" min="1" max="20">
+                            </div>
+                            <div class="form-group">
+                                <label>魅力</label>
+                                <input type="number" class="form-input npc-attr-cha" value="5" min="1" max="20">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>身份背景</label>
+                        <textarea class="form-textarea npc-background" placeholder="描述NPC的身份、背景故事..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>性格标签 <span class="optional">(多个用逗号分隔)</span></label>
+                        <input type="text" class="form-input npc-personality" placeholder="例如: 冷静,善良,固执">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>外貌描述</label>
+                            <textarea class="form-textarea npc-appearance" placeholder="描述外貌特征..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>称呼</label>
+                            <input type="text" class="form-input npc-title" placeholder="主角对其的称呼">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label>好感度</label>
+                            <input type="number" class="form-input npc-affection" value="0" min="-100" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>信任度</label>
+                            <input type="number" class="form-input npc-trust" value="0" min="-100" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label>污染度</label>
+                            <input type="number" class="form-input npc-pollution" value="0" min="0" max="100">
+                        </div>
+                    </div>
+                `;
+        container.appendChild(item);
+        debouncedUpdateSummary();
+      };
+
+      // 添加敌人
+      let enemyCounter = 0;
+      window.addEnemy = function () {
+        enemyCounter++;
+        const container = document.getElementById('enemy-container');
+        const item = document.createElement('div');
+        item.className = 'list-item';
+        item.dataset.id = enemyCounter;
+    item.innerHTML = `
+          <div class="list-item-header">
+            <span class="list-item-title">敌人 #${enemyCounter}</span>
+            <button type="button" class="remove-item-btn" data-remove-type="enemy">删除</button>
+          </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>名称</label>
+                            <input type="text" class="form-input enemy-name" placeholder="敌人名称" required>
+                        </div>
+                        <div class="form-group">
+                            <label>类型</label>
+                            <select class="form-select enemy-type" required>
+                                <option value="结晶兽" selected>结晶兽</option>
+                                <option value="人类">人类</option>
+                                <option value="异变生物">异变生物</option>
+                                <option value="神骸残骸">神骸残骸</option>
+                                <option value="其他">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>生命值上限</label>
+                            <input type="number" class="form-input enemy-hp-max" value="50" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>生命值当前</label>
+                            <input type="number" class="form-input enemy-hp-current" value="50" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>护甲值上限</label>
+                            <input type="number" class="form-input enemy-armor-max" value="0" min="0">
+                        </div>
+                        <div class="form-group">
+      <label>护甲值当前</label>
+      <input type="number" class="form-input enemy-armor-current" value="0" min="0">
+    </div>
+  </div>
+
+  <div class="nested-group">
+    <h4 style="font-size: 1em; margin: 15px 0 10px; color: var(--accent-color);">总属性</h4>
+    <div class="form-row-3">
+      <div class="form-group">
+        <label>力量</label>
+        <input type="number" class="form-input enemy-attr-str" value="5" min="1" max="50">
+      </div>
+      <div class="form-group">
+        <label>敏捷</label>
+        <input type="number" class="form-input enemy-attr-agi" value="5" min="1" max="50">
+      </div>
+      <div class="form-group">
+        <label>感知</label>
+        <input type="number" class="form-input enemy-attr-per" value="5" min="1" max="50">
+      </div>
+    </div>
+    <div class="form-row-3">
+      <div class="form-group">
+        <label>知识</label>
+        <input type="number" class="form-input enemy-attr-int" value="5" min="1" max="50">
+      </div>
+      <div class="form-group">
+        <label>意志</label>
+        <input type="number" class="form-input enemy-attr-wil" value="5" min="1" max="50">
+      </div>
+      <div class="form-group">
+        <label>魅力</label>
+        <input type="number" class="form-input enemy-attr-cha" value="5" min="1" max="50">
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label>技能列表 <span class="optional">(多个用逗号分隔)</span></label>
+    <input type="text" class="form-input enemy-skills" placeholder="例如: 结晶化攻击,撕咬,狂暴">
+  </div>
+  
+  <div class="form-group">
+    <label>弱点</label>
+    <input type="text" class="form-input enemy-weakness" placeholder="例如: 火焰,头部">
+  </div>
+  
+  <div class="form-group">
+    <label>掉落物 <span class="optional">(多个用逗号分隔)</span></label>
+    <input type="text" class="form-input enemy-drops" placeholder="例如: 结晶碎片,灵质原液">
+  </div>
+  
+  <div class="form-group">
+    <label>备注</label>
+    <textarea class="form-textarea enemy-notes" placeholder="其他说明、行为模式等..."></textarea>
+  </div>
+                `;
+        container.appendChild(item);
+        debouncedUpdateSummary();
+      };
+
+      window.removeItem = function (btn, type) {
+        const item = btn.closest('.list-item');
+        item.remove();
+        debouncedUpdateSummary();
+      };
+
+      // 事件代理：处理静态添加按钮和动态删除按钮，避免依赖 inline onclick（兼容 about:srcdoc 等环境）
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+
+        const action = btn.dataset.action;
+        if (action) {
+          e.preventDefault();
+          if (action === 'add-profession') return window.addProfession();
+          if (action === 'add-skill') return window.addSkill();
+          if (action === 'add-backpack') return window.addBackpackItem();
+          if (action === 'add-status') return window.addStatus();
+          if (action === 'add-npc') return window.addNPC();
+          if (action === 'add-enemy') return window.addEnemy();
+        }
+
+        if (btn.classList.contains('remove-item-btn')) {
+          const item = btn.closest('.list-item');
+          if (item) {
+            item.remove();
+            debouncedUpdateSummary();
+          }
+        }
+      });
+
+      // ========== 实时更新总览 ==========
+      function updateSummary() {
+        const name = charName.value.trim() || '{{user}}';
+        const gender = charGender.value.trim() || '未设定';
+        const age = charAge.value || '未设定';
+        const birthplace = document.querySelector('.birthplace-radio:checked')?.value || '未选择';
+        const location = charLocation.value || '未设定';
+
+        // 收集所有数据（使用安全收集函数）
+        const professions = collectProfessions();
+        const skills = collectSkills();
+        const backpack = collectBackpack();
+        const statuses = collectStatuses();
+        const npcs = collectNPCs();
+        const enemies = collectEnemies();
+        
+        // 调试输出
+        console.log('收集到的NPC数量:', npcs.length);
+        console.log('NPC数据:', npcs);
+        console.log('收集到的敌人数量:', enemies.length);
+        console.log('敌人数据:', enemies);
+
+        let summary = `═══════════════════════════════════════
+      🌫️ 神骸之城·依希利亚 - 完整档案
+═══════════════════════════════════════
+
+【主角 - 基础信息】
+姓名: ${name}
+性别: ${gender}
+年龄: ${age}${age !== '未设定' ? '岁' : ''}
+出生地: ${birthplace}
+当前区域: ${location}
+
+【主角 - 基础属性】
+力量: ${character.attributes.力量}
+敏捷: ${character.attributes.敏捷}
+感知: ${character.attributes.感知}
+知识: ${character.attributes.知识}
+意志: ${character.attributes.意志}
+魅力: ${character.attributes.魅力}
+
+【主角 - 衍生数值】
+生命值: ${hpCurrent.value}/${hpMax.value}
+护甲值: ${armorCurrent.value}/${armorMax.value}
+灵质抗性: ${resistanceCurrent.value}/${resistanceMax.value}
+体力值: ${staminaCurrent.value}/${staminaMax.value}
+
+【主角 - 污染度】
+污染度: ${pollutionCurrent.value}%
+阶段: ${pollutionStage.value}
+可见症状: ${pollutionSymptoms.value.trim() || '无'}
+
+`;
+
+        if (professions.length > 0) {
+          summary += `【主角 - 职业】\n`;
+          professions.forEach(p => {
+            summary += `▸ ${p.name}\n`;
+            if (p.desc) summary += `  ${p.desc}\n`;
+          });
+          summary += '\n';
+        }
+
+        if (skills.length > 0) {
+          summary += `【主角 - 技能列表】\n`;
+          skills.forEach(s => {
+            summary += `▸ ${s.name} [${s.type}/${s.level}]\n`;
+            if (s.desc) summary += `  ${s.desc}\n`;
+            if (s.cost) summary += `  消耗: ${s.cost}\n`;
+          });
+          summary += '\n';
+        }
+
+        // 装备
+        const weapon = document.getElementById('equipment-weapon').value.trim();
+        const offhand = document.getElementById('equipment-offhand').value.trim();
+        const head = document.getElementById('equipment-head').value.trim();
+        const body = document.getElementById('equipment-body').value.trim();
+        const hands = document.getElementById('equipment-hands').value.trim();
+        const legs = document.getElementById('equipment-legs').value.trim();
+        const accessory = document.getElementById('equipment-accessory').value.trim();
+
+        if (weapon || offhand || head || body || hands || legs || accessory) {
+          summary += `【主角 - 装备栏】\n`;
+          if (weapon) summary += `主武器: ${weapon}\n`;
+          if (offhand) summary += `副手: ${offhand}\n`;
+          if (head) summary += `头部: ${head}\n`;
+          if (body) summary += `身体: ${body}\n`;
+          if (hands) summary += `手部: ${hands}\n`;
+          if (legs) summary += `腿部: ${legs}\n`;
+          if (accessory) summary += `饰品: ${accessory}\n`;
+          summary += '\n';
+        }
+
+        if (backpack.length > 0) {
+          summary += `【主角 - 背包物品】\n`;
+          backpack.forEach(item => {
+            summary += `▸ ${item.name} [${item.type}] x${item.quantity}\n`;
+            if (item.desc) summary += `  ${item.desc}\n`;
+          });
+          summary += '\n';
+        }
+
+        summary += `【主角 - 货币】\n`;
+        summary += `精制币(核心区): ${currencyCore.value}\n`;
+        summary += `劳工券(平民区): ${currencyCivilian.value}\n\n`;
+
+        if (statuses.length > 0) {
+          summary += `【主角 - 当前状态】\n`;
+          statuses.forEach(s => {
+            summary += `▸ ${s.name} [${s.type}]${s.level ? ` Lv.${s.level}` : ''}\n`;
+            if (s.desc) summary += `  ${s.desc}\n`;
+          });
+          summary += '\n';
+        }
+
+        const background = charBackground.value.trim();
+        const description = charDescription.value.trim();
+        const personality = charPersonality.value.trim();
+
+        if (background || description || personality) {
+          summary += `【主角 - 背景故事】\n`;
+          if (background) summary += `${background}\n\n`;
+          if (description) summary += `【外貌特征】\n${description}\n\n`;
+          if (personality) summary += `【性格特点】\n${personality}\n\n`;
+        }
+
+        // 时间系统
+        summary += `【时间系统】\n`;
+        summary += `当前日期: ${timeDate.value}\n`;
+        summary += `当前时间: ${timeTime.value}\n\n`;
+
+        // NPC列表
+        if (npcs.length > 0) {
+          summary += `【关系列表 (NPC)】\n`;
+          npcs.forEach(npc => {
+            try {
+              const attrs = npc.attributes || {};
+              summary += `▸ ${npc.name} [${npc.profession || '无职业'}]\n`;
+              summary += `  区域: ${npc.area || '未知'}\n`;
+              summary += `  地点: ${npc.location || '未知'}\n`;
+              summary += `  同伴: ${npc.companion ? '是' : '否'}\n`;
+              summary += `  在场: ${npc.present ? '是' : '否'}\n`;
+              summary += `  属性: 力${attrs.力量 || 5} 敏${attrs.敏捷 || 5} 感${attrs.感知 || 5} 知${attrs.知识 || 5} 意${attrs.意志 || 5} 魅${attrs.魅力 || 5}\n`;
+              summary += `  背景: ${npc.background || '无'}\n`;
+              summary += `  外貌: ${npc.appearance || '无'}\n`;
+              summary += `  性格: ${npc.personality || '无'}\n`;
+              summary += `  称呼: ${npc.title || '无'}\n`;
+              summary += `  好感度: ${npc.affection || 0}\n`;
+              summary += `  信任度: ${npc.trust || 0}\n`;
+              summary += `  污染度: ${npc.pollution || 0}%\n`;
+            } catch (e) {
+              console.error('输出NPC摘要出错:', e, npc);
+              summary += `  (NPC数据输出错误)\n`;
+            }
+          });
+          summary += '\n';
+        }
+
+        // 敌人列表
+        if (enemies.length > 0) {
+          summary += `【敌人列表】\n`;
+          enemies.forEach(enemy => {
+            try {
+              const attrs = enemy.attributes || {};
+              summary += `▸ ${enemy.name} [${enemy.type || '未知'}]\n`;
+              summary += `  生命: ${enemy.hpCurrent || 0}/${enemy.hpMax || 0}\n`;
+              summary += `  护甲: ${enemy.armorCurrent || 0}/${enemy.armorMax || 0}\n`;
+              summary += `  属性: 力${attrs.力量 || 5} 敏${attrs.敏捷 || 5} 感${attrs.感知 || 5} 知${attrs.知识 || 5} 意${attrs.意志 || 5} 魅${attrs.魅力 || 5}\n`;
+              summary += `  技能: ${enemy.skills || '无'}\n`;
+              summary += `  弱点: ${enemy.weakness || '无'}\n`;
+              summary += `  掉落: ${enemy.drops || '无'}\n`;
+              summary += `  备注: ${enemy.notes || '无'}\n`;
+            } catch (e) {
+              console.error('输出敌人摘要出错:', e, enemy);
+              summary += `  (敌人数据输出错误)\n`;
+            }
+          });
+          summary += '\n';
+        }
+
+        summary += `═══════════════════════════════════════`;
+
+        summaryPreview.textContent = summary;
+      }
+
+      // 创建防抖版本的 updateSummary，延迟500毫秒执行
+      const debouncedUpdateSummary = debounce(updateSummary, 500);
+
+      // 监听所有输入 - 使用防抖版本
+      document.addEventListener('input', (e) => {
+        if (e.target.matches('.form-input, .form-textarea, .form-select')) {
+          debouncedUpdateSummary();
+        }
+      });
+
+      document.addEventListener('change', (e) => {
+        if (e.target.matches('.birthplace-radio, input[type=checkbox]')) {
+          debouncedUpdateSummary();
+        }
+      });
+
+      // ========== 表单验证 ==========
+      function validateForm() {
+        const gender = charGender.value.trim();
+        const age = charAge.value;
+        const birthplace = document.querySelector('.birthplace-radio:checked');
+
+        if (!gender) {
+          validationMsg.textContent = '❌ 请填写性别';
+          return false;
+        }
+
+        if (!age || age < 1) {
+          validationMsg.textContent = '❌ 请填写有效年龄';
+          return false;
+        }
+
+        if (!birthplace) {
+          validationMsg.textContent = '❌ 请选择出生地';
+          return false;
+        }
+
+        validationMsg.textContent = '';
+        return true;
+      }
+
+      // ========== 生成变量设置代码 ==========
+      function generateVariableCode() {
+        const name = charName.value.trim() || '{{user}}';
+        const location = charLocation.value;
+
+        // 收集所有数据（使用安全收集函数）
+        const professions = collectProfessions();
+        const skills = collectSkills();
+        const backpack = collectBackpack();
+        const statuses = collectStatuses();
+        const npcs = collectNPCs();
+        const enemies = collectEnemies();
+
+        let patches = [];
+        
+        // ========== 主角 - 基础信息 ==========
+        patches.push({ "op": "replace", "path": "/主角/姓名", "value": name });
+        patches.push({ "op": "replace", "path": "/主角/所在区域", "value": location });
+        
+        // ========== 主角 - 基础属性 ==========
+        patches.push({ "op": "replace", "path": "/主角/基础属性/力量/当前值", "value": character.attributes.力量 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/力量/最大值", "value": 20 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/敏捷/当前值", "value": character.attributes.敏捷 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/敏捷/最大值", "value": 20 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/感知/当前值", "value": character.attributes.感知 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/感知/最大值", "value": 20 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/知识/当前值", "value": character.attributes.知识 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/知识/最大值", "value": 20 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/意志/当前值", "value": character.attributes.意志 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/意志/最大值", "value": 20 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/魅力/当前值", "value": character.attributes.魅力 });
+        patches.push({ "op": "replace", "path": "/主角/基础属性/魅力/最大值", "value": 20 });
+        
+        // ========== 主角 - 总属性 ==========
+        patches.push({ "op": "replace", "path": "/主角/总属性/力量", "value": character.attributes.力量 });
+        patches.push({ "op": "replace", "path": "/主角/总属性/敏捷", "value": character.attributes.敏捷 });
+        patches.push({ "op": "replace", "path": "/主角/总属性/感知", "value": character.attributes.感知 });
+        patches.push({ "op": "replace", "path": "/主角/总属性/知识", "value": character.attributes.知识 });
+        patches.push({ "op": "replace", "path": "/主角/总属性/意志", "value": character.attributes.意志 });
+        patches.push({ "op": "replace", "path": "/主角/总属性/魅力", "value": character.attributes.魅力 });
+        
+        // ========== 主角 - 衍生数值 ==========
+        patches.push({ "op": "replace", "path": "/主角/生命值/最大值", "value": parseInt(hpMax.value) });
+        patches.push({ "op": "replace", "path": "/主角/生命值/当前值", "value": parseInt(hpCurrent.value) });
+        patches.push({ "op": "replace", "path": "/主角/护甲值/最大值", "value": parseInt(armorMax.value) });
+        patches.push({ "op": "replace", "path": "/主角/护甲值/当前值", "value": parseInt(armorCurrent.value) });
+        patches.push({ "op": "replace", "path": "/主角/灵质抗性/最大值", "value": parseInt(resistanceMax.value) });
+        patches.push({ "op": "replace", "path": "/主角/灵质抗性/当前值", "value": parseInt(resistanceCurrent.value) });
+        patches.push({ "op": "replace", "path": "/主角/体力值/最大值", "value": parseInt(staminaMax.value) });
+        patches.push({ "op": "replace", "path": "/主角/体力值/当前值", "value": parseInt(staminaCurrent.value) });
+        
+        // ========== 主角 - 污染度 ==========
+        patches.push({ "op": "replace", "path": "/主角/污染度/当前值", "value": parseInt(pollutionCurrent.value) });
+        patches.push({ "op": "replace", "path": "/主角/污染度/最大值", "value": 100 });
+        patches.push({ "op": "replace", "path": "/主角/污染度/阶段", "value": pollutionStage.value });
+        patches.push({ "op": "replace", "path": "/主角/污染度/可见症状", "value": pollutionSymptoms.value.trim() ? pollutionSymptoms.value.split(',').map(s => s.trim()) : [] });
+        
+        // ========== 主角 - 货币 ==========
+        patches.push({ "op": "replace", "path": "/主角/背包/货币/精制币", "value": parseInt(currencyCore.value) });
+        patches.push({ "op": "replace", "path": "/主角/背包/货币/劳工券", "value": parseInt(currencyCivilian.value) });
+        
+
+
+        // 职业 - 使用 add 操作
+        if (professions.length > 0) {
+          professions.forEach(p => {
+            const safeName = p.name.replace(/[()（）]/g, '_').replace(/\s+/g, '_');
+            patches.push({ 
+              "op": "add", 
+              "path": "/主角/职业/" + safeName, 
+              "value": {
+                "职业名称": p.name,
+                "职业描述": p.desc.replace(/'/g, "\\'")
+              }
+            });
+          });
+        }
+
+        // 技能 - 使用 add 操作
+        if (skills.length > 0) {
+          skills.forEach(s => {
+            const safeName = s.name.replace(/[()（）]/g, '_').replace(/\s+/g, '_');
+            patches.push({ 
+              "op": "add", 
+              "path": "/主角/技能列表/" + safeName, 
+              "value": {
+                "type": s.type,
+                "level": s.level,
+                "description": s.desc.replace(/'/g, "\\'"),
+                "cost": s.cost
+              }
+            });
+          });
+        }
+
+        // 装备
+        const weapon = document.getElementById('equipment-weapon').value.trim();
+        const offhand = document.getElementById('equipment-offhand').value.trim();
+        const head = document.getElementById('equipment-head').value.trim();
+        const body = document.getElementById('equipment-body').value.trim();
+        const hands = document.getElementById('equipment-hands').value.trim();
+        const legs = document.getElementById('equipment-legs').value.trim();
+        const accessory = document.getElementById('equipment-accessory').value.trim();
+
+        patches.push({ "op": "replace", "path": "/主角/装备栏/主武器", "value": weapon || null });
+        patches.push({ "op": "replace", "path": "/主角/装备栏/副手", "value": offhand || null });
+        patches.push({ "op": "replace", "path": "/主角/装备栏/防具/头部", "value": head || null });
+        patches.push({ "op": "replace", "path": "/主角/装备栏/防具/身体", "value": body || null });
+        patches.push({ "op": "replace", "path": "/主角/装备栏/防具/手部", "value": hands || null });
+        patches.push({ "op": "replace", "path": "/主角/装备栏/防具/腿部", "value": legs || null });
+        patches.push({ "op": "replace", "path": "/主角/装备栏/饰品", "value": accessory || null });
+        
+
+        // 背包物品 - 使用 add 操作
+        if (backpack.length > 0) {
+          backpack.forEach((item) => {
+            const safeName = item.name.replace(/[()（）]/g, '_').replace(/\s+/g, '_');
+            const listName = item.type === '武器' ? '武器列表' :
+              item.type === '防具' ? '防具列表' :
+                item.type === '饰品' ? '饰品列表' :
+                  item.type === '消耗品' ? '消耗品' : '杂物';
+
+            patches.push({ 
+              "op": "add", 
+              "path": "/主角/背包/" + listName + "/" + safeName, 
+              "value": {
+                "name": item.name,
+                "type": item.type,
+                "description": item.desc.replace(/'/g, "\\'"),
+                "quantity": item.quantity
+              }
+            });
+          });
+        }
+
+        // 当前状态 - 使用 add 操作
+        if (statuses.length > 0) {
+          statuses.forEach(s => {
+            const safeName = s.name.replace(/[()（）]/g, '_').replace(/\s+/g, '_');
+            patches.push({ 
+              "op": "add", 
+              "path": "/主角/当前状态/" + safeName, 
+              "value": {
+                "description": s.desc.replace(/'/g, "\\'"),
+                "level": s.level,
+                "attributes_bonus": {},
+                "special_effects": {},
+                "type": s.type
+              }
+            });
+          });
+        }
+
+        // 时间系统
+        patches.push({ "op": "replace", "path": "/时间系统/当前日期", "value": timeDate.value });
+        patches.push({ "op": "replace", "path": "/时间系统/当前时间", "value": timeTime.value });
+        
+
+        // NPC列表 - 使用 add 操作
+        if (npcs.length > 0) {
+          npcs.forEach(npc => {
+            const safeName = npc.name.replace(/[()（）]/g, '_').replace(/\s+/g, '_');
+            const personalityTags = npc.personality ? npc.personality.split(',').map(t => t.trim()) : [];
+
+            // 计算衍生数值
+            const hp = 10 + (parseInt(npc.attributes.力量) * 5) + (parseInt(npc.attributes.意志) * 2);
+            const stamina = 5 + parseInt(npc.attributes.敏捷) + parseInt(npc.attributes.力量);
+
+            patches.push({ 
+              "op": "add", 
+              "path": "/关系列表/" + safeName, 
+              "value": {
+                "姓名": npc.name,
+                "职业": npc.profession,
+                "所属区域": npc.area,
+                "是否同伴": npc.companion,
+                "在场": npc.present,
+                "生命值": {"当前值": hp, "最大值": hp},
+                "护甲值": {"当前值": 0, "最大值": 0},
+                "灵质抗性": {"当前值": 0, "最大值": 0},
+                "体力值": {"当前值": stamina, "最大值": stamina},
+                "基础属性": {
+                    "力量": {"当前值": parseInt(npc.attributes.力量), "最大值": 20},
+                    "敏捷": {"当前值": parseInt(npc.attributes.敏捷), "最大值": 20},
+                    "感知": {"当前值": parseInt(npc.attributes.感知), "最大值": 20},
+                    "知识": {"当前值": parseInt(npc.attributes.知识), "最大值": 20},
+                    "意志": {"当前值": parseInt(npc.attributes.意志), "最大值": 20},
+                    "魅力": {"当前值": parseInt(npc.attributes.魅力), "最大值": 20}
+                },
+                "总属性": {
+                    "力量": parseInt(npc.attributes.力量),
+                    "敏捷": parseInt(npc.attributes.敏捷),
+                    "感知": parseInt(npc.attributes.感知),
+                    "知识": parseInt(npc.attributes.知识),
+                    "意志": parseInt(npc.attributes.意志),
+                    "魅力": parseInt(npc.attributes.魅力)
+                },
+                "装备栏": {
+                    "主武器": null,
+                    "副手": null,
+                    "防具": {"头部": null, "身体": null, "手部": null, "腿部": null},
+                    "饰品": null
+                },
+                "技能列表": {},
+                "身份背景": npc.background.replace(/'/g, "\\'"),
+                "性格标签": personalityTags,
+                "外貌": npc.appearance.replace(/'/g, "\\'"),
+                "称呼": npc.title,
+                "好感度": {"{{user}}": parseInt(npc.affection)},
+                "信任度": {"{{user}}": parseInt(npc.trust)},
+                "性趣度": 0,
+                "性欲度": 0,
+                "所在地点": npc.location,
+                "污染度": parseInt(npc.pollution),
+                "重要事件": {}
+              }
+            });
+          });
+        }
+
+        // 敌人列表 - 使用 add 操作
+        if (enemies.length > 0) {
+          enemies.forEach(enemy => {
+            const safeName = enemy.name.replace(/[()（）]/g, '_').replace(/\s+/g, '_');
+            const dropsList = enemy.drops ? enemy.drops.split(',').map(d => d.trim()) : [];
+
+            // 构建技能列表对象
+            let skillsObj = {};
+            if (enemy.skills) {
+              const skillsArray = enemy.skills.split(',').map(s => s.trim());
+              skillsArray.forEach(skill => {
+                const skillKey = skill.replace(/[()（）]/g, '_').replace(/\s+/g, '_');
+                skillsObj[skillKey] = {"type": "主动", "description": skill};
+              });
+            }
+
+            patches.push({ 
+              "op": "add", 
+              "path": "/敌人列表/" + safeName, 
+              "value": {
+                "类型": enemy.type,
+                "生命值": {"当前值": parseInt(enemy.hpCurrent), "最大值": parseInt(enemy.hpMax)},
+                "护甲值": {"当前值": parseInt(enemy.armorCurrent), "最大值": parseInt(enemy.armorMax)},
+                "总属性": {
+                    "力量": parseInt(enemy.attributes.力量),
+                    "敏捷": parseInt(enemy.attributes.敏捷),
+                    "感知": parseInt(enemy.attributes.感知),
+                    "知识": parseInt(enemy.attributes.知识),
+                    "意志": parseInt(enemy.attributes.意志),
+                    "魅力": parseInt(enemy.attributes.魅力)
+                },
+                "装备栏": {},
+                "技能列表": skillsObj,
+                "弱点": enemy.weakness,
+                "掉落物": dropsList,
+                "备注": enemy.notes.replace(/'/g, "\\'")
+              }
+            });
+          });
+        }
+
+        // 生成最终的 JSON Patch 输出
+        let code = `<UpdateVariable>
+<Analysis>
+Generated character card initialization with complete variable setup including protagonist, NPCs, and enemies.
+</Analysis>
+<JSONPatch>
+${JSON.stringify(patches, null, 2)}
+</JSONPatch>
+</UpdateVariable>`;
+
+        return code;
+      }
+
+      // ========== 提交 ==========
+      submitBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        if (!validateForm()) {
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ 处理中...';
+
+        const finalName = charName.value.trim() || '{{user}}';
+        const finalGender = charGender.value.trim();
+        const finalAge = parseInt(charAge.value);
+        const finalBirthplace = document.querySelector('.birthplace-radio:checked').value;
+        const finalBackground = charBackground.value.trim() || '无';
+        const finalDescription = charDescription.value.trim() || '无';
+        const finalPersonality = charPersonality.value.trim() || '无';
+
+        // 收集所有数据（使用安全收集函数）
+        const professions = collectProfessions();
+        const skills = collectSkills();
+        const backpack = collectBackpack();
+        const statuses = collectStatuses();
+        const npcs = collectNPCs();
+        const enemies = collectEnemies();
+
+        const variableCode = generateVariableCode();
+
+        // 生成完整世界设定
+        let worldSetting = `# 完整世界设定
+═══════════════════════════════════════
+## 主角基础信息
+- **姓名**: ${finalName}
+- **性别**: ${finalGender}
+- **年龄**: ${finalAge}岁
+- **出生地**: ${finalBirthplace}
+- **当前区域**: ${charLocation.value}
+
+## 主角属性
+- **力量**: ${character.attributes.力量} (物理攻击和负重)
+- **敏捷**: ${character.attributes.敏捷} (闪避和速度)
+- **感知**: ${character.attributes.感知} (发现隐藏和危险预警)
+- **知识**: ${character.attributes.知识} (灵质知识和学识)
+- **意志**: ${character.attributes.意志} (抗污染和精神攻击)
+- **魅力**: ${character.attributes.魅力} (交涉和领导力)
+
+## 主角状态
+- **生命值**: ${hpCurrent.value}/${hpMax.value}
+- **体力值**: ${staminaCurrent.value}/${staminaMax.value}
+- **护甲值**: ${armorCurrent.value}/${armorMax.value}
+- **灵质抗性**: ${resistanceCurrent.value}/${resistanceMax.value}
+- **污染度**: ${pollutionCurrent.value}% (${pollutionStage.value})
+${pollutionSymptoms.value.trim() ? `- **可见症状**: ${pollutionSymptoms.value}\n` : ''}
+${finalBackground !== '无' ? `\n## 主角背景\n${finalBackground}\n` : ''}
+${finalDescription !== '无' ? `## 主角外貌\n${finalDescription}\n` : ''}
+${finalPersonality !== '无' ? `## 主角性格\n${finalPersonality}\n` : ''}`;
+
+        // 添加职业信息
+        if (professions.length > 0) {
+          worldSetting += `\n## 主角职业\n`;
+          professions.forEach(p => {
+            worldSetting += `- **${p.name}**`;
+            if (p.desc) worldSetting += `: ${p.desc}`;
+            worldSetting += '\n';
+          });
+        }
+
+        // 添加技能信息
+        if (skills.length > 0) {
+          worldSetting += `\n## 主角技能\n`;
+          skills.forEach(s => {
+            worldSetting += `- **${s.name}** [${s.type}/${s.level}]`;
+            if (s.desc) worldSetting += `: ${s.desc}`;
+            if (s.cost) worldSetting += ` (消耗: ${s.cost})`;
+            worldSetting += '\n';
+          });
+        }
+
+        // 添加装备信息
+        const weapon = document.getElementById('equipment-weapon').value.trim();
+        const offhand = document.getElementById('equipment-offhand').value.trim();
+        const head = document.getElementById('equipment-head').value.trim();
+        const body = document.getElementById('equipment-body').value.trim();
+        const hands = document.getElementById('equipment-hands').value.trim();
+        const legs = document.getElementById('equipment-legs').value.trim();
+        const accessory = document.getElementById('equipment-accessory').value.trim();
+
+        if (weapon || offhand || head || body || hands || legs || accessory) {
+          worldSetting += `\n## 主角装备\n`;
+          if (weapon) worldSetting += `- **主武器**: ${weapon}\n`;
+          if (offhand) worldSetting += `- **副手**: ${offhand}\n`;
+          if (head) worldSetting += `- **头部**: ${head}\n`;
+          if (body) worldSetting += `- **身体**: ${body}\n`;
+          if (hands) worldSetting += `- **手部**: ${hands}\n`;
+          if (legs) worldSetting += `- **腿部**: ${legs}\n`;
+          if (accessory) worldSetting += `- **饰品**: ${accessory}\n`;
+        }
+
+        // 添加背包信息
+        if (backpack.length > 0) {
+          worldSetting += `\n## 主角背包\n`;
+          backpack.forEach(item => {
+            worldSetting += `- **${item.name}** [${item.type}] x${item.quantity}`;
+            if (item.desc) worldSetting += `: ${item.desc}`;
+            worldSetting += '\n';
+          });
+        }
+
+        // 添加货币信息
+        worldSetting += `\n## 主角货币\n`;
+        worldSetting += `- **精制币(核心区)**: ${currencyCore.value}\n`;
+        worldSetting += `- **劳工券(平民区)**: ${currencyCivilian.value}\n`;
+
+        // 添加当前状态
+        if (statuses.length > 0) {
+          worldSetting += `\n## 主角当前状态\n`;
+          statuses.forEach(s => {
+            worldSetting += `- **${s.name}** [${s.type}]${s.level ? ` Lv.${s.level}` : ''}`;
+            if (s.desc) worldSetting += `: ${s.desc}`;
+            worldSetting += '\n';
+          });
+        }
+
+        // 添加时间系统
+        worldSetting += `\n## 当前时间\n`;
+        worldSetting += `- **日期**: ${timeDate.value}\n`;
+        worldSetting += `- **时间**: ${timeTime.value}\n`;
+
+        // 添加NPC列表
+        if (npcs.length > 0) {
+          worldSetting += `\n## 关系列表 (NPC)\n`;
+          npcs.forEach(npc => {
+            try {
+              worldSetting += `### ${npc.name} [${npc.profession || '无职业'}]\n`;
+              worldSetting += `- **区域**: ${npc.area || '未知'}\n`;
+              worldSetting += `- **地点**: ${npc.location || '未知'}\n`;
+              worldSetting += `- **是否同伴**: ${npc.companion ? '是' : '否'}\n`;
+              worldSetting += `- **是否在场**: ${npc.present ? '是' : '否'}\n`;
+              const attrs = npc.attributes || {};
+              worldSetting += `- **属性**: 力量${attrs.力量 || 5} 敏捷${attrs.敏捷 || 5} 感知${attrs.感知 || 5} 知识${attrs.知识 || 5} 意志${attrs.意志 || 5} 魅力${attrs.魅力 || 5}\n`;
+              worldSetting += `- **背景**: ${npc.background || '无'}\n`;
+              worldSetting += `- **外貌**: ${npc.appearance || '无'}\n`;
+              worldSetting += `- **性格**: ${npc.personality || '无'}\n`;
+              worldSetting += `- **称呼**: ${npc.title || '无'}\n`;
+              worldSetting += `- **好感度**: ${npc.affection || 0}\n`;
+              worldSetting += `- **信任度**: ${npc.trust || 0}\n`;
+              worldSetting += `- **污染度**: ${npc.pollution || 0}%\n\n`;
+            } catch (e) {
+              console.error('输出NPC数据出错:', e, npc);
+              worldSetting += `(NPC数据输出错误)\n\n`;
+            }
+          });
+        }
+
+        // 添加敌人列表
+        if (enemies.length > 0) {
+          worldSetting += `\n## 敌人列表\n`;
+          enemies.forEach(enemy => {
+            try {
+              worldSetting += `### ${enemy.name} [${enemy.type || '未知'}]\n`;
+              worldSetting += `- **生命值**: ${enemy.hpCurrent || 0}/${enemy.hpMax || 0}\n`;
+              worldSetting += `- **护甲值**: ${enemy.armorCurrent || 0}/${enemy.armorMax || 0}\n`;
+              const attrs = enemy.attributes || {};
+              worldSetting += `- **属性**: 力量${attrs.力量 || 5} 敏捷${attrs.敏捷 || 5} 感知${attrs.感知 || 5} 知识${attrs.知识 || 5} 意志${attrs.意志 || 5} 魅力${attrs.魅力 || 5}\n`;
+              worldSetting += `- **技能**: ${enemy.skills || '无'}\n`;
+              worldSetting += `- **弱点**: ${enemy.weakness || '无'}\n`;
+              worldSetting += `- **掉落物**: ${enemy.drops || '无'}\n`;
+              worldSetting += `- **备注**: ${enemy.notes || '无'}\n\n`;
+            } catch (e) {
+              console.error('输出敌人数据出错:', e, enemy);
+              worldSetting += `(敌人数据输出错误)\n\n`;
+            }
+          });
+        }
+
+        console.log('收集到的敌人数量:', enemies.length);
+        console.log('敌人数据:', enemies);
+
+        worldSetting += `═══════════════════════════════════════`;
+
+        // 生成开场白提示
+        const slashCommand = `/send <START>
+Admin:
+根据以下完整设定，为玩家生成一段**沉浸式开场白**。
+
+故事核心要求:
+请严格根据以下【完整世界设定】，撰写一段从角色过去到现在的故事。请在故事中自然地融入角色的出身背景、性格特点、经历和当前状态；接着在设置变量时，请你补全未设置的变量(补全全部新闻和传闻和流言)，已有的变量不需要进行更改。
+
+${worldSetting}
+
+${variableCode}
+|
+/trigger`;
+
+        try {
+          if (typeof triggerSlash === 'function') {
+            await triggerSlash(slashCommand, 'Send');
+            console.log('✅ 斜杠命令已发送');
+            submitBtn.textContent = '✅ 创建成功！';
+            submitBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            validationMsg.textContent = '🎉 完整世界创建完成！AI正在生成开场白...';
+            validationMsg.style.color = 'var(--success-color)';
+          } else {
+            // 尝试复制到剪贴板
+            try {
+              await navigator.clipboard.writeText(slashCommand);
+              alert('✅ 命令已复制到剪贴板！\n\n请粘贴到SillyTavern的输入框中执行。');
+              submitBtn.textContent = '✅ 已复制到剪贴板';
+              submitBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+              validationMsg.textContent = '✅ 命令已复制，请粘贴到SillyTavern执行';
+              validationMsg.style.color = 'var(--success-color)';
+            } catch (clipboardError) {
+              // 如果剪贴板失败，显示在控制台和弹窗
+              console.log('📋 完整命令:', slashCommand);
+              
+              // 创建一个文本区域让用户手动复制
+              const textarea = document.createElement('textarea');
+              textarea.value = slashCommand;
+              textarea.style.position = 'fixed';
+              textarea.style.left = '-9999px';
+              document.body.appendChild(textarea);
+              textarea.select();
+              
+              try {
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✅ 命令已复制到剪贴板！\n\n请粘贴到SillyTavern的输入框中执行。');
+                submitBtn.textContent = '✅ 已复制到剪贴板';
+                submitBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                validationMsg.textContent = '✅ 命令已复制，请粘贴到SillyTavern执行';
+                validationMsg.style.color = 'var(--success-color)';
+              } catch (copyError) {
+                document.body.removeChild(textarea);
+                alert('⚠️ 无法自动复制，命令已输出到控制台。\n\n请按F12打开控制台查看完整命令。');
+                submitBtn.textContent = '⚠️ 请查看控制台';
+                submitBtn.style.background = 'linear-gradient(135deg, #ffc107, #ff9800)';
+                validationMsg.textContent = '⚠️ 命令已输出到控制台(F12查看)';
+                validationMsg.style.color = 'var(--warning-color)';
+              }
+            }
+          }
+
+        } catch (error) {
+          console.error('❌ 创建失败:', error);
+          submitBtn.textContent = '❌ 创建失败';
+          submitBtn.style.background = 'linear-gradient(135deg, #dc3545, #c82333)';
+          validationMsg.textContent = '❌ 创建失败，请检查浏览器控制台';
+          validationMsg.style.color = 'var(--danger-color)';
+        } finally {
+          // 3秒后恢复按钮状态
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '🚀 确认创建并开始冒险';
+            submitBtn.style.background = '';
+          }, 3000);
+        }
+      });
+
+      // 初始化
+      initAttributesControls();
+      debouncedUpdateSummary();
+
+    })(window);
+  </script>
+</body>
+
+</html>
+```
