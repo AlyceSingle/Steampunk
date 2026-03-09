@@ -307,9 +307,10 @@
 
         .progress-bar {
             flex: 1;
-            height: 16px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 2px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--gold);
+            border-radius: 4px;
             overflow: hidden;
             position: relative;
         }
@@ -341,33 +342,33 @@
 
         /* Bar color variants */
         .progress-fill.bar-hp {
-            background: linear-gradient(180deg, #ff6b6b 0%, #ee2d2d 40%, #cc1515 100%);
-            box-shadow: 0 0 12px var(--red-glow), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            background: #ff4757;
+            box-shadow: 0 0 5px rgba(255, 71, 87, 0.5);
         }
 
         .progress-fill.bar-armor {
-            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 40%, #2563eb 100%);
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            background: #3b82f6;
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
         }
 
         .progress-fill.bar-sp {
-            background: linear-gradient(180deg, #5dff8f 0%, #2ed573 40%, #1ab55a 100%);
-            box-shadow: 0 0 12px var(--green-glow), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            background: #2ed573;
+            box-shadow: 0 0 5px rgba(46, 213, 115, 0.5);
         }
 
         .progress-fill.bar-xp {
-            background: linear-gradient(180deg, #c084fc 0%, #a855f7 40%, #7c3aed 100%);
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            background: #a855f7;
+            box-shadow: 0 0 5px rgba(168, 85, 247, 0.5);
         }
 
         .progress-fill.bar-gold {
-            background: linear-gradient(180deg, #f0c96e 0%, #d4a24e 40%, #b8860b 100%);
-            box-shadow: 0 0 12px var(--gold-glow), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            background: #d4a24e;
+            box-shadow: 0 0 5px rgba(212, 162, 78, 0.5);
         }
 
         .progress-fill.bar-fame {
-            background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 40%, #d97706 100%);
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            background: #f59e0b;
+            box-shadow: 0 0 5px rgba(245, 158, 11, 0.5);
         }
 
         /* Radar chart */
@@ -395,16 +396,16 @@
 
         .segmented-bar {
             flex: 1;
-            height: 16px;
+            height: 8px;
             display: flex;
             gap: 4px;
         }
 
         .segment-block {
             flex: 1;
-            background: rgba(255, 255, 255, 0.08);
-            /* Empty state */
-            border-radius: 2px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--gold);
+            border-radius: 4px;
             transition: background 0.3s ease;
         }
 
@@ -1432,6 +1433,39 @@
                 });
             },
 
+            customPrompt(title, defaultValue = '') {
+                return new Promise((resolve) => {
+                    const overlay = document.getElementById('custom-modal-overlay');
+                    const titleEl = document.getElementById('custom-modal-title');
+                    const bodyEl = document.getElementById('custom-modal-body');
+                    const cancelBtn = document.getElementById('custom-modal-cancel');
+                    const confirmBtn = document.getElementById('custom-modal-confirm');
+                    if (!overlay || !titleEl || !bodyEl || !cancelBtn || !confirmBtn) {
+                        resolve(prompt(title, defaultValue));
+                        return;
+                    }
+                    titleEl.innerText = title;
+                    bodyEl.innerHTML = '<input type="text" id="custom-modal-input" style="width: 100%; padding: 8px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.5); color: var(--text-color); border-radius: 4px;" value="' + defaultValue + '">';
+                    overlay.style.display = 'flex';
+                    const inputEl = document.getElementById('custom-modal-input');
+                    inputEl.focus();
+
+                    const cleanup = () => {
+                        overlay.style.display = 'none';
+                        cancelBtn.onclick = null;
+                        confirmBtn.onclick = null;
+                        inputEl.onkeydown = null;
+                    };
+
+                    cancelBtn.onclick = () => { cleanup(); resolve(null); };
+                    confirmBtn.onclick = () => { cleanup(); resolve(inputEl.value); };
+                    inputEl.onkeydown = (e) => {
+                        if (e.key === 'Enter') { cleanup(); resolve(inputEl.value); }
+                        if (e.key === 'Escape') { cleanup(); resolve(null); }
+                    };
+                });
+            },
+
             createProgressBar(current, max, options) {
                 if (!options) options = {};
                 const allowNegative = options.allowNegative || false;
@@ -1680,62 +1714,79 @@
                     const growthAttrPoints = this.SafeGetValue('主角.成长系统.属性点', 0);
                     const growthSkillPoints = this.SafeGetValue('主角.成长系统.技能点', 0);
 
+                    const renderSleekBar = (label, current, max, color1, color2, iconSvg) => {
+                        const percent = max > 0 ? Math.min(100, Math.max(0, (current / max) * 100)) : 0;
+                        return `
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; width: 100%;">
+                            <div style="display: flex; align-items: center; gap: 4px; width: 75px; color: var(--gold-bright); font-weight: 500; font-size: 0.9em; flex-shrink: 0;">
+                                ${iconSvg} ${label}
+                            </div>
+                            <div style="flex: 1; height: 8px; background: rgba(0,0,0,0.3); border-radius: 4px; border: 1px solid var(--gold); overflow: hidden; position: relative;">
+                                <div style="height: 100%; width: ${percent}%; background: ${color1}; border-radius: 2px; box-shadow: 0 0 5px ${color1}80;"></div>
+                            </div>
+                            <div style="font-size: 0.85em; font-variant-numeric: tabular-nums; width: 60px; text-align: right; color: var(--text-color); flex-shrink: 0;">
+                                ${current}/${max}
+                            </div>
+                            <button class="delete-btn" onclick="StatusManager.editVitalStat(event, '${label}', ${current}, ${max})" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color); flex-shrink: 0;">编辑</button>
+                        </div>`;
+                    };
+
                     const html = `
-    <div class="mockup-top-grid">
-        <div class="mockup-top-item">
-            <div class="mockup-top-label">姓名</div>
-            <div class="mockup-top-value">${name}</div>
-            <div class="mockup-top-label" style="margin-top: 10px;">职业</div>
-            <div class="mockup-top-value">${cache.profession} <button class="delete-btn" onclick="StatusManager.editProfession(event, '${cache.profession.replace(/'/g, "\\'")}')" title="修改职业" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button></div>
-        </div>
-        
-        <div class="mockup-top-item">
-            <div class="mockup-top-label">所在区域</div>
-            <div class="mockup-top-value">${area} <button class="delete-btn" onclick="StatusManager.editMainField(event, '所在区域', '${area.replace(/'/g, "\\'")}')" title="修改所在区域" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button></div>
+    <div class="mockup-top-grid" style="align-items: stretch; margin-bottom: 15px; padding: 0; gap: 15px; display: flex;">
+        <!-- 左侧区域：用户信息 + 生存数值 -->
+        <div class="item-card" style="flex: 2.8; padding: 20px; margin-bottom: 0; display: flex; flex-direction: column; gap: 15px;">
+            <div style="display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                <div style="display: flex; align-items: baseline; gap: 12px;">
+                    <span style="font-size: 1.8em; font-family: var(--font-display); color: var(--gold-bright); font-weight: bold; text-shadow: 0 0 10px var(--gold-glow);">${name}</span>
+                    <span style="font-size: 1.1em; color: var(--text-color); font-weight: 500;">
+                        ${cache.profession}
+                        <button class="delete-btn" onclick="StatusManager.editProfession(event, '${cache.profession.replace(/'/g, "\\'")}')" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color); margin-left: 6px;">编辑</button>
+                    </span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--text-secondary); font-size: 0.9em;">所在地区</span>
+                    <span style="color: var(--text-color); font-weight: 500; font-size: 0.95em;">${area}</span>
+                    <button class="delete-btn" onclick="StatusManager.editMainField(event, '所在区域', '${area.replace(/'/g, "\\'")}')" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>
+                </div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+                ${renderSleekBar('生命值', hp, hpMax, '#ff4757', '#e84118', '<svg viewBox="0 0 24 24" class="inline-icon"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>')}
+                ${renderSleekBar('护甲值', armor, armorMax, '#3b82f6', '#192a56', '<svg viewBox="0 0 24 24" class="inline-icon"><path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>')}
+                ${renderSleekBar('体力值', sp, spMax, '#2ed573', '#44bd32', '<svg viewBox="0 0 24 24" class="inline-icon"><path fill="currentColor" d="M13 2L3 14h9v8l10-12h-9z"/></svg>')}
+            </div>
         </div>
 
-        <div class="mockup-top-item" style="align-items: flex-end;">
-            <div class="mockup-currency-item">
-                <svg class="inline-icon" viewBox="0 0 24 24"><path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z"/></svg> ${coreCurrency} 精制币
-                <button class="delete-btn" onclick="StatusManager.editCurrency(event, '精制币', ${coreCurrency})" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>
+        <!-- 右侧区域：货币 + 声望系统 -->
+        <div style="display: flex; flex-direction: column; gap: 15px; flex: 1;">
+            <div class="item-card" style="padding: 15px 20px; margin-bottom: 0; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="display: flex; align-items: center; gap: 6px; color: var(--gold-bright); font-weight: 600; font-size: 1.05em;">
+                        <svg class="inline-icon" viewBox="0 0 24 24" style="color: #ecc94b;"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg> 
+                        精制币
+                    </span>
+                    <span style="font-size: 1.2em; font-family: var(--font-display); font-weight: bold; color: var(--gold-bright); flex: 1; text-align: right; margin-right: 15px;">${coreCurrency}</span>
+                    <button class="delete-btn" onclick="StatusManager.editCurrency(event, '精制币', ${coreCurrency})" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>
+                </div>
+                <!-- 虚线分隔条 -->
+                <div style="border-top: 1px dashed rgba(255,255,255,0.1);"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="display: flex; align-items: center; gap: 6px; color: var(--text-color); font-weight: 500; font-size: 1.05em;">
+                        <svg class="inline-icon" viewBox="0 0 24 24" style="color: #cbd5e0;"><path fill="currentColor" d="M21 18H3V6h18v12zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8.5c-1.93 0-3.5-1.57-3.5-3.5S10.07 8.5 12 8.5 15.5 10.07 15.5 12 13.93 15.5 12 15.5z"/></svg> 
+                        劳工券
+                    </span>
+                    <span style="font-size: 1.2em; font-family: var(--font-display); font-weight: bold; color: var(--text-color); flex: 1; text-align: right; margin-right: 15px;">${civilCurrency}</span>
+                    <button class="delete-btn" onclick="StatusManager.editCurrency(event, '劳工券', ${civilCurrency})" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>
+                </div>
             </div>
-            <div class="mockup-currency-item">
-                <svg style="width: 1em; height: 1em;" class="inline-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg> ${civilCurrency} 劳工券
-                <button class="delete-btn" onclick="StatusManager.editCurrency(event, '劳工券', ${civilCurrency})" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="mockup-vitals-grid">
-        <div class="vitals-column">
-            <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <div style="color: #d9534f; font-weight: 600; font-size: 0.9em;">生命值</div>
-                    <button class="delete-btn" onclick="StatusManager.editVitalStat(event, '生命值', ${hp}, ${hpMax})" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>
+            <div class="item-card" style="flex: 1; padding: 20px; margin-bottom: 0; display: flex; justify-content: space-around; align-items: center;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                     ${this.createCircularGauge(cache.fame, 100, '<span style="display:inline-flex; align-items:center; gap:6px;">知名度 <button class="delete-btn" onclick="StatusManager.editMainField(event, \\\'知名度\\\', ' + cache.fame + ')" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button></span>', '#e6a23c')}
                 </div>
-                ${this.createSegmentedBar(hp, hpMax, 'hp')}
-            </div>
-            <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <div style="color: #5cb85c; font-weight: 600; font-size: 0.9em;">体力值</div>
-                    <button class="delete-btn" onclick="StatusManager.editVitalStat(event, '体力值', ${sp}, ${spMax})" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                     ${this.createCircularGauge(cache.reputation, 100, '<span style="display:inline-flex; align-items:center; gap:6px;">风评度 <button class="delete-btn" onclick="StatusManager.editMainField(event, \\\'风评度\\\', ' + cache.reputation + ')" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button></span>', '#5cb85c')}
                 </div>
-                ${this.createSegmentedBar(sp, spMax, 'sp')}
-            </div>
-            <div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                    <div style="color: #4a83cc; font-weight: 600; font-size: 0.9em;">护甲值</div>
-                    <button class="delete-btn" onclick="StatusManager.editVitalStat(event, '护甲值', ${armor}, ${armorMax})" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>
-                </div>
-                ${this.createSegmentedBar(armor, armorMax, 'armor')}
-            </div>
-        </div>
-        <div class="circular-column">
-            <div>
-                ${this.createCircularGauge(cache.fame, 100, '知名度 <button class="delete-btn" onclick="StatusManager.editMainField(event, \\\'知名度\\\', ' + cache.fame + ')" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>', '#e6a23c')}
-            </div>
-            <div>
-                ${this.createCircularGauge(cache.reputation, 100, '风评度 <button class="delete-btn" onclick="StatusManager.editMainField(event, \\\'风评度\\\', ' + cache.reputation + ')" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color);">编辑</button>', '#5cb85c')}
             </div>
         </div>
     </div>
@@ -2292,7 +2343,7 @@
 
                         detailsHtml += '</div></div>'; // End details
 
-                        return '<div class="relationship-card" data-npc-name="' + name + '" onclick="StatusManager.handleCardClick(event, this)" title="点击展开/收起详情"><div class="card-header"><span class="card-name">' + name + '</span><div class="card-header-actions"><span class="card-badge" style="background: ' + statusColor + ';">' + statusText + '</span><button class="delete-btn" onclick="StatusManager.toggleNPCPresence(event, \'' + name.replace(/'/g, "\\'") + '\', ' + isPresent + ')" title="切换在场状态" style="background: ' + (isPresent ? '#007bff' : '#6c757d') + '; margin-right: 5px;">' + (isPresent ? ' 在场' : ' 离开') + '</button><button class="delete-btn" onclick="StatusManager.toggleNPCCompanion(event, \'' + name.replace(/'/g, "\\'") + '\', ' + isCompanion + ')" title="切换同伴状态" style="background: ' + (isCompanion ? '#28a745' : '#6c757d') + '; margin-right: 5px;">' + (isCompanion ? ' 同伴' : ' 普通') + '</button><button class="delete-btn" onclick="StatusManager.addToFocus(event, \'' + name.replace(/'/g, "\\'") + '\')" title="添加到关注列表" style="background: var(--positive-color); margin-right: 5px;"> 关注 </button><button class="delete-btn" onclick="StatusManager.deleteNPC(event, \'' + name.replace(/'/g, "\\'") + '\')" title="删除此NPC"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> 删除</button></div></div><div style="font-size: 0.9em; margin-bottom: 10px;"><strong>' + String(data.职业 || '未知').replace(/\s*(?:Lv\.?|等级)\s*\d+/i, '') + '</strong> · <svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> ' + (data.所属区域 || '未知') + '</div><div class="stats-grid"><div class="stat-box"><div class="stat-label">生命值</div>' + self.createProgressBar(hpCurr, hpMax) + '</div><div class="stat-box"><div class="stat-label">护甲值</div>' + self.createProgressBar(arCurr, arMax) + '</div><div class="stat-box" style="position: relative;"><div style="display: flex; justify-content: space-between; align-items: center;"><div class="stat-label">好感度</div><button class="delete-btn" onclick="StatusManager.editRelationship(event, \'' + name.replace(/'/g, "\\'") + '\', \'好感度\', ' + affection + ')" title="修改好感度" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color); margin-left: 5px;"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>️</button></div>' + self.createProgressBar(affection, 100, { allowNegative: true, showPercentage: true }) + '</div></div>' + detailsHtml + '</div>';
+                        return '<div class="relationship-card" data-npc-name="' + name + '" onclick="StatusManager.handleCardClick(event, this)" title="点击展开/收起详情"><div class="card-header"><span class="card-name">' + name + '</span><div class="card-header-actions"><span class="card-badge" style="background: ' + statusColor + ';">' + statusText + '</span><button class="delete-btn" onclick="StatusManager.toggleNPCPresence(event, \'' + name.replace(/'/g, "\\'") + '\', ' + isPresent + ')" title="切换在场状态" style="background: ' + (isPresent ? '#007bff' : '#6c757d') + '; margin-right: 5px;">' + (isPresent ? ' 在场' : ' 离开') + '</button><button class="delete-btn" onclick="StatusManager.toggleNPCCompanion(event, \'' + name.replace(/'/g, "\\'") + '\', ' + isCompanion + ')" title="切换同伴状态" style="background: ' + (isCompanion ? '#28a745' : '#6c757d') + '; margin-right: 5px;">' + (isCompanion ? ' 同伴' : ' 普通') + '</button><button class="delete-btn" onclick="StatusManager.addToFocus(event, \'' + name.replace(/'/g, "\\'") + '\')" title="添加到关注列表" style="background: var(--positive-color); margin-right: 5px;"> 关注 </button><button class="delete-btn" onclick="StatusManager.deleteNPC(event, \'' + name.replace(/'/g, "\\'") + '\')" title="删除此NPC"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> 删除</button></div></div><div style="font-size: 0.9em; margin-bottom: 10px;"><strong>' + String(data.职业 || '未知').replace(/\\s*(?:Lv\\.?|等级)\\s*\\d+/i, '') + '</strong> · <svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg> ' + (data.所属区域 || '未知') + '</div><div class="stats-grid"><div class="stat-box"><div class="stat-label">生命值</div>' + self.createProgressBar(hpCurr, hpMax, { barType: 'hp' }) + '</div><div class="stat-box"><div class="stat-label">护甲值</div>' + self.createProgressBar(arCurr, arMax, { barType: 'armor' }) + '</div><div class="stat-box" style="position: relative;"><div style="display: flex; justify-content: space-between; align-items: center;"><div class="stat-label">好感度</div><button class="delete-btn" onclick="StatusManager.editRelationship(event, \'' + name.replace(/'/g, "\\'") + '\', \'好感度\', ' + affection + ')" title="修改好感度" style="padding: 2px 6px; font-size: 0.7em; background: var(--accent-color); margin-left: 5px;"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>️</button></div>' + self.createProgressBar(affection, 100, { allowNegative: true, showPercentage: true }) + '</div></div>' + detailsHtml + '</div>';
                     }).join('');
 
                     content.innerHTML = cards;
@@ -2331,7 +2382,7 @@
                             return '<div class="stat-box"><div class="stat-label">' + attr + '</div><div class="stat-value">' + (data.总属性[attr] || 0) + '</div></div>';
                         }).join('') : '';
 
-                        html += '<div class="enemy-card" data-enemy-name="' + name + '"><div class="card-header"><span class="card-name">' + name + '</span><div class="card-header-actions"><span class="card-badge" style="background: var(--negative-color);">' + (data.类型 || '结晶兽') + '</span><button class="delete-btn" onclick="StatusManager.deleteEnemy(event, \'' + name.replace(/'/g, "\\'") + '\')" title="删除此敌人"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> 删除</button></div></div><h4 style="color: var(--negative-color); margin: 15px 0 10px;"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg> 基础数值</h4><div class="stats-grid"><div class="stat-box"><div class="stat-label"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>️ 生命值</div>' + self.createProgressBar((data.生命值 && data.生命值.cur) || 0, (data.生命值 && data.生命值.max) || 100) + '</div><div class="stat-box"><div class="stat-label"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>️ 护甲值</div>' + self.createProgressBar((data.护甲值 && data.护甲值.cur) || 0, (data.护甲值 && data.护甲值.max) || 100) + '</div></div>' + (attrHTML ? '<h4 style="color: var(--negative-color); margin: 15px 0 10px;"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg> 总属性</h4><div class="stats-grid">' + attrHTML + '</div>' : '') + (data.弱点 ? '<div style="margin-top: 15px;"><strong style="color: var(--negative-color);"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg> 弱点:</strong> ' + data.弱点 + '</div>' : '') + (data.备注 ? '<div style="margin-top: 10px;"><strong style="color: var(--negative-color);"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> 备注:</strong> ' + data.备注 + '</div>' : '') + '</div>';
+                        html += '<div class="enemy-card" data-enemy-name="' + name + '"><div class="card-header"><span class="card-name">' + name + '</span><div class="card-header-actions"><span class="card-badge" style="background: var(--negative-color);">' + (data.类型 || '结晶兽') + '</span><button class="delete-btn" onclick="StatusManager.deleteEnemy(event, \'' + name.replace(/'/g, "\\'") + '\')" title="删除此敌人"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> 删除</button></div></div><h4 style="color: var(--negative-color); margin: 15px 0 10px;"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg> 基础数值</h4><div class="stats-grid"><div class="stat-box"><div class="stat-label"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>️ 生命值</div>' + self.createProgressBar((data.生命值 && data.生命值.cur) || 0, (data.生命值 && data.生命值.max) || 100, { barType: 'hp' }) + '</div><div class="stat-box"><div class="stat-label"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>️ 护甲值</div>' + self.createProgressBar((data.护甲值 && data.护甲值.cur) || 0, (data.护甲值 && data.护甲值.max) || 100, { barType: 'armor' }) + '</div></div>' + (attrHTML ? '<h4 style="color: var(--negative-color); margin: 15px 0 10px;"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg> 总属性</h4><div class="stats-grid">' + attrHTML + '</div>' : '') + (data.弱点 ? '<div style="margin-top: 15px;"><strong style="color: var(--negative-color);"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg> 弱点:</strong> ' + data.弱点 + '</div>' : '') + (data.备注 ? '<div style="margin-top: 10px;"><strong style="color: var(--negative-color);"><svg class="inline-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> 备注:</strong> ' + data.备注 + '</div>' : '') + '</div>';
                     });
 
                     content.innerHTML = html;
@@ -3376,15 +3427,15 @@
             },
 
             // 编辑生存数值（生命值 / 护甲值 / 体力值）的当前值和最大值
-            editVitalStat(event, statName, currentValue, maxValue) {
+            async editVitalStat(event, statName, currentValue, maxValue) {
                 event.stopPropagation();
 
                 const label = statName === '生命值' ? '<svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>️ 生命值' : (statName === '护甲值' ? '<svg class="inline-icon" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>️ 护甲值' : '<svg class="inline-icon" viewBox="0 0 24 24"><path d="M13 2L3 14h9v8l10-12h-9z"/></svg> 体力值');
 
-                const newCurrentStr = prompt('修改【' + label + '】当前值（当前：' + currentValue + '）：', currentValue);
+                const newCurrentStr = await this.customPrompt('修改【' + statName + '】当前值（当前：' + currentValue + '）：', currentValue);
                 if (newCurrentStr === null) return;
 
-                const newMaxStr = prompt('修改【' + label + '】最大值（当前：' + maxValue + '）：', maxValue);
+                const newMaxStr = await this.customPrompt('修改【' + statName + '】最大值（当前：' + maxValue + '）：', maxValue);
                 if (newMaxStr === null) return;
 
                 const newCurrent = parseInt(newCurrentStr);
@@ -3461,10 +3512,10 @@
             },
 
             // 修改职业
-            editProfession(event, currentProfession) {
+            async editProfession(event, currentProfession) {
                 event.stopPropagation();
 
-                const newProfession = prompt('修改职业：\n当前职业：' + currentProfession, currentProfession);
+                const newProfession = await this.customPrompt('修改职业：\n当前职业：' + currentProfession, currentProfession);
 
                 if (newProfession === null || newProfession.trim() === '') return;
 
@@ -3574,10 +3625,10 @@
             },
 
             // 修改货币
-            editCurrency(event, currencyType, currentValue) {
+            async editCurrency(event, currencyType, currentValue) {
                 event.stopPropagation();
 
-                const newValue = prompt('修改【' + currencyType + '】数量：\n当前：' + currentValue, currentValue);
+                const newValue = await this.customPrompt('修改【' + currencyType + '】数量：\n当前：' + currentValue, currentValue);
 
                 if (newValue === null) return;
 
@@ -3799,11 +3850,11 @@
             },
 
             // 修改主角字段（所在区域、知名度、风评度）
-            editMainField(event, fieldName, currentValue) {
+            async editMainField(event, fieldName, currentValue) {
                 event.stopPropagation();
 
                 const isNumeric = fieldName === '知名度' || fieldName === '风评度';
-                const newValue = prompt('修改【' + fieldName + '】：\n当前值：' + currentValue, currentValue);
+                const newValue = await this.customPrompt('修改【' + fieldName + '】：\n当前值：' + currentValue, currentValue);
 
                 if (newValue === null || (!isNumeric && newValue.trim() === '')) return;
 
@@ -5045,6 +5096,25 @@
             StatusManager.initialize();
         });
     </script>
+    <!-- 自定义弹窗组件 -->
+    <div id="custom-modal-overlay"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center;">
+        <div class="item-card"
+            style="width: 90%; max-width: 400px; background: var(--bg-panel); border: 1px solid var(--gold); box-shadow: 0 0 20px rgba(212,162,78,0.2); margin: 0; padding: 20px; border-radius: 12px; display: flex; flex-direction: column; gap: 15px;">
+            <div id="custom-modal-title"
+                style="font-family: var(--font-display); font-size: 1.2em; color: var(--gold-bright); font-weight: bold; text-align: center;">
+                标题</div>
+            <div id="custom-modal-body" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- 动态内容项 -->
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+                <button class="delete-btn" id="custom-modal-cancel"
+                    style="background: rgba(255,255,255,0.1); color: var(--text-color); padding: 6px 16px; font-size: 0.9em;">取消</button>
+                <button class="delete-btn" id="custom-modal-confirm"
+                    style="background: var(--gold); color: #000; padding: 6px 16px; font-size: 0.9em; border-color: var(--gold);">确认</button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
