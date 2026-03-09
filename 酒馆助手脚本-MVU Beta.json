@@ -1,0 +1,38 @@
+{
+  "type": "script",
+  "enabled": true,
+  "name": "MVU Beta",
+  "id": "c532af64-f938-4c27-b2be-3341b035badf",
+  "content": "import 'https://testingcf.jsdelivr.net/gh/MagicalAstrogy/MagVarUpdate@beta/artifact/bundle.js'",
+  "info": "",
+  "button": {
+    "enabled": true,
+    "buttons": [
+      {
+        "name": "重新处理变量",
+        "visible": true
+      },
+      {
+        "name": "重新读取初始变量",
+        "visible": true
+      },
+      {
+        "name": "快照楼层",
+        "visible": false
+      },
+      {
+        "name": "重演楼层",
+        "visible": false
+      },
+      {
+        "name": "重试额外模型解析",
+        "visible": false
+      },
+      {
+        "name": "清除旧楼层变量",
+        "visible": false
+      }
+    ]
+  },
+  "data": {}
+}
