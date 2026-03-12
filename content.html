@@ -348,6 +348,112 @@
             transition: fill 0.3s ease;
         }
 
+        /* Status Toggle Button */
+        #status-toggle {
+            position: fixed;
+            top: 20px;
+            left: 150px;
+            width: 54px;
+            height: 54px;
+            background: var(--panel-bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 20px var(--shadow-color), 0 0 0 4px rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1002;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        #status-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px var(--shadow-color);
+        }
+
+        #status-toggle:active {
+            transform: scale(1.05);
+        }
+
+        #status-toggle svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--accent-color);
+            transition: fill 0.3s ease;
+        }
+
+        /* Status Overlay */
+        #status-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #status-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .status-content {
+            width: 90%;
+            max-width: 960px;
+            height: 88vh;
+            background: #060a13;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 162, 78, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #status-body {
+            width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #status-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(212, 162, 78, 0.35);
+            color: #d4a24e;
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 2001;
+            line-height: 1;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        #status-close:hover {
+            transform: rotate(90deg);
+            color: #f0c96e;
+            background: rgba(212, 162, 78, 0.15);
+        }
+
         /* Tools Toggle Button */
         #tools-toggle {
             position: fixed;
@@ -1626,6 +1732,7 @@
         @media (max-width: 1024px) {
             #settings-toggle,
             #map-toggle,
+            #status-toggle,
             #tools-toggle,
             #summary-toggle,
             #fullscreen-toggle {
@@ -1635,6 +1742,7 @@
 
             #settings-toggle svg,
             #map-toggle svg,
+            #status-toggle svg,
             #tools-toggle svg,
             #summary-toggle svg,
             #fullscreen-toggle svg {
@@ -1644,6 +1752,10 @@
 
             #map-toggle {
                 left: 80px;
+            }
+
+            #status-toggle {
+                left: 145px;
             }
 
             #tools-toggle {
@@ -1706,6 +1818,23 @@
             #map-toggle svg {
                 width: 22px;
                 height: 22px;
+            }
+
+            #status-toggle {
+                width: 44px;
+                height: 44px;
+                top: 15px;
+                left: 125px;
+            }
+
+            #status-toggle svg {
+                width: 22px;
+                height: 22px;
+            }
+
+            .status-content {
+                width: 95%;
+                height: 90vh;
             }
 
             #fullscreen-toggle {
@@ -1855,6 +1984,28 @@
             #map-toggle svg {
                 width: 20px;
                 height: 20px;
+            }
+
+            #status-toggle {
+                width: 40px;
+                height: 40px;
+                top: 10px;
+                left: 110px;
+            }
+
+            #status-toggle svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .status-content {
+                width: 98%;
+                height: 92vh;
+                border-radius: 12px;
+            }
+
+            #status-body {
+                border-radius: 12px;
             }
 
             #fullscreen-toggle {
@@ -2009,6 +2160,12 @@
     <button id="map-toggle" title="地图">
         <svg viewBox="0 0 24 24">
             <path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/>
+        </svg>
+    </button>
+
+    <button id="status-toggle" title="角色状态">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
         </svg>
     </button>
 
@@ -2458,6 +2615,13 @@
         </div>
     </div>
 
+    <div id="status-overlay">
+        <div class="status-content">
+            <button id="status-close">×</button>
+            <div id="status-body"><div style="display:flex;align-items:center;justify-content:center;height:100%;font-family:sans-serif;color:#d4a24e;background:#060a13;font-size:16px;">点击按鈕加载...</div></div>
+        </div>
+    </div>
+
     <div id="summary-overlay">
         <div class="summary-content">
             <button id="summary-close">×</button>
@@ -2659,6 +2823,9 @@
             const mapToggle = document.getElementById('map-toggle');
             const mapOverlay = document.getElementById('map-overlay');
             const mapClose = document.getElementById('map-close');
+            const statusToggle = document.getElementById('status-toggle');
+            const statusOverlay = document.getElementById('status-overlay');
+            const statusClose = document.getElementById('status-close');
             const toolsToggle = document.getElementById('tools-toggle');
             const calendarOverlay = document.getElementById('calendar-overlay');
             const calendarClose = document.getElementById('calendar-close');
@@ -3361,6 +3528,56 @@
 
             mapToggle.addEventListener('click', () => {
                 mapOverlay.classList.add('visible');
+            });
+
+            const statusBody = document.getElementById('status-body');
+            let statusLoaded = false;
+            statusToggle.addEventListener('click', () => {
+                statusOverlay.classList.add('visible');
+                if (statusLoaded) return;
+                statusBody.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;font-family:sans-serif;color:#d4a24e;background:#060a13;font-size:16px;">加载中...</div>';
+                fetch('https://cdn.jsdelivr.net/gh/AlyceSingle/Steampunk@feature/hotupdate/status.html')
+                    .then(r => r.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+
+                        // 注入所有 <style>
+                        doc.querySelectorAll('style').forEach(s => {
+                            const style = document.createElement('style');
+                            style.textContent = s.textContent;
+                            document.head.appendChild(style);
+                        });
+
+                        // 注入 body 内容
+                        statusBody.innerHTML = doc.body.innerHTML;
+
+                        // 执行所有 <script>（共享父页面全局变量）
+                        doc.querySelectorAll('script').forEach(orig => {
+                            const s = document.createElement('script');
+                            if (orig.src) {
+                                s.src = orig.src;
+                            } else {
+                                s.textContent = orig.textContent;
+                            }
+                            document.body.appendChild(s);
+                        });
+
+                        statusLoaded = true;
+                    })
+                    .catch(() => {
+                        statusBody.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;font-family:sans-serif;color:#ff4757;background:#060a13;font-size:16px;">加载失败，请检查网络</div>';
+                    });
+            });
+
+            statusClose.addEventListener('click', () => {
+                statusOverlay.classList.remove('visible');
+            });
+
+            statusOverlay.addEventListener('click', (e) => {
+                if (e.target === statusOverlay) {
+                    statusOverlay.classList.remove('visible');
+                }
             });
 
 
